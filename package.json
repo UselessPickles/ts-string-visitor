@@ -1,0 +1,30 @@
+{
+  "name": "ts-string-visitor",
+  "version": "0.0.1",
+  "description": "Generic TypeScript Visitor for String Enums and String Literal Union Types",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UselessPickles/ts-string-visitor.git"
+  },
+  "main": "dist/ts-string-visitor.js",
+  "types": "dist/ts-string-visitor.d.ts",
+  "scripts": {
+    "compile": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeff Lau",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "typescript": "2.6.2"
+  },
+  "keywords": [
+    "typescript",
+    "string",
+    "enum",
+    "literal",
+    "visitor"
+  ]
+}
