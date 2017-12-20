@@ -11,12 +11,13 @@
   "scripts": {
     "compile": "tsc",
     "test": "jest",
-    "test:travis": "jest --coverage"
+    "test:travis": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "Jeff Lau",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "21.1.8",
+    "coveralls": "3.0.0",
     "jest": "22.0.3",
     "ts-jest": "22.0.0",
     "typescript": "^2.6.2"
