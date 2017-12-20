@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/ts-string-visitor.svg)](https://badge.fury.io/js/ts-string-visitor)
+[![npm version](https://img.shields.io/npm/v/ts-string-visitor.svg)](https://www.npmjs.com/package/ts-string-visitor)
 [![Build Status](https://travis-ci.org/UselessPickles/ts-string-visitor.svg?branch=master)](https://travis-ci.org/UselessPickles/ts-string-visitor)
 [![Coverage Status](https://coveralls.io/repos/github/UselessPickles/ts-string-visitor/badge.svg?branch=master)](https://coveralls.io/github/UselessPickles/ts-string-visitor?branch=master)
 
