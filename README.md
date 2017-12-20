@@ -1,3 +1,4 @@
+[![NPM](https://nodei.co/npm/ts-string-visitor.png)](https://npmjs.org/package/ts-string-visitor
 [![Build Status](https://travis-ci.org/UselessPickles/ts-string-visitor.svg?branch=master)](https://travis-ci.org/UselessPickles/ts-string-visitor)
 [![Coverage Status](https://coveralls.io/repos/github/UselessPickles/ts-string-visitor/badge.svg?branch=master)](https://coveralls.io/github/UselessPickles/ts-string-visitor?branch=master)
 
