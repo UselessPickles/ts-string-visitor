@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/UselessPickles/ts-string-visitor.svg?branch=master)](https://travis-ci.org/UselessPickles/ts-string-visitor)
+[![Coverage Status](https://coveralls.io/repos/github/UselessPickles/ts-string-visitor/badge.svg?branch=master)](https://coveralls.io/github/UselessPickles/ts-string-visitor?branch=master)
+
 # ts-string-visitor
 Generic TypeScript Visitor for String Enums and String Literal Union Types
 
