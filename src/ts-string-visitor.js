@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * A wrapper around a string literal or string enum value to be visited.
  * For values that may be null and undefined.
@@ -28,7 +28,7 @@ var StringVisiteeWithNullAndUndefined = /** @class */ (function () {
      * @param visitor - A visitor implementation for type S that returns type R.
      * @returns The return value of the visitor method that is called.
      */
-    StringVisiteeWithNullAndUndefined.prototype.with = function (visitor) {
+    StringVisiteeWithNullAndUndefined.prototype["with"] = function (visitor) {
         if (this.value === null) {
             return visitor.handleNull(this.value);
         }
@@ -47,4 +47,4 @@ function visitString(value) {
     return new StringVisiteeWithNullAndUndefined(value);
 }
 exports.visitString = visitString;
-exports.default = visitString;
+exports["default"] = visitString;

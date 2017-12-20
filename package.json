@@ -9,7 +9,7 @@
   "main": "dist/ts-string-visitor.js",
   "types": "dist/ts-string-visitor.d.ts",
   "scripts": {
-    "compile": "tsc",
+    "compile": "tsc --project tsconfig.json",
     "test": "jest",
     "test:travis": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },

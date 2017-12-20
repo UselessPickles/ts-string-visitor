@@ -6,14 +6,23 @@
     "declaration": true,                   /* Generates corresponding '.d.ts' file. */
     "outDir": "./dist",                        /* Redirect output structure to the directory. */
     "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "lib": [
+      "es6"
+    ],
 
     /* Strict Type-Checking Options */
     "strict": true,                            /* Enable all strict type-checking options. */
     "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
 
-
     /* Module Resolution Options */
     "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "./src"                       /* Base directory to resolve non-absolute module names. */
-  }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.*"
+  ]
 }

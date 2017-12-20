@@ -140,6 +140,10 @@ export declare class StringVisiteeWithUndefined<S extends string> {
  */
 export declare class StringVisiteeWithNullAndUndefined<S extends string> {
     private readonly value;
+    /**
+     * Do not use this constructor directly. Use the {@link visitString} function to get an instance of this class.
+     * @param value - The value to be wrapped by this "visitee".
+     */
     constructor(value: S | null | undefined);
     /**
      * Visits the wrapped value using the supplied visitor.
