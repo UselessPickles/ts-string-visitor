@@ -6,11 +6,25 @@
 Generic TypeScript Visitor for String Enums and String Literal Union Types
 
 ## What is it?
+`ts-string-visitor` implements a visitor pattern for TypeScript string enum types, and TypeScript string literal union types. This helps you avoid bugs caused by forgetting to handle a possible value, and helps you quickly find code that needs to be updated after refactoring a string enum or string literal union type. If your code uses `ts-string-visitor` and does not handle all possible values, the code will fail to compile, and the compiler error messages will point you in the right direction to fix your code.
 
-`ts-string-visitor` implements a visitor pattern for TypeScript string enum types, and TypeScript string literal union types. This helps you avoid bugs caused by forgetting to handle a possible value, and helps you quickly find code that needs to be updated after refactoring a string enum or string literal union type.
+## Installation
+Install via NPM:
+```
+npm install -s ts-string-visitor
+```
 
 ## Quick Example
 Before getting into details, here's a quick example of how it looks to use `ts-string-visitor`.
+
+Import the `visitString` method. It is available as both a named export, and the default export, so you can import it either way:
+```ts
+import visitString from "ts-string-visitor";
+```
+or
+```ts
+import { visitString } from "ts-string-visitor";
+```
 
 For demonstration purposes, let's define a string literal union type:
 ```ts
