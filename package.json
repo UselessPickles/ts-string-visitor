@@ -10,11 +10,14 @@
   "types": "dist/ts-string-visitor.d.ts",
   "scripts": {
     "compile": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Jeff Lau",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "21.1.8",
+    "jest": "22.0.3",
+    "ts-jest": "22.0.0",
     "typescript": "^2.6.2"
   },
   "keywords": [
@@ -23,5 +26,15 @@
     "enum",
     "literal",
     "visitor"
-  ]
+  ],
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
 }
