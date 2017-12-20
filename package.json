@@ -6,6 +6,10 @@
     "type": "git",
     "url": "https://github.com/UselessPickles/ts-string-visitor.git"
   },
+  "homepage": "https://github.com/UselessPickles/ts-string-visitor",
+  "bugs": {
+    "url": "https://github.com/UselessPickles/ts-string-visitor/issues"
+  },
   "files": [
     "dist"
   ],
@@ -17,7 +21,11 @@
     "test": "jest",
     "build:travis": "npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
-  "author": "Jeff Lau",
+  "author": {
+    "name": "Jeff Lau",
+    "email": "jlau@uselesspickles.com",
+    "url": "http://www.uselesspickles.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "21.1.8",
