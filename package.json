@@ -10,7 +10,8 @@
   "types": "dist/ts-string-visitor.d.ts",
   "scripts": {
     "compile": "tsc",
-    "test": "jest --coverage"
+    "test": "jest",
+    "test:travis": "jest --coverage"
   },
   "author": "Jeff Lau",
   "license": "MIT",
