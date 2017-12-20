@@ -1,4 +1,4 @@
-import {visitString, StringVisitor} from "../dist/ts-string-visitor";
+import {visitString, StringVisitor} from "../src/ts-string-visitor";
 
 describe("Visit String Enum", () => {
     enum RGB {

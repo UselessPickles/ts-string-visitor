@@ -33,6 +33,10 @@
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "!**/node_modules/**"
+    ],
     "mapCoverage": true,
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)$",
     "moduleFileExtensions": [
