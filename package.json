@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/UselessPickles/ts-string-visitor.git"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/ts-string-visitor.js",
   "types": "dist/ts-string-visitor.d.ts",
   "scripts": {
