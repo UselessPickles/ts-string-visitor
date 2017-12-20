@@ -1,4 +1,4 @@
-import {visitString, StringVisitor} from "./ts-string-visitor";
+import {visitString, StringVisitor} from "../dist/ts-string-visitor";
 
 describe("Visit String Literal", () => {
     type RGB = "r" | "g" | "b";
