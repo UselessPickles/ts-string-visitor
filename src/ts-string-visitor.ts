@@ -160,6 +160,10 @@ export declare class StringVisiteeWithUndefined<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringVisiteeWithNullAndUndefined<S extends string> {
+    /**
+     * Do not use this constructor directly. Use the {@link visitString} function to get an instance of this class.
+     * @param value - The value to be wrapped by this "visitee".
+     */
     public constructor(private readonly value: S | null | undefined) { }
 
     /**
