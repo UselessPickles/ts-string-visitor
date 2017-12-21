@@ -287,6 +287,13 @@ function getRgbLabel(rgb: RGB): string {
 }
 ```
 
+### Enum Limitations
+`ts-string-visitor` can only work on string enums that qualify as "union enums":
+* All members are of type string (no number values!).
+* All members have literal (non-calculated) values.
+
+Read more about "Union enums and enum member types" here: [Enums - TypeScript](https://www.typescriptlang.org/docs/handbook/enums.html)
+
 ### Enum Visitor Method Parameter Types
 Be aware that the type of a string enum value is a more specific type than a string literal type. As much as possible, you should always treat enums as enum types, rather than string literals:
 * Compare against members of the enum, rather than string literals.
@@ -330,13 +337,6 @@ function rgbIdentity(rgb: RGB): RGB {
     });
 }
 ```
-
-### Enum Limitations
-`ts-string-visitor` can only work on string enums that qualify as "union enums":
-* All members are of type string (no number values!).
-* All members have literal (non-calculated) values.
-
-Read more about "Union enums and enum member types" here: [Enums - TypeScript](https://www.typescriptlang.org/docs/handbook/enums.html)
 
 ## What's up with this chained `visitString().with()` syntax?
 You might wonder why I didn't implement `ts-string-visitor` as a single overloaded `visitString` method that accepts both the value AND the visitor. The chained approach I settled on was necessary to:
