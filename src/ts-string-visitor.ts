@@ -1,4 +1,13 @@
 /**
+ * Generic method signature for a string visitor handler method.
+ * @template S - The type of the parameter to the handler. Must be a string literal, null, or undefined.
+ * @template R - The return type of the handler. Defaults to void.
+ * @param value - The value being visited by the visitor.
+ * @returns A result to be returned by the visitor,
+ */
+export type StringVisitorHandler<S extends string | null | undefined, R = void> = (value: S) => R;
+
+/**
  * A visitor interface for visiting the value of a string literal type or a string enum type.
  *
  * @template S - A string literal type or string enum type.
@@ -10,7 +19,7 @@ export type StringVisitor<S extends string, R> = {
      * @param value - The visited string's value.
      * @return Whatever you want.
      */
-    [P in S]: (value: P) => R;
+    [P in S]: StringVisitorHandler<P, R>;
 };
 
 /**
@@ -25,7 +34,7 @@ export interface NullStringVisitor<R> {
      * @param value - null
      * @return Whatever you want.
      */
-    handleNull: (value: null) => R;
+    handleNull: StringVisitorHandler<null, R>;
 }
 
 /**
@@ -40,7 +49,7 @@ export interface UndefinedStringVisitor<R> {
      * @param value - undefined
      * @return Whatever you want.
      */
-    handleUndefined: (value: undefined) => R;
+    handleUndefined: StringVisitorHandler<undefined, R>;
 }
 
 /**
