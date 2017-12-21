@@ -22,6 +22,7 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
         - [Using Visitor Method Parameters](#using-visitor-method-parameters)
     - [Visiting Enums](#visiting-enums)
         - [Enum Limitations](#enum-limitations)
+        - [Enum Visitor Method Parameter Types](#enum-visitor-method-parameter-types)
     - [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
 
 
@@ -281,6 +282,50 @@ function getRgbLabel(rgb: RGB): string {
         // This does NOT work!
         "B": () => {
             return "Blue";
+        }
+    });
+}
+```
+
+### Enum Visitor Method Parameter Types
+Be aware that the type of a string enum value is a more specific type than a string literal type. As much as possible, you should always treat enums as enum types, rather than string literals:
+* Compare against members of the enum, rather than string literals.
+* Use the enum type for variabls, params, return types, etc., rather than type string.
+
+Here's an example that highlights a subtle difference between the enum value type and the corresponding string literal type.
+```ts
+enum RGB {
+    R = "r",
+    G = "g",
+    B = "b"
+}
+
+function rgbIdentity(rgb: RGB): RGB {
+    return visitString(rgb).with<string>({
+        [RGB.R]: (value) => {
+            // type of 'value' is specifically RGB.R, which is distinct
+            // from, but assignable to type "r"
+            return value;
+        },
+        [RGB.G]: (value) => {
+            // type of 'value' is RGB.G
+            if (value === RGB.G) {
+                return value;
+            }
+
+            // compiler knows it's impossible to get here
+            const assertNever: never = value;
+        },
+        [RGB.B: (value) => {
+            // type of 'value' is RGB.B
+            // This condition will always be true at runtime...
+            if (value === "b") {
+                return value;
+            }
+
+            // ...but the compiler believes that this code is reachable, and
+            // that value can still be of type RGB.B here.
+            const assertNever: never = value;
         }
     });
 }
