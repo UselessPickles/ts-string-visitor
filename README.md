@@ -341,6 +341,6 @@ Read more about "Union enums and enum member types" here: [Enums - TypeScript](h
 ## What's up with this chained `visitString().with()` syntax?
 You might wonder why I didn't implement `ts-string-visitor` as a single overloaded `visitString` method that accepts both the value AND the visitor. The chained approach I settled on was necessary to:
 * Ensure that the type of visitor (whether it needs to handle null and/or undefined) is driven by whether the visited value may possibly be null/undefined. This is necessary to provide relevant compiler error messages when something isn't right with your code.
-* Allow the return type to be explicitly provided,while allowing the compiler to infer the type of the visited value.
+* Allow the return type to be explicitly provided, while allowing the compiler to infer the type of the visited value.
 
 Read more details about other approaches I tried and their flaws in [this github issue comment](https://github.com/Microsoft/TypeScript/issues/20643#issuecomment-352328395).
