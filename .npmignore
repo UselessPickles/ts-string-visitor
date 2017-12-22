@@ -1,6 +1,0 @@
-node_modules/
-coverage/
-src/
-__tests__/
-tsconfig.json
-.travis.yml

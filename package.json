@@ -11,7 +11,8 @@
     "url": "https://github.com/UselessPickles/ts-string-visitor/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
