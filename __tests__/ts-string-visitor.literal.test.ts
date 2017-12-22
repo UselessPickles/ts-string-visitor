@@ -1,4 +1,4 @@
-import {visitString, StringVisitor} from "../src";
+import visitString from "../src";
 
 describe("Visit String Literal", () => {
     type RGB = "r" | "g" | "b";
@@ -40,9 +40,9 @@ describe("Visit String Literal", () => {
 
     describe("Without null/undefined", () => {
         interface TestEntry {
-            value: RGB,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -61,7 +61,7 @@ describe("Visit String Literal", () => {
                 handlerMock: handlerMockB,
                 result: "Blue!"
             }
-        ]
+        ];
 
         const visitor = {
             ["r"]: handlerMockR,
@@ -98,9 +98,9 @@ describe("Visit String Literal", () => {
 
     describe("With null", () => {
         interface TestEntry {
-            value: RGB | null,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | null;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -124,7 +124,7 @@ describe("Visit String Literal", () => {
                 handlerMock: handlerMockNull,
                 result: "Null!"
             }
-        ]
+        ];
 
         const visitor = {
             ["r"]: handlerMockR,
@@ -162,9 +162,9 @@ describe("Visit String Literal", () => {
 
     describe("With undefined", () => {
         interface TestEntry {
-            value: RGB | undefined,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | undefined;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -188,7 +188,7 @@ describe("Visit String Literal", () => {
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
             }
-        ]
+        ];
 
         const visitor = {
             ["r"]: handlerMockR,
@@ -226,9 +226,9 @@ describe("Visit String Literal", () => {
 
     describe("With null and undefined", () => {
         interface TestEntry {
-            value: RGB | null | undefined,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | null | undefined;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -257,7 +257,7 @@ describe("Visit String Literal", () => {
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
             }
-        ]
+        ];
 
         const visitor = {
             ["r"]: handlerMockR,

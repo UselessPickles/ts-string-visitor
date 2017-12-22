@@ -22,11 +22,13 @@
     "clean:coverage": "rimraf coverage",
     "clean:pack": "rimraf ts-string-visitor-*.tgz",
     "compile": "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
+    "lint": "tslint --config tslint.json --project tsconfig.json",
+    "lint:fix": "npm run lint -- --fix",
     "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
     "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
     "build": "npm run clean:dist && npm run build:commonjs && npm run build:es",
     "pack": "npm run clean:pack && npm run build && npm pack",
-    "test": "npm run compile && jest",
+    "test": "npm run compile && npm run lint && jest",
     "test:coverage": "npm run clean:coverage && npm run test -- --coverage",
     "build:travis": "npm run build && npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
@@ -42,6 +44,7 @@
     "jest": "22.0.3",
     "rimraf": "2.6.2",
     "ts-jest": "22.0.0",
+    "tslint": "5.8.0",
     "typescript": "^2.6.2"
   },
   "keywords": [
@@ -65,5 +68,8 @@
       "ts",
       "js"
     ]
+  },
+  "dependencies": {
+    "tslint-strict-null-checks": "1.0.0"
   }
 }

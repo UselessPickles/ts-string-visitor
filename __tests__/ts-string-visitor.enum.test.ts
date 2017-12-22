@@ -1,11 +1,11 @@
-import {visitString, StringVisitor} from "../src";
+import visitString from "../src";
 
 describe("Visit String Enum", () => {
     enum RGB {
         R = "r",
         G = "g",
         B = "b"
-    };
+    }
 
     const handlerMockR = jest.fn((value: RGB.R) => {
         return "Red!";
@@ -44,9 +44,9 @@ describe("Visit String Enum", () => {
 
     describe("Without null/undefined", () => {
         interface TestEntry {
-            value: RGB,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -65,7 +65,7 @@ describe("Visit String Enum", () => {
                 handlerMock: handlerMockB,
                 result: "Blue!"
             }
-        ]
+        ];
 
         const visitor = {
             [RGB.R]: handlerMockR,
@@ -102,9 +102,9 @@ describe("Visit String Enum", () => {
 
     describe("With null", () => {
         interface TestEntry {
-            value: RGB | null,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | null;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -128,7 +128,7 @@ describe("Visit String Enum", () => {
                 handlerMock: handlerMockNull,
                 result: "Null!"
             }
-        ]
+        ];
 
         const visitor = {
             [RGB.R]: handlerMockR,
@@ -166,9 +166,9 @@ describe("Visit String Enum", () => {
 
     describe("With undefined", () => {
         interface TestEntry {
-            value: RGB | undefined,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | undefined;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -192,7 +192,7 @@ describe("Visit String Enum", () => {
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
             }
-        ]
+        ];
 
         const visitor = {
             [RGB.R]: handlerMockR,
@@ -230,9 +230,9 @@ describe("Visit String Enum", () => {
 
     describe("With null and undefined", () => {
         interface TestEntry {
-            value: RGB | null | undefined,
-            handlerMock: jest.Mock<string>,
-            result: string
+            value: RGB | null | undefined;
+            handlerMock: jest.Mock<string>;
+            result: string;
         }
 
         const TEST_ENTRIES: TestEntry[] = [
@@ -261,7 +261,7 @@ describe("Visit String Enum", () => {
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
             }
-        ]
+        ];
 
         const visitor = {
             [RGB.R]: handlerMockR,
