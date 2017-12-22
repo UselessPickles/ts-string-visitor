@@ -13,11 +13,15 @@
   "files": [
     "dist"
   ],
-  "main": "dist/ts-string-visitor.js",
-  "types": "dist/ts-string-visitor.d.ts",
+  "main": "dist/commonjs/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "jsnext:main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
     "compile": "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
-    "build": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
+    "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
+    "build:esm": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/esm --declaration false",
+    "build": "npm run build:commonjs && npm run build:esm",
     "test": "npm run compile && jest",
     "build:travis": "npm run compile && npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
