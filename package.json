@@ -1,6 +1,6 @@
 {
   "name": "ts-string-visitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generic TypeScript Visitor for String Enums and String Literal Union Types",
   "repository": {
     "type": "git",
