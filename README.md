@@ -311,6 +311,7 @@ Read more about "Union enums and enum member types" here: [Enums - TypeScript](h
 Unfortunately, the TypeScript compiler cannot infer the type of the visitor method parameter if you use the enum value as the property name.
 
 I have reported this issue on the [github TypeScript repo](https://github.com/Microsoft/TypeScript/issues/20856).
+(UPDATE: This issue is already fixed in the nightly build of TypeScript and should be included in in some future release)
 
 There are two work-arounds to this:
 1. Explicity declare the type of the parameter.
