@@ -13,21 +13,20 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
 - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Import `visitString`](#import-visitstring)
-    - [Quick Usage Example](#quick-usage-example)
-- [Detailed Documentation](#detailed-documentation)
-    - [Handling Null/Undefined](#handling-nullundefined)
-    - [Visitor Method Return Values](#visitor-method-return-values)
-    - [Being Explicit About Return Type](#being-explicit-about-return-type)
-    - [Visitor Method Parameters](#visitor-method-parameters)
-    - [Sharing Visitor Methods Across Multiple Values](#sharing-visitor-methods-across-multiple-values)
-        - [Without Using Visitor Method Parameters](#without-using-visitor-method-parameters)
-        - [Using Visitor Method Parameters](#using-visitor-method-parameters)
-    - [Visiting Enums](#visiting-enums)
-        - [Enum Visitor Method Parameter Types](#enum-visitor-method-parameter-types)
-        - [Enum Limitations](#enum-limitations)
-            - [Only Literal String "Union Enums" Supported](#only-literal-string-union-enums-supported)
-            - [Visitor Method Parameter Type Not Inferred](#visitor-method-parameter-type-not-inferred)
-    - [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
+    - [Usage Example](#usage-example)
+- [Handling Null/Undefined](#handling-nullundefined)
+- [Visitor Method Return Values](#visitor-method-return-values)
+- [Being Explicit About Return Type](#being-explicit-about-return-type)
+- [Visitor Method Parameters](#visitor-method-parameters)
+- [Sharing Visitor Methods Across Multiple Values](#sharing-visitor-methods-across-multiple-values)
+    - [Without Using Visitor Method Parameters](#without-using-visitor-method-parameters)
+    - [Using Visitor Method Parameters](#using-visitor-method-parameters)
+- [Visiting Enums](#visiting-enums)
+- [Enum Visitor Method Parameter Types](#enum-visitor-method-parameter-types)
+- [Enum Limitations](#enum-limitations)
+    - [Only Literal String "Union Enums" Supported](#only-literal-string-union-enums-supported)
+    - [Visitor Method Parameter Type Not Inferred](#visitor-method-parameter-type-not-inferred)
+- [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
 
 <!-- /TOC -->
 
@@ -57,7 +56,7 @@ or
 import { visitString } from "ts-string-visitor";
 ```
 
-### Quick Usage Example
+### Usage Example
 ```ts
 // Example string literal union type
 type RGB = "r" | "g" | "b";
@@ -91,8 +90,7 @@ function getRgbLabel(rgb: RGB): string {
 const result = getRgbLabel("g"); // result === "Green"
 ```
 
-## Detailed Documentation
-### Handling Null/Undefined
+## Handling Null/Undefined
 The `visitString` method is overloaded to handle every combination of its parameter being possibly `null` and/or `undefined`.
 
 If (and only if) the parameter may be `null`, then your visitor MUST include a method named `handleNull`. This method will be called if a `null` value is passed to `visitString`.
@@ -124,14 +122,14 @@ function getRgbLabel(rgb: RGB | null): string {
 const result = getRgbLabel(null); // result === "null"
 ```
 
-### Visitor Method Return Values
+## Visitor Method Return Values
 Your visitor methods can return a value, which will be returned by the call to `visit().with()`.
 
 BEWARE: All visitor methods within a given visitor MUST have the same return type. If you have a mixture of return types, then the compiler will decide that one of them is correct, and the others are wrong. The resulting compiler error may be confusing if you and the compiler do not agree on what the correct return type should have been.
 
 Keep reading to learn how to avoid this confusion...
 
-### Being Explicit About Return Type
+## Being Explicit About Return Type
 When designing a visitor to return a value, it is often helpful to explicitly provide the desired return type as a template parameter to the `with()` function:
 ```ts
 type RGB = "r" | "g" | "b";
@@ -159,7 +157,7 @@ function getRgbLabel(rgb: RGB): string {
 }
 ```
 
-### Visitor Method Parameters
+## Visitor Method Parameters
 The methods of the visitor implementation received a single parameter: the value being visited. The type of the parameter for each method is EXACTLY the type of the value handled by that method.
 Here's a simple (albeit pointless) identity visitor implementation to demonstrate:
 ```ts
@@ -193,10 +191,10 @@ function rgbIdentity(rgb: RGB | null | undefined): RGB | null | undefined {
 const result = rgbIdentity("g"); // result === "g"
 ```
 
-### Sharing Visitor Methods Across Multiple Values
+## Sharing Visitor Methods Across Multiple Values
 Sometimes you want to handle multiple values in the same way, but duplicating code is bad. Here's some examples of how you can share code across multiple values in a visitor.
 
-#### Without Using Visitor Method Parameters
+### Without Using Visitor Method Parameters
 If your shared code does not need to reference the value being visited, then it is very simple to share visitor methods across multiple values:
 ```ts
 type RGB = "r" | "g" | "b";
@@ -224,7 +222,7 @@ function isSupportedColor(rgb: RGB | null | undefined): boolean {
 }
 ```
 
-#### Using Visitor Method Parameters
+### Using Visitor Method Parameters
 If your shared code needs to reference the value being visited, then you have to be conscious of the parameter types involved. The type of the parameter of the shared method must include the types of all values it will handle. Let's enhance the previous example to log every value that is visited.
 ```ts
 type RGB = "r" | "g" | "b";
@@ -267,7 +265,7 @@ function isSupportedColor(rgb: RGB | null | undefined): boolean {
 }
 ```
 
-### Visiting Enums
+## Visiting Enums
 TypeScript string enums can also be visited with `ts-string-visitor`. The important detail to understand is that the *values* (not the identifiers/names) of the enums are used as the string visitor method names.
 ```ts
 enum RGB {
@@ -296,20 +294,20 @@ function getRgbLabel(rgb: RGB): string {
 }
 ```
 
-#### Enum Visitor Method Parameter Types
+## Enum Visitor Method Parameter Types
 Be aware that the type of a string enum value is a more specific type than a string literal type. For maximum compile-time type checking benefit, you should treat enums as enum types whenever possible, rather than string literals:
 * Compare against members of the enum, rather than string literals.
 * Use the enum type for variables, params, return types, etc., rather than type string.
 
-#### Enum Limitations
-##### Only Literal String "Union Enums" Supported
+## Enum Limitations
+### Only Literal String "Union Enums" Supported
 `ts-string-visitor` can only work on string enums that qualify as "union enums":
 * All members are of type string (no number values!).
 * All members have literal (non-calculated) values.
 
 Read more about "Union enums and enum member types" here: [Enums - TypeScript](https://www.typescriptlang.org/docs/handbook/enums.html)
 
-##### Visitor Method Parameter Type Not Inferred
+### Visitor Method Parameter Type Not Inferred
 Unfortunately, the TypeScript compiler cannot infer the type of the visitor method parameter if you use the enum value as the property name.
 
 I have reported this issue on the [github TypeScript repo](https://github.com/Microsoft/TypeScript/issues/20856).
@@ -345,7 +343,7 @@ function rgbIdentity(rgb: RGB): RGB {
 }
 ```
 
-### What's up with this chained `visitString().with()` syntax?
+## What's up with this chained `visitString().with()` syntax?
 You might wonder why I didn't implement `ts-string-visitor` as a single overloaded `visitString` method that accepts both the value AND the visitor. The chained approach I settled on was necessary to:
 * Ensure that the type of visitor (whether it needs to handle null and/or undefined) is driven by whether the visited value may possibly be null/undefined. This is necessary to provide relevant compiler error messages when something isn't right with your code.
 * Allow the return type to be explicitly provided, while allowing the compiler to infer the type of the visited value.
