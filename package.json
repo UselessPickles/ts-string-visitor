@@ -17,9 +17,9 @@
   "types": "dist/ts-string-visitor.d.ts",
   "scripts": {
     "compile": "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
-    "build": "tsc --project tsconfig.json --pretty --noErrorTruncation",
-    "test": "jest",
-    "build:travis": "npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "build": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
+    "test": "npm run compile && jest",
+    "build:travis": "npm run compile && npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": {
     "name": "Jeff Lau",
