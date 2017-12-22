@@ -44,7 +44,7 @@
         "no-default-export": true,
         "no-unused-variable": true,
         "object-literal-shorthand": false,
-        "object-literal-key-quotes": [true, "consistent"],
+        "object-literal-key-quotes": false,
         "max-classes-per-file": [false],
         "triple-equals": [true, "allow-null-check"],
         "no-uninitialized": [true, "variables", "properties"],

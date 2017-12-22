@@ -98,6 +98,145 @@ describe("Visit String Enum", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            describe("With literal property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Inferred param type", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.R = value;
+                        },
+                        "g": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.G = value;
+                        },
+                        "b": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.B = value;
+                        }
+                    });
+                });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value: RGB) => {
+                            // empty
+                        },
+                        "g": (value: RGB) => {
+                            // empty
+                        },
+                        "b": (value: RGB) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+
+            describe("With computed enum property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                // Broken due to https://github.com/Microsoft/TypeScript/issues/20856
+                // test("Inferred param type", () => {
+                //     visitString(TEST_ENTRIES[0].value).with({
+                //         [RGB.R]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.R = value;
+                //         },
+                //         [RGB.G]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.G = value;
+                //         },
+                //         [RGB.B]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.B = value;
+                //         }
+                //     });
+                // });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.G]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.B]: (value: RGB) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+        });
     });
 
     describe("With null", () => {
@@ -162,6 +301,171 @@ describe("Visit String Enum", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            describe("With literal property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Inferred param type", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.R = value;
+                        },
+                        "g": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.G = value;
+                        },
+                        "b": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.B = value;
+                        },
+                        handleNull: (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: null = value;
+                        }
+                    });
+                });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value: RGB) => {
+                            // empty
+                        },
+                        "g": (value: RGB) => {
+                            // empty
+                        },
+                        "b": (value: RGB) => {
+                            // empty
+                        },
+                        handleNull: (value: RGB | null) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+
+            describe("With computed enum property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                // Broken due to https://github.com/Microsoft/TypeScript/issues/20856
+                // test("Inferred param type", () => {
+                //     visitString(TEST_ENTRIES[0].value).with({
+                //         [RGB.R]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.R = value;
+                //         },
+                //         [RGB.G]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.G = value;
+                //         },
+                //         [RGB.B]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.B = value;
+                //         },
+                //         handleNull: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: null = value;
+                //         }
+                //     });
+                // });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.G]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.B]: (value: RGB) => {
+                            // empty
+                        },
+                        handleNull: (value: RGB | null) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+        });
     });
 
     describe("With undefined", () => {
@@ -226,6 +530,171 @@ describe("Visit String Enum", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            describe("With literal property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Inferred param type", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.R = value;
+                        },
+                        "g": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.G = value;
+                        },
+                        "b": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.B = value;
+                        },
+                        handleUndefined: (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: undefined = value;
+                        }
+                    });
+                });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value: RGB) => {
+                            // empty
+                        },
+                        "g": (value: RGB) => {
+                            // empty
+                        },
+                        "b": (value: RGB) => {
+                            // empty
+                        },
+                        handleUndefined: (value: RGB | undefined) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+
+            describe("With computed enum property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                // Broken due to https://github.com/Microsoft/TypeScript/issues/20856
+                // test("Inferred param type", () => {
+                //     visitString(TEST_ENTRIES[0].value).with({
+                //         [RGB.R]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.R = value;
+                //         },
+                //         [RGB.G]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.G = value;
+                //         },
+                //         [RGB.B]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.B = value;
+                //         },
+                //         handleUndefined: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: undefined = value;
+                //         }
+                //     });
+                // });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.G]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.B]: (value: RGB) => {
+                            // empty
+                        },
+                        handleUndefined: (value: RGB | undefined) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+        });
     });
 
     describe("With null and undefined", () => {
@@ -296,5 +765,196 @@ describe("Visit String Enum", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            describe("With literal property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        "r": () => {
+                            return 1;
+                        },
+                        "g": () => {
+                            return 2;
+                        },
+                        "b": () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Inferred param type", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.R = value;
+                        },
+                        "g": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.G = value;
+                        },
+                        "b": (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: RGB.B = value;
+                        },
+                        handleNull: (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: null = value;
+                        },
+                        handleUndefined: (value) => {
+                            // tslint:disable-next-line:no-unused-variable
+                            const test: undefined = value;
+                        }
+                    });
+                });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        "r": (value: RGB) => {
+                            // empty
+                        },
+                        "g": (value: RGB) => {
+                            // empty
+                        },
+                        "b": (value: RGB) => {
+                            // empty
+                        },
+                        handleNull: (value: RGB | null) => {
+                            // empty
+                        },
+                        handleUndefined: (value: RGB | undefined) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+
+            describe("With computed enum property names", () => {
+                test("Inferred return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                test("Explicit return type", () => {
+                    const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                        [RGB.R]: () => {
+                            return 1;
+                        },
+                        [RGB.G]: () => {
+                            return 2;
+                        },
+                        [RGB.B]: () => {
+                            return 3;
+                        },
+                        handleNull: () => {
+                            return 0;
+                        },
+                        handleUndefined: () => {
+                            return 0;
+                        }
+                    });
+
+                    // tslint:disable-next-line:no-unused-variable
+                    const test: number = result;
+                });
+
+                // Broken due to https://github.com/Microsoft/TypeScript/issues/20856
+                // test("Inferred param type", () => {
+                //     visitString(TEST_ENTRIES[0].value).with({
+                //         [RGB.R]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.R = value;
+                //         },
+                //         [RGB.G]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.G = value;
+                //         },
+                //         [RGB.B]: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: RGB.B = value;
+                //         },
+                //         handleNull: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: null = value;
+                //         },
+                //         handleUndefined: (value) => {
+                //             // tslint:disable-next-line:no-unused-variable
+                //             const test: undefined = value;
+                //         }
+                //     });
+                // });
+
+                test("Explicit param type (broader than actual)", () => {
+                    visitString(TEST_ENTRIES[0].value).with({
+                        [RGB.R]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.G]: (value: RGB) => {
+                            // empty
+                        },
+                        [RGB.B]: (value: RGB) => {
+                            // empty
+                        },
+                        handleNull: (value: RGB | null) => {
+                            // empty
+                        },
+                        handleUndefined: (value: RGB | undefined) => {
+                            // empty
+                        }
+                    });
+                });
+            });
+        });
     });
 });
