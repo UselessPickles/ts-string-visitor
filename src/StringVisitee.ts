@@ -2,7 +2,7 @@ import {
     StringVisitor,
     StringVisitorWithNull,
     StringVisitorWithUndefined,
-     StringVisitorWithNullAndUndefined
+    StringVisitorWithNullAndUndefined
 } from "./StringVisitor";
 
 /**
