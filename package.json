@@ -17,7 +17,7 @@
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
   "module": "dist/es/index.js",
-  "types": "dist/commonjs/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "clean:dist": "rimraf dist",
     "clean:coverage": "rimraf coverage",
@@ -26,8 +26,9 @@
     "lint": "tslint --config tslint.json --project tsconfig.json",
     "lint:fix": "npm run lint -- --fix",
     "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
+    "build:types": "copyfiles --up 2 dist/commonjs/*.d.ts dist/types && rimraf dist/commonjs/*.d.ts",
     "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
-    "build": "npm run clean:dist && npm run build:commonjs && npm run build:es",
+    "build": "npm run clean:dist && npm run build:commonjs && npm run build:types && npm run build:es",
     "pack": "npm run clean:pack && npm run build && npm pack",
     "test": "npm run compile && npm run lint && jest",
     "test:coverage": "npm run clean:coverage && npm run test -- --coverage",
@@ -41,6 +42,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "21.1.8",
+    "copyfiles": "1.2.0",
     "coveralls": "3.0.0",
     "jest": "22.0.3",
     "rimraf": "2.6.2",
