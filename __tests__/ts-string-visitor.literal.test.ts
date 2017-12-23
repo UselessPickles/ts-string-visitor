@@ -94,6 +94,75 @@ describe("Visit String Literal", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            test("Inferred return type", () => {
+                const result = visitString(TEST_ENTRIES[0].value).with({
+                    "r": () => {
+                        return 1;
+                    },
+                    "g": () => {
+                        return 2;
+                    },
+                    "b": () => {
+                        return 3;
+                    }
+                });
+
+                // tslint:disable-next-line:no-unused-variable
+                const test: number = result;
+            });
+
+            test("Explicit return type", () => {
+                const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                    "r": () => {
+                        return 1;
+                    },
+                    "g": () => {
+                        return 2;
+                    },
+                    "b": () => {
+                        return 3;
+                    }
+                });
+
+                // tslint:disable-next-line:no-unused-variable
+                const test: number = result;
+            });
+
+            test("Inferred param type", () => {
+                visitString(TEST_ENTRIES[0].value).with({
+                    "r": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "r" = value;
+                    },
+                    "g": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "g" = value;
+                    },
+                    "b": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "b" = value;
+                    }
+                });
+            });
+
+            test("Explicit param type (broader than actual)", () => {
+                visitString(TEST_ENTRIES[0].value).with({
+                    "r": (value: RGB) => {
+                        // empty
+                    },
+                    "g": (value: RGB) => {
+                        // empty
+                    },
+                    "b": (value: RGB) => {
+                        // empty
+                    }
+                });
+            });
+        });
     });
 
     describe("With null", () => {
@@ -158,6 +227,88 @@ describe("Visit String Literal", () => {
                 expect(result).toBe(testEntry.result);
             });
         }
+
+        // These tests don't verify any runtime behavior.
+        // They only test a variatey of usage patterns to ensure they compile.
+        describe("Compile Tests", () => {
+            test("Inferred return type", () => {
+                const result = visitString(TEST_ENTRIES[0].value).with({
+                    "r": () => {
+                        return 1;
+                    },
+                    "g": () => {
+                        return 2;
+                    },
+                    "b": () => {
+                        return 3;
+                    },
+                    handleNull: () => {
+                        return 0;
+                    }
+                });
+
+                // tslint:disable-next-line:no-unused-variable
+                const test: number = result;
+            });
+
+            test("Explicit return type", () => {
+                const result = visitString(TEST_ENTRIES[0].value).with<number>({
+                    "r": () => {
+                        return 1;
+                    },
+                    "g": () => {
+                        return 2;
+                    },
+                    "b": () => {
+                        return 3;
+                    },
+                    handleNull: () => {
+                        return 0;
+                    }
+                });
+
+                // tslint:disable-next-line:no-unused-variable
+                const test: number = result;
+            });
+
+            test("Inferred param type", () => {
+                visitString(TEST_ENTRIES[0].value).with({
+                    "r": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "r" = value;
+                    },
+                    "g": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "g" = value;
+                    },
+                    "b": (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: "b" = value;
+                    },
+                    handleNull: (value) => {
+                        // tslint:disable-next-line:no-unused-variable
+                        const test: null = value;
+                    }
+                });
+            });
+
+            test("Explicit param type (broader than actual)", () => {
+                visitString(TEST_ENTRIES[0].value).with({
+                    "r": (value: RGB) => {
+                        // empty
+                    },
+                    "g": (value: RGB) => {
+                        // empty
+                    },
+                    "b": (value: RGB) => {
+                        // empty
+                    },
+                    handleNull: (value: RGB | null) => {
+                        // empty
+                    }
+                });
+            });
+        });
     });
 
     describe("With undefined", () => {
