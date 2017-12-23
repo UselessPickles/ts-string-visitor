@@ -28,11 +28,11 @@
     "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
     "build:types": "copyfiles --up 2 dist/commonjs/*.d.ts dist/types && rimraf dist/commonjs/*.d.ts",
     "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
-    "build": "npm run clean:dist && npm run build:commonjs && npm run build:types && npm run build:es",
+    "build": "npm run clean:dist && npm run build:es & npm run build:commonjs && npm run build:types",
     "pack": "npm run clean:pack && npm run build && npm pack",
-    "test": "npm run compile && npm run lint && jest",
+    "test": "npm run compile && npm run lint & jest",
     "test:coverage": "npm run clean:coverage && npm run test -- --coverage",
-    "build:travis": "npm run build && npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "build:travis": "npm run build & npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": {
     "name": "Jeff Lau",
