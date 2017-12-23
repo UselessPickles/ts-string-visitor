@@ -36,7 +36,7 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
 
 ## Quick Start
 ### Installation
-Install via NPM:
+Install via [NPM](https://www.npmjs.com/package/ts-string-visitor):
 ```
 npm i -s ts-string-visitor
 ```
