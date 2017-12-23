@@ -9,10 +9,10 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
 <!-- TOC depthFrom:2 -->
 
 - [What is it?](#what-is-it)
-- [Requirements](#requirements)
 - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Usage Example](#usage-example)
+- [Requirements](#requirements)
 - [Handling Null/Undefined](#handling-nullundefined)
 - [Visitor Method Return Values](#visitor-method-return-values)
 - [Being Explicit About Return Type](#being-explicit-about-return-type)
@@ -34,10 +34,6 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
 ## What is it?
 `ts-string-visitor` implements a visitor pattern for TypeScript string enum types, and TypeScript string literal union types. This helps you avoid bugs caused by forgetting to handle a possible value, and helps you quickly find code that needs to be updated after refactoring a string enum or string literal union type. If your code uses `ts-string-visitor` and does not handle all possible values, the code will fail to compile. The compiler error messages will point you in the right direction to fix your code.
 
-## Requirements
-* **TypeScript 2.4.1+**: The entire purpose of `ts-string-visitor` is the compile-time checks. It won't do you any good in a JavaScript project. TypeScript 2.4.1 is the bare minimum supported version, but with some issues. See [Known Issues](#known-issues) for limitations of different versions of TypeScript.
-* **TypeScript's "strictNullChecks" option**: `ts-string-visitor` helps ensure that you handle `null` and `undefined` values where applicable. To support this, you must compile your project with "strictNullChecks" so that the compiler will treat `null` and `undefined` as distinct types. This is not optional: code using `ts-string-visitor` will fail to compile at all if "strictNullChecks" are not enabled.
-
 ## Quick Start
 ### Installation
 Install via NPM:
@@ -46,13 +42,16 @@ npm i -s ts-string-visitor
 ```
 
 ### Usage Example
+Import `visitString`, either as the default export..
 ```ts
-// Import the default export.
 import visitString from "ts-string-visitor";
-// Or import the named export: you're choice!
-// import { visitString } from "ts-string-visitor";
-
-// Example string literal union type
+```
+...or as a named export.
+```ts
+import { visitString } from "ts-string-visitor";
+```
+Then use `visitString().with()`.
+```ts
 type RGB = "r" | "g" | "b";
 
 // Example function that uses visitString() to convert a RGB value
@@ -82,6 +81,9 @@ function getRgbLabel(rgb: RGB): string {
 
 const result = getRgbLabel("g"); // result === "Green"
 ```
+## Requirements
+* **TypeScript 2.4.1+**: The entire purpose of `ts-string-visitor` is the compile-time checks. It won't do you any good in a JavaScript project. TypeScript 2.4.1 is the bare minimum supported version, but with some issues. See [Known Issues](#known-issues) for limitations of different versions of TypeScript.
+* **TypeScript's "strictNullChecks" option**: `ts-string-visitor` helps ensure that you handle `null` and `undefined` values where applicable. To support this, you must compile your project with "strictNullChecks" so that the compiler will treat `null` and `undefined` as distinct types. This is not optional: code using `ts-string-visitor` will fail to compile at all if "strictNullChecks" are not enabled.
 
 ## Handling Null/Undefined
 The `visitString` method is overloaded to handle every combination of its parameter being possibly `null` and/or `undefined`.
