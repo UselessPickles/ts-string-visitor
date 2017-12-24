@@ -51,6 +51,7 @@
     "rimraf": "2.6.2",
     "ts-jest": "22.0.0",
     "tslint": "5.8.0",
+    "tslint-strict-null-checks": "1.0.0",
     "typescript": "^2.6.2"
   },
   "peerDependencies": {
@@ -77,8 +78,5 @@
       "ts",
       "js"
     ]
-  },
-  "dependencies": {
-    "tslint-strict-null-checks": "1.0.0"
   }
 }
