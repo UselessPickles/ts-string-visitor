@@ -100,7 +100,7 @@ describe("Visit String Enum", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             describe("With literal property names", () => {
                 test("Inferred return type", () => {
@@ -303,7 +303,7 @@ describe("Visit String Enum", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             describe("With literal property names", () => {
                 test("Inferred return type", () => {
@@ -532,7 +532,7 @@ describe("Visit String Enum", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             describe("With literal property names", () => {
                 test("Inferred return type", () => {
@@ -767,7 +767,7 @@ describe("Visit String Enum", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             describe("With literal property names", () => {
                 test("Inferred return type", () => {

@@ -96,7 +96,7 @@ describe("Visit String Literal", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             test("Inferred return type", () => {
                 const result = visitString(TEST_ENTRIES[0].value).with({
@@ -229,7 +229,7 @@ describe("Visit String Literal", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             test("Inferred return type", () => {
                 const result = visitString(TEST_ENTRIES[0].value).with({
@@ -375,7 +375,7 @@ describe("Visit String Literal", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             test("Inferred return type", () => {
                 const result = visitString(TEST_ENTRIES[0].value).with({
@@ -527,7 +527,7 @@ describe("Visit String Literal", () => {
         }
 
         // These tests don't verify any runtime behavior.
-        // They only test a variatey of usage patterns to ensure they compile.
+        // They only test a variety of usage patterns to ensure they compile.
         describe("Compile Tests", () => {
             test("Inferred return type", () => {
                 const result = visitString(TEST_ENTRIES[0].value).with({
