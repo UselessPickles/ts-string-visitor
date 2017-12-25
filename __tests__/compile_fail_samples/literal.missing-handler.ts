@@ -9,4 +9,5 @@ const result = visitString("r" as RGB).with({
     "g": () => {
         return 2;
     }
+    // missing "b"handler
 });
