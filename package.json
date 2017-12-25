@@ -44,6 +44,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "21.1.8",
+    "@types/node": "8.5.2",
     "copyfiles": "1.2.0",
     "coveralls": "3.0.0",
     "jest": "22.0.3",
@@ -73,7 +74,7 @@
       "!**/node_modules/**"
     ],
     "mapCoverage": true,
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)$",
+    "testRegex": "((\\.|/)(test|spec))\\.(ts|js)$",
     "moduleFileExtensions": [
       "ts",
       "js"
