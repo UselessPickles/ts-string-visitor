@@ -21,35 +21,39 @@ const COMPILER_OPTIONS: ts.CompilerOptions = {
 /**
  * Performs the compilation unit tests for a subset of the compile pass/fail sample files.
  * Finds files to attempt compiling as follows:
- * - Looks in the "compile-pass/" or "compile-fail/" directory dependign on the value of 'shouldCompile'.
+ * - Looks in the "compile_samples/pass/" or "compile_samples/fail/" directory, depending on the
+ *   value of 'shouldCompile'.
  * - Tests all files that begin with a prefix matching the value of 'visitorType'.
  *
  * Example:
- *     // Attempts to compile all "compile-pass/literal-null.*.ts" files.
+ *     // Attempts to compile all "compile_samples/pass/literal-null.*.ts" files.
  *     testCompilation(testCompilation.Visitortype.LiteralWithNull, true);
  *
  * Runs a separate unit test per file and passes if the compile pass/fail result matches 'shouldCompile'.
  *
  * @param visitorType Specifies the type of visitor to test.
- * @param shouldCompile Specifies whether to test the compile pass (true) or compile fail(false) samples.
+ * @param shouldCompile Specifies whether to test the compile pass (true) or compile fail (false) samples.
  */
 export function testCompilation(
     visitorType: testCompilation.VisitorType,
     shouldCompile: boolean
 ): void {
-    const dir = `tests/compile-${shouldCompile ? "pass" : "fail"}/`;
+    const dir = `tests/compile_samples/${shouldCompile ? "pass" : "fail"}/`;
+    const fileNameRegExp = new RegExp(`^${visitorType}(\..+)?\.ts$`);
+
+    const fileNames = fs.readdirSync(dir).filter((fileName) => {
+        return fileNameRegExp.test(fileName);
+    });
+
+    // let program: ts.Program | undefined;
+    // const host = ts.createCompilerHost(COMPILER_OPTIONS);
 
     describe(`Compile tests: ${dir}${visitorType}.*`, () => {
-        const fileNamePrefix = `${visitorType}.`;
-
-        const fileNames = fs.readdirSync(dir).filter((fileName) => {
-            return fileName.indexOf(fileNamePrefix) === 0;
-        });
-
         for (const file of fileNames) {
-            test.concurrent(file, async () => {
+            test(file, () => {
                 const program = ts.createProgram(
                     [
+                        `src/index.ts`,
                         `${dir}${file}`
                     ],
                     COMPILER_OPTIONS

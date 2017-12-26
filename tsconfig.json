@@ -21,6 +21,6 @@
   },
   "exclude": [
     "node_modules",
-    "tests/compile-fail"
+    "tests/compile_samples"
   ]
 }
