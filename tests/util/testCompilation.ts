@@ -39,7 +39,7 @@ export function testCompilation(
     shouldCompile: boolean
 ): void {
     const dir = `tests/compile_samples/${shouldCompile ? "pass" : "fail"}/`;
-    const fileNameRegExp = new RegExp(`^${visitorType}(\..+)?\.ts$`);
+    const fileNameRegExp = new RegExp(`^${visitorType}(\\..+)?\\.ts$`);
 
     const fileNames = fs.readdirSync(dir).filter((fileName) => {
         return fileNameRegExp.test(fileName);
@@ -49,12 +49,12 @@ export function testCompilation(
     // const host = ts.createCompilerHost(COMPILER_OPTIONS);
 
     describe(`Compile tests: ${dir}${visitorType}.*`, () => {
-        for (const file of fileNames) {
-            test(file, () => {
+        for (const fileName of fileNames) {
+            test(fileName, () => {
                 const program = ts.createProgram(
                     [
                         `src/index.ts`,
-                        `${dir}${file}`
+                        `${dir}${fileName}`
                     ],
                     COMPILER_OPTIONS
                 );
