@@ -66,6 +66,7 @@
     "visitor"
   ],
   "jest": {
+    "cacheDirectory": "./jest_cache",
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },

@@ -6,3 +6,4 @@ script:
 cache:
   directories:
     - "node_modules"
+    - "jest_cache"
