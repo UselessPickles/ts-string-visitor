@@ -3,6 +3,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/UselessPickles/ts-string-visitor/badge.svg?branch=master)](https://coveralls.io/github/UselessPickles/ts-string-visitor?branch=master)
 
 # ts-string-visitor
+
+[![Join the chat at https://gitter.im/ts-string-visitor/Lobby](https://badges.gitter.im/ts-string-visitor/Lobby.svg)](https://gitter.im/ts-string-visitor/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Generic TypeScript Visitor for String Enums and String Literal Union Types
 
 # Contents
