@@ -53,7 +53,6 @@ export function testCompilation(
             test(fileName, () => {
                 program = ts.createProgram(
                     [
-                        `src/index.ts`,
                         `${dir}${fileName}`
                     ],
                     COMPILER_OPTIONS,
