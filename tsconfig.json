@@ -12,7 +12,6 @@
 
     /* Strict Type-Checking Options */
     "strict": true,                            /* Enable all strict type-checking options. */
-    "strictNullChecks": true,
     "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
     "noImplicitAny": true,
 
@@ -21,6 +20,7 @@
     "baseUrl": "./"                       /* Base directory to resolve non-absolute module names. */
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "tests/compile_samples"
   ]
 }

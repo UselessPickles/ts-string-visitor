@@ -1,4 +1,5 @@
 node_modules/
+jest_cache/
 coverage/
 dist/
 ts-string-visitor-*.tgz
