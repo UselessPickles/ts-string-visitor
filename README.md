@@ -1,4 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/ts-string-visitor.svg)](https://www.npmjs.com/package/ts-string-visitor)
+[![Join the chat at https://gitter.im/ts-string-visitor/Lobby](https://badges.gitter.im/ts-string-visitor/Lobby.svg)](https://gitter.im/ts-string-visitor/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/UselessPickles/ts-string-visitor.svg?branch=master)](https://travis-ci.org/UselessPickles/ts-string-visitor)
 [![Coverage Status](https://coveralls.io/repos/github/UselessPickles/ts-string-visitor/badge.svg?branch=master)](https://coveralls.io/github/UselessPickles/ts-string-visitor?branch=master)
 
