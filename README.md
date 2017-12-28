@@ -27,7 +27,7 @@ Generic TypeScript Visitor for String Enums and String Literal Union Types
     - [Only Literal String "Union Enums" Are Supported](#only-literal-string-union-enums-are-supported)
 - [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
 - [Known Issues](#known-issues)
-    - [TypeScript < 4.1.0](#typescript--410)
+    - [TypeScript < 2.4.1](#typescript--241)
     - [TypeScript < 2.6.1](#typescript--261)
     - [TypeScript < 2.7.x (not yet released)](#typescript--27x-not-yet-released)
 
@@ -315,7 +315,7 @@ You might wonder why I didn't implement `ts-string-visitor` as a single overload
 Read more details about other approaches I tried and their flaws in [this github issue comment](https://github.com/Microsoft/TypeScript/issues/20643#issuecomment-352328395).
 
 ## Known Issues
-### TypeScript < 4.1.0
+### TypeScript < 2.4.1
 Not supported.
 
 ### TypeScript < 2.6.1
