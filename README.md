@@ -91,7 +91,7 @@ The `visitString` method is overloaded to handle every combination of its parame
 
 If (and only if) the parameter may be `null`, then your visitor MUST include a method named `handleNull`. This method will be called if a `null` value is passed to `visitString`.
 
-If (and only if) the parameter may be `undefined`, then your visitor MUST include a method named `handleUndefined`. This method will be called if and `undefined` value is passed to `visitString`.
+If (and only if) the parameter may be `undefined`, then your visitor MUST include a method named `handleUndefined`. This method will be called if an `undefined` value is passed to `visitString`.
 
 Example:
 ```ts
