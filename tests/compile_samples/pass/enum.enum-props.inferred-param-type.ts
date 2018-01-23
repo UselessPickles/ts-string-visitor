@@ -2,7 +2,7 @@
 // See https://github.com/UselessPickles/ts-string-visitor/issues/3
 // Uncomment the code after TypeScript is updated to fix the bug.
 
-// import visitString from "../../../src";
+// import { visitString } from "../../../src";
 
 // enum RGB {
 //     R = "r",

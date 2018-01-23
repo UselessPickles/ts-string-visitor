@@ -1,4 +1,4 @@
-import visitString from "../src";
+import { visitString } from "../src";
 
 describe("Visit String Literal", () => {
     type RGB = "r" | "g" | "b";

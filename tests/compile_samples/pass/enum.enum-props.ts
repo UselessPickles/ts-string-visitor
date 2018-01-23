@@ -1,4 +1,4 @@
-import visitString from "../../../src";
+import { visitString } from "../../../src";
 
 enum RGB {
     R = "r",

@@ -14,11 +14,6 @@ export type StringVisitorHandler<S extends string | null | undefined, R = void> 
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitor<S extends string, R> = {
-    /**
-     * Called when a visited string's value matches the name of the property.
-     * @param value - The visited string's value.
-     * @return Whatever you want.
-     */
     [P in S]: StringVisitorHandler<P, R>;
 };
 
@@ -29,11 +24,6 @@ export type StringVisitor<S extends string, R> = {
  * @template R - The return type of the visitor method.
  */
 export interface NullStringVisitor<R> {
-    /**
-     * Called when a visited string's value is null.
-     * @param value - null
-     * @return Whatever you want.
-     */
     handleNull: StringVisitorHandler<null, R>;
 }
 
@@ -44,11 +34,6 @@ export interface NullStringVisitor<R> {
  * @template R - The return type of the visitor method.
  */
 export interface UndefinedStringVisitor<R> {
-    /**
-     * Called when a visited string's value is undefined.
-     * @param value - undefined
-     * @return Whatever you want.
-     */
     handleUndefined: StringVisitorHandler<undefined, R>;
 }
 
