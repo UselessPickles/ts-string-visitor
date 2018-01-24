@@ -6,7 +6,7 @@ enum RGB {
     B = "b"
 }
 
-const result = visitString("r" as RGB).with({
+visitString("r" as RGB).with({
     "r": () => {
         return 1;
     },
