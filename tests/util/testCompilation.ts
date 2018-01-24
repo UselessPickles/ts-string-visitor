@@ -52,19 +52,17 @@ export function testCompilation(
         return fileNameRegExp.test(fileName);
     });
 
-    let program: ts.Program | undefined;
     const host = ts.createCompilerHost(COMPILER_OPTIONS);
 
     describe(`Compile tests: ${dir}${visitorType}.*`, () => {
         for (const fileName of fileNames) {
             test(fileName, () => {
-                program = ts.createProgram(
+                const program = ts.createProgram(
                     [
                         `${dir}${fileName}`
                     ],
                     COMPILER_OPTIONS,
-                    host,
-                    program
+                    host
                 );
 
                 const diagnostics = ts.getPreEmitDiagnostics(program);
