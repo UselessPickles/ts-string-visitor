@@ -34,7 +34,7 @@
     "jest:coverage": "npm run clean:coverage && jest --coverage",
     "test": "run-s compile lint jest",
     "test:coverage": "run-s compile lint jest:coverage",
-    "build:travis": "run-s build test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "build:travis": "run-s test:coverage build && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": {
     "name": "Jeff Lau",
