@@ -24,7 +24,6 @@ type AnyStringVisitee<S extends string> =
  * See also, {@link StringVisitee#with} and {@link StringVisitor}.
  *
  * @template S - A string literal type or string enum type.
- * @template R - The return type of the visitor methods.
  *
  * @param value - The value to visit. Must a string literal type or a string enum.
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
@@ -42,7 +41,6 @@ export function visitString<S extends string>(value: S): StringVisitee<S>;
  * See also, {@link StringVisiteeWithNull#with} and {@link StringVisitorWithNull}.
  *
  * @template S - A string literal type or string enum type.
- * @template R - The return type of the visitor methods.
  *
  * @param value - The value to visit. Must a string literal type or a string enum.
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
@@ -60,7 +58,6 @@ export function visitString<S extends string>(value: S | null): StringVisiteeWit
  * See also, {@link StringVisiteeWithUndefined#with} and {@link StringVisitorWithUndefined}.
  *
  * @template S - A string literal type or string enum type.
- * @template R - The return type of the visitor methods.
  *
  * @param value - The value to visit. Must a string literal type or a string enum.
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
@@ -77,7 +74,6 @@ export function visitString<S extends string>(value: S | undefined): StringVisit
  * See also, {@link StringVisiteeWithNullAndUndefined#with} and {@link StringVisitorWithNullAndUndefined}.
  *
  * @template S - A string literal type or string enum type.
- * @template R - The return type of the visitor methods.
  *
  * @param value - The value to visit. Must a string literal type or a string enum.
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a

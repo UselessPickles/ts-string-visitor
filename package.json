@@ -1,7 +1,7 @@
 {
   "name": "ts-string-visitor",
   "version": "1.1.3",
-  "description": "Generic TypeScript Visitor for String Enums and String Literal Union Types",
+  "description": "Generic TypeScript Visitor and Mapper for String Enums and String Literal Union Types",
   "repository": {
     "type": "git",
     "url": "https://github.com/UselessPickles/ts-string-visitor.git"
@@ -30,11 +30,11 @@
     "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
     "build": "npm run clean:dist && run-p build:es build:commonjs && npm run build:move-types-from-commonjs",
     "pack": "run-p clean:pack build && npm pack",
-    "jest": "jest",
-    "jest:coverage": "npm run clean:coverage && jest --coverage",
-    "test": "run-p compile lint jest",
-    "test:coverage": "run-p compile lint jest:coverage",
-    "build:travis": "run-p build test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "jest": "jest --runInBand",
+    "jest:coverage": "npm run clean:coverage && jest --runInBand --coverage",
+    "test": "run-s compile lint jest",
+    "test:coverage": "run-s compile lint jest:coverage",
+    "build:travis": "run-p test:coverage build && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": {
     "name": "Jeff Lau",
@@ -63,7 +63,8 @@
     "string",
     "enum",
     "literal",
-    "visitor"
+    "visitor",
+    "mapper"
   ],
   "jest": {
     "cacheDirectory": "./jest_cache",
