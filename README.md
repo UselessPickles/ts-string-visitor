@@ -131,6 +131,8 @@ Where:
 * `[visitor]` is an object whose property names match all possible values of `[value]`'s type, and the property values are functions that will be called when the corresponding property name value is passed to `visitString`.
 * `[result]` is the value returned by whichever visitor function is called. NOTE: Visitors are not required to return a value. You may choose to implement a visitor that only performs logic for each possible string literal/enum value.
 
+Note: Every visitor method must have the same return type. You may want to consider [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type).
+
 See the [Visitor](#visitor) usage example.
 
 ### Mapper
@@ -145,14 +147,16 @@ Where:
 * `[mapper]` is an object whose property names match all possible values of `[value]`'s type, and the property values are the mapped values that will be returned when the corresponding property name value is passed to `mapString`.
 * `[result]` is the value of whichever `[mapper]` property matched `[value]`.
 
+Note: Every property of your mapper must be of the same type. You may want to consider [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type).
+
 See the [Mapper](#mapper) usage example.
 
 ## Handling Null/Undefined
 The `visitString` and `mapString` methods are overloaded to handle every combination of its parameter being possibly `null` and/or `undefined`.
 
-If (and only if) the parameter may be `null`, then your visitor/mapper MUST include a property named `handleNull`. The value of this property will be used by visit/map `null` values.
+If (and only if) the parameter may be `null`, then your visitor/mapper MUST include a property named `handleNull`. The value of this property will be used to visit/map `null` values.
 
-If (and only if) the parameter may be `undefined`, then your visitor/mapper MUST include a method named `handleUndefined`. The value of this property will be used by visit/map `undefined` values.
+If (and only if) the parameter may be `undefined`, then your visitor/mapper MUST include a method named `handleUndefined`. The value of this property will be used to visit/map `undefined` values.
 
 Example (Visitor):
 ```ts
@@ -199,7 +203,7 @@ const result = getRgbLabel(null); // result === "null"
 ```
 
 ## Visitor Method Return Values
-Your visitor methods can return a value, which will be returned by the call to `visit().with()`.
+Your visitor methods can return a value, which will be returned by the call to `visitString().with()`.
 
 BEWARE: All visitor methods within a given visitor MUST have the same return type. If you have a mixture of return types, then the compiler will decide that one of them is correct, and the others are wrong. The resulting compiler error may be confusing if you and the compiler do not agree on what the correct return type should have been.
 
