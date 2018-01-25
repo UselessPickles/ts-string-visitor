@@ -7,7 +7,7 @@ import * as fs from "fs";
 const COMPILER_OPTIONS: ts.CompilerOptions = {
     module: ts.ModuleKind.CommonJS,
     lib: [
-        "lib.es6.d.ts"
+        "lib.es5.d.ts"
     ],
     strict: true,
     alwaysStrict: true,
@@ -15,7 +15,9 @@ const COMPILER_OPTIONS: ts.CompilerOptions = {
 
     baseUrl: "./",
 
-    moduleResolution: ts.ModuleResolutionKind.NodeJs
+    moduleResolution: ts.ModuleResolutionKind.NodeJs,
+
+    types: []
 };
 
 /**
