@@ -1,4 +1,10 @@
-import { visitString } from "../src";
+import {
+    visitString,
+    StringVisitor,
+    StringVisitorWithNull,
+    StringVisitorWithUndefined,
+    StringVisitorWithNullAndUndefined
+} from "../src";
 
 describe("Visit String Enum", () => {
     enum RGB {
@@ -27,12 +33,17 @@ describe("Visit String Enum", () => {
         return "Undefined!";
     });
 
+    const handlerMockUnexpected = jest.fn((value: string | null | undefined) => {
+        return `Unexpected! (${value})`;
+    });
+
     const ALL_HANDLER_MOCKS = [
         handlerMockR,
         handlerMockG,
         handlerMockB,
         handlerMockNull,
-        handlerMockUndefined
+        handlerMockUndefined,
+        handlerMockUnexpected
     ];
 
     beforeEach(() => {
@@ -44,6 +55,7 @@ describe("Visit String Enum", () => {
 
     describe("Without null/undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB;
             handlerMock: jest.Mock<string>;
             result: string;
@@ -64,44 +76,94 @@ describe("Visit String Enum", () => {
                 value: RGB.B,
                 handlerMock: handlerMockB,
                 result: "Blue!"
+            },
+            {
+                isUnexpected: true,
+                value: null as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (null)"
+            },
+            {
+                isUnexpected: true,
+                value: undefined as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (undefined)"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (unexpected!)"
             }
         ];
 
-        const visitor = {
-            [RGB.R]: handlerMockR,
-            [RGB.G]: handlerMockG,
-            [RGB.B]: handlerMockB
-        };
+        const visitors: StringVisitor<RGB, string>[] = [
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB
+            },
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleUnexpected: handlerMockUnexpected
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct visitor method is called (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
+        for (const visitor of visitors) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
 
-                for (const handlerMock of ALL_HANDLER_MOCKS) {
-                    if (handlerMock === testEntry.handlerMock) {
-                        expect(handlerMock.mock.calls.length).toBe(1);
-                    } else {
-                        expect(handlerMock.mock.calls.length).toBe(0);
-                    }
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            if (handlerMock === testEntry.handlerMock) {
+                                expect(handlerMock.mock.calls.length).toBe(1);
+                            } else {
+                                expect(handlerMock.mock.calls.length).toBe(0);
+                            }
+                        }
+                    });
+
+                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
+                        expect(testEntry.handlerMock.mock.calls.length).toBe(1);
+                        const args = testEntry.handlerMock.mock.calls[0];
+                        expect(args.length).toBe(1);
+                        expect(args[0]).toBe(testEntry.value);
+                    });
+
+                    test(`Handler result is returned (${testEntry.value})`, () => {
+                        const result = visitString(testEntry.value).with(visitor);
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+
+                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                        try {
+                            visitString(testEntry.value).with(visitor);
+                        } catch (error) {
+                            // ignore error
+                        }
+
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            expect(handlerMock.mock.calls.length).toBe(0);
+                        }
+                    });
                 }
-            });
-
-            test(`Value is passed to handler (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
-                const args = testEntry.handlerMock.mock.calls[0];
-                expect(args.length).toBe(1);
-                expect(args[0]).toBe(testEntry.value);
-            });
-
-            test(`handler result is returned (${testEntry.value})`, () => {
-                const result = visitString(testEntry.value).with(visitor);
-                expect(result).toBe(testEntry.result);
-            });
+            }
         }
     });
 
     describe("With null", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | null;
             handlerMock: jest.Mock<string>;
             result: string;
@@ -127,45 +189,90 @@ describe("Visit String Enum", () => {
                 value: null,
                 handlerMock: handlerMockNull,
                 result: "Null!"
+            },
+            {
+                isUnexpected: true,
+                value: undefined as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (undefined)"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (unexpected!)"
             }
         ];
 
-        const visitor = {
-            [RGB.R]: handlerMockR,
-            [RGB.G]: handlerMockG,
-            [RGB.B]: handlerMockB,
-            handleNull: handlerMockNull
-        };
+        const visitors: StringVisitorWithNull<RGB, string>[] = [
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleNull: handlerMockNull
+            },
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleNull: handlerMockNull,
+                handleUnexpected: handlerMockUnexpected
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct visitor method is called (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
+        for (const visitor of visitors) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
 
-                for (const handlerMock of ALL_HANDLER_MOCKS) {
-                    if (handlerMock === testEntry.handlerMock) {
-                        expect(handlerMock.mock.calls.length).toBe(1);
-                    } else {
-                        expect(handlerMock.mock.calls.length).toBe(0);
-                    }
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            if (handlerMock === testEntry.handlerMock) {
+                                expect(handlerMock.mock.calls.length).toBe(1);
+                            } else {
+                                expect(handlerMock.mock.calls.length).toBe(0);
+                            }
+                        }
+                    });
+
+                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
+                        expect(testEntry.handlerMock.mock.calls.length).toBe(1);
+                        const args = testEntry.handlerMock.mock.calls[0];
+                        expect(args.length).toBe(1);
+                        expect(args[0]).toBe(testEntry.value);
+                    });
+
+                    test(`Handler result is returned (${testEntry.value})`, () => {
+                        const result = visitString(testEntry.value).with(visitor);
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+
+                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                        try {
+                            visitString(testEntry.value).with(visitor);
+                        } catch (error) {
+                            // ignore error
+                        }
+
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            expect(handlerMock.mock.calls.length).toBe(0);
+                        }
+                    });
                 }
-            });
-
-            test(`Value is passed to handler (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
-                const args = testEntry.handlerMock.mock.calls[0];
-                expect(args.length).toBe(1);
-                expect(args[0]).toBe(testEntry.value);
-            });
-
-            test(`handler result is returned (${testEntry.value})`, () => {
-                const result = visitString(testEntry.value).with(visitor);
-                expect(result).toBe(testEntry.result);
-            });
+            }
         }
     });
 
     describe("With undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | undefined;
             handlerMock: jest.Mock<string>;
             result: string;
@@ -191,45 +298,90 @@ describe("Visit String Enum", () => {
                 value: undefined,
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
+            },
+            {
+                isUnexpected: true,
+                value: null as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (null)"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (unexpected!)"
             }
         ];
 
-        const visitor = {
-            [RGB.R]: handlerMockR,
-            [RGB.G]: handlerMockG,
-            [RGB.B]: handlerMockB,
-            handleUndefined: handlerMockUndefined
-        };
+        const visitors: StringVisitorWithUndefined<RGB, string>[] = [
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleUndefined: handlerMockUndefined
+            },
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleUndefined: handlerMockUndefined,
+                handleUnexpected: handlerMockUnexpected
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct visitor method is called (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
+        for (const visitor of visitors) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
 
-                for (const handlerMock of ALL_HANDLER_MOCKS) {
-                    if (handlerMock === testEntry.handlerMock) {
-                        expect(handlerMock.mock.calls.length).toBe(1);
-                    } else {
-                        expect(handlerMock.mock.calls.length).toBe(0);
-                    }
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            if (handlerMock === testEntry.handlerMock) {
+                                expect(handlerMock.mock.calls.length).toBe(1);
+                            } else {
+                                expect(handlerMock.mock.calls.length).toBe(0);
+                            }
+                        }
+                    });
+
+                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
+                        expect(testEntry.handlerMock.mock.calls.length).toBe(1);
+                        const args = testEntry.handlerMock.mock.calls[0];
+                        expect(args.length).toBe(1);
+                        expect(args[0]).toBe(testEntry.value);
+                    });
+
+                    test(`Handler result is returned (${testEntry.value})`, () => {
+                        const result = visitString(testEntry.value).with(visitor);
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+
+                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                        try {
+                            visitString(testEntry.value).with(visitor);
+                        } catch (error) {
+                            // ignore error
+                        }
+
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            expect(handlerMock.mock.calls.length).toBe(0);
+                        }
+                    });
                 }
-            });
-
-            test(`Value is passed to handler (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
-                const args = testEntry.handlerMock.mock.calls[0];
-                expect(args.length).toBe(1);
-                expect(args[0]).toBe(testEntry.value);
-            });
-
-            test(`handler result is returned (${testEntry.value})`, () => {
-                const result = visitString(testEntry.value).with(visitor);
-                expect(result).toBe(testEntry.result);
-            });
+            }
         }
     });
 
     describe("With null and undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | null | undefined;
             handlerMock: jest.Mock<string>;
             result: string;
@@ -260,41 +412,80 @@ describe("Visit String Enum", () => {
                 value: undefined,
                 handlerMock: handlerMockUndefined,
                 result: "Undefined!"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (unexpected!)"
             }
         ];
 
-        const visitor = {
-            [RGB.R]: handlerMockR,
-            [RGB.G]: handlerMockG,
-            [RGB.B]: handlerMockB,
-            handleNull: handlerMockNull,
-            handleUndefined: handlerMockUndefined
-        };
+        const visitors: StringVisitorWithNullAndUndefined<RGB, string>[] = [
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleNull: handlerMockNull,
+                handleUndefined: handlerMockUndefined
+            },
+            {
+                [RGB.R]: handlerMockR,
+                [RGB.G]: handlerMockG,
+                [RGB.B]: handlerMockB,
+                handleNull: handlerMockNull,
+                handleUndefined: handlerMockUndefined,
+                handleUnexpected: handlerMockUnexpected
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct visitor method is called (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
+        for (const visitor of visitors) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
 
-                for (const handlerMock of ALL_HANDLER_MOCKS) {
-                    if (handlerMock === testEntry.handlerMock) {
-                        expect(handlerMock.mock.calls.length).toBe(1);
-                    } else {
-                        expect(handlerMock.mock.calls.length).toBe(0);
-                    }
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            if (handlerMock === testEntry.handlerMock) {
+                                expect(handlerMock.mock.calls.length).toBe(1);
+                            } else {
+                                expect(handlerMock.mock.calls.length).toBe(0);
+                            }
+                        }
+                    });
+
+                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                        visitString(testEntry.value).with(visitor);
+                        expect(testEntry.handlerMock.mock.calls.length).toBe(1);
+                        const args = testEntry.handlerMock.mock.calls[0];
+                        expect(args.length).toBe(1);
+                        expect(args[0]).toBe(testEntry.value);
+                    });
+
+                    test(`Handler result is returned (${testEntry.value})`, () => {
+                        const result = visitString(testEntry.value).with(visitor);
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+
+                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                        try {
+                            visitString(testEntry.value).with(visitor);
+                        } catch (error) {
+                            // ignore error
+                        }
+
+                        for (const handlerMock of ALL_HANDLER_MOCKS) {
+                            expect(handlerMock.mock.calls.length).toBe(0);
+                        }
+                    });
                 }
-            });
-
-            test(`Value is passed to handler (${testEntry.value})`, () => {
-                visitString(testEntry.value).with(visitor);
-                const args = testEntry.handlerMock.mock.calls[0];
-                expect(args.length).toBe(1);
-                expect(args[0]).toBe(testEntry.value);
-            });
-
-            test(`handler result is returned (${testEntry.value})`, () => {
-                const result = visitString(testEntry.value).with(visitor);
-                expect(result).toBe(testEntry.result);
-            });
+            }
         }
     });
 });
