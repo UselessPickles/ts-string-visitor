@@ -44,8 +44,8 @@ export class StringMappee<S extends string> {
  * For values that may be null.
  * Do not use this class directly. Use the {@link mapString} function to get an instance of this class.
  *
- * NOTE: At runtime, this class is used by {@link mapString} ONLY for handling null values.
- *       {@link StringMappee} contains the core runtime implementation that is applicable to all
+ * NOTE: At run time, this class is used by {@link mapString} ONLY for handling null values.
+ *       {@link StringMappee} contains the core run time implementation that is applicable to all
  *       "StringMappee" classes.
  *
  * @template S - A string literal type or string enum type.
@@ -62,7 +62,7 @@ export class StringMappeeWithNull<S extends string> {
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithNull<S, R>): R {
-        // This class is used at runtime for mapping null values regardless of the compile time
+        // This class is used at run time for mapping null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
         if ("handleNull" in mapper) {
             return mapper.handleNull;
@@ -79,8 +79,8 @@ export class StringMappeeWithNull<S extends string> {
  * For values that may be undefined.
  * Do not use this class directly. Use the {@link mapString} function to get an instance of this class.
  *
- * NOTE: At runtime, this class is used by {@link mapString} ONLY for handling undefined values.
- *       {@link StringMappee} contains the core runtime implementation that is applicable to all
+ * NOTE: At run time, this class is used by {@link mapString} ONLY for handling undefined values.
+ *       {@link StringMappee} contains the core run time implementation that is applicable to all
  *       "StringMappee" classes.
  *
  * @template S - A string literal type or string enum type.
@@ -97,7 +97,7 @@ export class StringMappeeWithUndefined<S extends string> {
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithUndefined<S, R>): R {
-        // This class is used at runtime for mapping undefined values regardless of the compile time
+        // This class is used at run time for mapping undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
         if ("handleUndefined" in mapper) {
             return mapper.handleUndefined;
@@ -114,10 +114,10 @@ export class StringMappeeWithUndefined<S extends string> {
  * For values that may be null and undefined.
  * Do not use this class directly. Use the {@link mapString} function to get an instance of this class.
  *
- * NOTE: No runtime implementation of this class actually exists. This is only used for compile-time
- *       typing. {@link StringMappee} contains the core runtime implementation that is applicable to all
+ * NOTE: No run time implementation of this class actually exists. This is only used for compile-time
+ *       typing. {@link StringMappee} contains the core run time implementation that is applicable to all
  *       "StringMappee" classes, while {@link StringMappeeWithNull} and {@link StringMappeeWithUndefined}
- *       are used at runtime to handle null and undefined values.
+ *       are used at run time to handle null and undefined values.
  *
  * @template S - A string literal type or string enum type.
  */

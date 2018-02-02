@@ -82,7 +82,7 @@ export function mapString<S extends string>(value: S | undefined): StringMappeeW
 export function mapString<S extends string>(value: S | null | undefined): StringMappeeWithNullAndUndefined<S>;
 
 export function mapString<S extends string>(value: S | null | undefined): AnyStringMappee<S> {
-    // NOTE: The runtime type of StringMappee created does not necessarily match the compile-time
+    // NOTE: The run time type of StringMappee created does not necessarily match the compile-time
     //       type. This results in unusual StringMappee.with() implementations.
     if (value === null) {
         return new StringMappeeWithNull<S>();

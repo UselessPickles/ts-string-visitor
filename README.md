@@ -20,7 +20,7 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
     - [Visitor](#visitor-1)
     - [Mapper](#mapper-1)
 - [Handling Null/Undefined](#handling-nullundefined)
-- [Handling Unexpected Values at Runtime](#handling-unexpected-values-at-runtime)
+- [Handling Unexpected Values at Run Time](#handling-unexpected-values-at-run-time)
 - [Visitor Method Return Values](#visitor-method-return-values)
 - [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type)
 - [Visitor Method Parameters](#visitor-method-parameters)
@@ -35,7 +35,7 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 - [Known Issues](#known-issues)
     - [TypeScript < 2.4.1](#typescript--241)
     - [TypeScript < 2.6.1](#typescript--261)
-    - [TypeScript < 2.7.x (not yet released)](#typescript--27x-not-yet-released)
+    - [TypeScript < 2.7.1](#typescript--271)
 
 <!-- /TOC -->
 ## What is it?
@@ -203,8 +203,8 @@ function getRgbLabel(rgb: RGB | null): string {
 const result = getRgbLabel(null); // result === "null"
 ```
 
-## Handling Unexpected Values at Runtime
-When processing data from an external source at runtime (e.g., data from an API), there's no guarantee that it will be constrained to the expected types/values in your TypeScript code. Both `visitString` and `mapString` will detect unexpected values at runtime. The default behavior is to throw an error when an unexpected value is encountered at runtime. The encountered value is included in the error message for convenience.
+## Handling Unexpected Values at Run Time
+When processing data from an external source at run time (e.g., data from an API), there's no guarantee that it will be constrained to the expected types/values in your TypeScript code. Both `visitString` and `mapString` will detect unexpected values at run time. The default behavior is to throw an error when an unexpected value is encountered at run time. The encountered value is included in the error message for convenience.
 
 If you would like to override the default behavior, then you may provide the optional `handleUnexpected` property in your visitor or mapper implementation.
 
@@ -233,7 +233,7 @@ function getRgbLabel(rgb: RGB): string {
     });
 }
 
-// Type casting to force an unexpected value at runtime
+// Type casting to force an unexpected value at run time
 const result = getRgbLabel("blah" as any as RGB); // result === "Unexpected"
 ```
 
@@ -250,7 +250,7 @@ function getRgbLabel(rgb: RGB): string {
     });
 }
 
-// Type casting to force an unexpected value at runtime
+// Type casting to force an unexpected value at run time
 const result = getRgbLabel("blah" as any as RGB); // result === "Unexpected!"
 ```
 
@@ -496,10 +496,8 @@ function getRgbLabel(rgb: RGB): string {
 }
 ```
 
-### TypeScript < 2.7.x (not yet released)
+### TypeScript < 2.7.1
 Cannot infer the type of the visitor method parameter if you use the enum value as the property name.
-
-I reported this issue on the [github TypeScript repo](https://github.com/Microsoft/TypeScript/issues/20856) and was promptly informed that the issue is already fixed in development for the "next" version of TypeScript (currently named v2.7.0-dev).
 
 There are two work-arounds to this:
 1. Explicity declare the type of the parameter.

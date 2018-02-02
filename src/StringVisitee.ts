@@ -46,8 +46,8 @@ export class StringVisitee<S extends string> {
  * For values that may be null.
  * Do not use this class directly. Use the {@link visitString} function to get an instance of this class.
  *
- * NOTE: At runtime, this class is used by {@link visitString} ONLY for handling null values.
- *       {@link StringVisitee} contains the core runtime implementation that is applicable to all
+ * NOTE: At run time, this class is used by {@link visitString} ONLY for handling null values.
+ *       {@link StringVisitee} contains the core run time implementation that is applicable to all
  *       "StringVisitee" classes.
  *
  * @template S - A string literal type or string enum type.
@@ -64,7 +64,7 @@ export class StringVisiteeWithNull<S extends string> {
      * @returns The return value of the visitor method that is called.
      */
     public with<R>(visitor: StringVisitorWithNull<S, R>): R {
-        // This class is used at runtime for visiting null values regardless of the compile time
+        // This class is used at run time for visiting null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
         if (visitor.handleNull) {
             return visitor.handleNull(null);
@@ -81,8 +81,8 @@ export class StringVisiteeWithNull<S extends string> {
  * For values that may be undefined.
  * Do not use this class directly. Use the {@link visitString} function to get an instance of this class.
  *
- * NOTE: At runtime, this class is used by {@link visitString} ONLY for handling undefined values.
- *       {@link StringVisitee} contains the core runtime implementation that is applicable to all
+ * NOTE: At run time, this class is used by {@link visitString} ONLY for handling undefined values.
+ *       {@link StringVisitee} contains the core run time implementation that is applicable to all
  *       "StringVisitee" classes.
  *
  * @template S - A string literal type or string enum type.
@@ -99,7 +99,7 @@ export class StringVisiteeWithUndefined<S extends string> {
      * @returns The return value of the visitor method that is called.
      */
     public with<R>(visitor: StringVisitorWithUndefined<S, R>): R {
-        // This class is used at runtime for visiting undefined values regardless of the compile time
+        // This class is used at run time for visiting undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
         if (visitor.handleUndefined) {
             return visitor.handleUndefined(undefined);
@@ -116,10 +116,10 @@ export class StringVisiteeWithUndefined<S extends string> {
  * For values that may be null and undefined.
  * Do not use this class directly. Use the {@link visitString} function to get an instance of this class.
  *
- * NOTE: No runtime implementation of this class actually exists. This is only used for compile-time
- *       typing. {@link StringVisitee} contains the core runtime implementation that is applicable to all
+ * NOTE: No run time implementation of this class actually exists. This is only used for compile-time
+ *       typing. {@link StringVisitee} contains the core run time implementation that is applicable to all
  *       "StringVisitee" classes, while {@link StringVisiteeWithNull} and {@link StringVisiteeWithUndefined}
- *       are used at runtime to handle null and undefined values.
+ *       are used at run time to handle null and undefined values.
  *
  * @template S - A string literal type or string enum type.
  */
