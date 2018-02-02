@@ -35,7 +35,7 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 - [Known Issues](#known-issues)
     - [TypeScript < 2.4.1](#typescript--241)
     - [TypeScript < 2.6.1](#typescript--261)
-    - [TypeScript < 2.7.x (not yet released)](#typescript--27x-not-yet-released)
+    - [TypeScript < 2.7.1](#typescript--271)
 
 <!-- /TOC -->
 ## What is it?
@@ -496,10 +496,8 @@ function getRgbLabel(rgb: RGB): string {
 }
 ```
 
-### TypeScript < 2.7.x (not yet released)
+### TypeScript < 2.7.1
 Cannot infer the type of the visitor method parameter if you use the enum value as the property name.
-
-I reported this issue on the [github TypeScript repo](https://github.com/Microsoft/TypeScript/issues/20856) and was promptly informed that the issue is already fixed in development for the "next" version of TypeScript (currently named v2.7.0-dev).
 
 There are two work-arounds to this:
 1. Explicity declare the type of the parameter.
