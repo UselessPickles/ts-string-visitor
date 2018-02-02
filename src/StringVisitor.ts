@@ -8,12 +8,13 @@
 export type StringVisitorHandler<S extends string | null | undefined, R = void> = (value: S) => R;
 
 /**
- * A visitor interface for visiting the value of a string literal type or a string enum type.
+ * Core definition of all string visitor interfaces.
+ * Defines visitor handler properties for each possible value of type `S`.
  *
  * @template S - A string literal type or string enum type.
  * @template R - The return type of the visitor methods.
  */
-export type StringVisitor<S extends string, R> = {
+export type StringVisitorCore<S extends string, R> = {
     [P in S]: StringVisitorHandler<P, R>;
 };
 
@@ -38,6 +39,18 @@ export interface UndefinedStringVisitor<R> {
 }
 
 /**
+ * A visitor interface for visiting the value of a string literal type or a string enum type.
+ *
+ * @template S - A string literal type or string enum type.
+ * @template R - The return type of the visitor methods.
+ */
+export type StringVisitor<S extends string, R> =
+    & StringVisitorCore<S, R>
+    & {
+        handleUnexpected?: StringVisitorHandler<string | null | undefined, R>
+    };
+
+/**
  * Combines {@link StringVisitor} with {@link NullStringVisitor} for visiting a string literal/enum
  * that may be null.
  *
@@ -45,8 +58,11 @@ export interface UndefinedStringVisitor<R> {
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitorWithNull<S extends string, R> =
-    & StringVisitor<S, R>
-    & NullStringVisitor<R>;
+    & StringVisitorCore<S, R>
+    & NullStringVisitor<R>
+    & {
+        handleUnexpected?: StringVisitorHandler<string | undefined, R>
+    };
 
 /**
  * Combines {@link StringVisitor} with {@link UndefinedStringVisitor} for visiting a string literal/enum
@@ -56,8 +72,11 @@ export type StringVisitorWithNull<S extends string, R> =
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitorWithUndefined<S extends string, R> =
-    & StringVisitor<S, R>
-    & UndefinedStringVisitor<R>;
+    & StringVisitorCore<S, R>
+    & UndefinedStringVisitor<R>
+    & {
+        handleUnexpected?: StringVisitorHandler<string | null, R>
+    };
 
 /**
  * Combines {@link StringVisitor} with {@link NullStringVisitor} and {@link UndefinedStringVisitor}
@@ -67,6 +86,9 @@ export type StringVisitorWithUndefined<S extends string, R> =
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitorWithNullAndUndefined<S extends string, R> =
-    & StringVisitor<S, R>
+    & StringVisitorCore<S, R>
     & NullStringVisitor<R>
-    & UndefinedStringVisitor<R>;
+    & UndefinedStringVisitor<R>
+    & {
+        handleUnexpected?: StringVisitorHandler<string, R>
+    };

@@ -20,6 +20,7 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
     - [Visitor](#visitor-1)
     - [Mapper](#mapper-1)
 - [Handling Null/Undefined](#handling-nullundefined)
+- [Handling Unexpected Values at Runtime](#handling-unexpected-values-at-runtime)
 - [Visitor Method Return Values](#visitor-method-return-values)
 - [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type)
 - [Visitor Method Parameters](#visitor-method-parameters)
@@ -200,6 +201,57 @@ function getRgbLabel(rgb: RGB | null): string {
 }
 
 const result = getRgbLabel(null); // result === "null"
+```
+
+## Handling Unexpected Values at Runtime
+When processing data from an external source at runtime (e.g., data from an API), there's no guarantee that it will be constrained to the expected types/values in your TypeScript code. Both `visitString` and `mapString` will detect unexpected values at runtime. The default behavior is to throw an error when an unexpected value is encountered at runtime. The encountered value is included in the error message for convenience.
+
+If you would like to override the default behavior, then you may provide the optional `handleUnexpected` property in your visitor or mapper implementation.
+
+The parameter of the `handleUnexpected` method in a visitor is of type `string`, possibly unioned with type `null` and/or `undefined`, depending on whether `null`/`undefined` are unexpected values for the particular usage of `visitString`.
+
+See also: [Visitor Method Parameters](#visitor-method-parameters) and [Handling Null/Undefined](#handling-nullundefined).
+
+Example (Visitor):
+```ts
+type RGB = "r" | "g" | "b";
+
+function getRgbLabel(rgb: RGB): string {
+    return visitString(rgb).with({
+        "r": () => {
+            return "Red";
+        },
+        "g": () => {
+            return "Green";
+        },
+        "b": () => {
+            return "Blue";
+        },
+        handleUnexpected: () => {
+            return "Unexpected!";
+        }
+    });
+}
+
+// Type casting to force an unexpected value at runtime
+const result = getRgbLabel("blah" as any as RGB); // result === "Unexpected"
+```
+
+Example (Mapper):
+```ts
+type RGB = "r" | "g" | "b";
+
+function getRgbLabel(rgb: RGB): string {
+    return mapString(rgb).with({
+        "r": "Red",
+        "g": "Green",
+        "b": "Blue",
+        handleUnexpected: "Unexpected!"
+    });
+}
+
+// Type casting to force an unexpected value at runtime
+const result = getRgbLabel("blah" as any as RGB); // result === "Unexpected!"
 ```
 
 ## Visitor Method Return Values

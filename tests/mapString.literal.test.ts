@@ -1,10 +1,17 @@
-import { mapString } from "../src";
+import {
+    mapString,
+    StringMapper,
+    StringMapperWithNull,
+    StringMapperWithUndefined,
+    StringMapperWithNullAndUndefined
+} from "../src";
 
 describe("Map String Literal", () => {
     type RGB = "r" | "g" | "b";
 
     describe("Without null/undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB;
             result: string;
         }
@@ -21,26 +28,60 @@ describe("Map String Literal", () => {
             {
                 value: "b",
                 result: "Blue!"
+            },
+            {
+                isUnexpected: true,
+                value: null as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                value: undefined as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
-        const mapper = {
-            r: "Red!",
-            g: "Green!",
-            b: "Blue!"
-        };
+        const mappers: StringMapper<RGB, string>[] = [
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!"
+            },
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleUnexpected: "Unexpected!"
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct value is returned (${testEntry.value})`, () => {
-                const result = mapString(testEntry.value).with(mapper);
+        for (const mapper of mappers) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct value is returned (${testEntry.value})`, () => {
+                        const result = mapString(testEntry.value).with(mapper);
 
-                expect(result).toBe(testEntry.result);
-            });
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+                }
+            }
         }
     });
 
     describe("With null", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | null;
             result: string;
         }
@@ -61,27 +102,57 @@ describe("Map String Literal", () => {
             {
                 value: null,
                 result: "Null!"
+            },
+            {
+                isUnexpected: true,
+                value: undefined as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
-        const mapper = {
-            r: "Red!",
-            g: "Green!",
-            b: "Blue!",
-            handleNull: "Null!"
-        };
+        const mappers: StringMapperWithNull<RGB, string>[] = [
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleNull: "Null!"
+            },
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleNull: "Null!",
+                handleUnexpected: "Unexpected!"
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct value is returned (${testEntry.value})`, () => {
-                const result = mapString(testEntry.value).with(mapper);
+        for (const mapper of mappers) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct value is returned (${testEntry.value})`, () => {
+                        const result = mapString(testEntry.value).with(mapper);
 
-                expect(result).toBe(testEntry.result);
-            });
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+                }
+            }
         }
     });
 
     describe("With undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | undefined;
             result: string;
         }
@@ -102,27 +173,57 @@ describe("Map String Literal", () => {
             {
                 value: undefined,
                 result: "Undefined!"
+            },
+            {
+                isUnexpected: true,
+                value: null as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
-        const mapper = {
-            r: "Red!",
-            g: "Green!",
-            b: "Blue!",
-            handleUndefined: "Undefined!"
-        };
+        const mappers: StringMapperWithUndefined<RGB, string>[] = [
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleUndefined: "Undefined!"
+            },
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleUndefined: "Undefined!",
+                handleUnexpected: "Unexpected!"
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct value is returned (${testEntry.value})`, () => {
-                const result = mapString(testEntry.value).with(mapper);
+        for (const mapper of mappers) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct value is returned (${testEntry.value})`, () => {
+                        const result = mapString(testEntry.value).with(mapper);
 
-                expect(result).toBe(testEntry.result);
-            });
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+                }
+            }
         }
     });
 
     describe("With null and undefined", () => {
         interface TestEntry {
+            isUnexpected?: boolean;
             value: RGB | null | undefined;
             result: string;
         }
@@ -147,23 +248,48 @@ describe("Map String Literal", () => {
             {
                 value: undefined,
                 result: "Undefined!"
+            },
+            {
+                isUnexpected: true,
+                value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
-        const mapper = {
-            r: "Red!",
-            g: "Green!",
-            b: "Blue!",
-            handleNull: "Null!",
-            handleUndefined: "Undefined!"
-        };
+        const mappers: StringMapperWithNullAndUndefined<RGB, string>[] = [
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleNull: "Null!",
+                handleUndefined: "Undefined!"
+            },
+            {
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
+                handleNull: "Null!",
+                handleUndefined: "Undefined!",
+                handleUnexpected: "Unexpected!"
+            }
+        ];
 
-        for (const testEntry of TEST_ENTRIES) {
-            test(`Correct value is returned (${testEntry.value})`, () => {
-                const result = mapString(testEntry.value).with(mapper);
+        for (const mapper of mappers) {
+            for (const testEntry of TEST_ENTRIES) {
+                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                    test(`Correct value is returned (${testEntry.value})`, () => {
+                        const result = mapString(testEntry.value).with(mapper);
 
-                expect(result).toBe(testEntry.result);
-            });
+                        expect(result).toBe(testEntry.result);
+                    });
+                } else {
+                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
+                    });
+                }
+            }
         }
     });
 });

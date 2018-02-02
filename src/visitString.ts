@@ -82,6 +82,13 @@ export function visitString<S extends string>(value: S | undefined): StringVisit
 export function visitString<S extends string>(value: S | null | undefined): StringVisiteeWithNullAndUndefined<S>;
 
 export function visitString<S extends string>(value: S | null | undefined): AnyStringVisitee<S> {
-    // NOTE: StringVisiteeWithNullAndUndefined provides a valid run-time implementation for ALL "StringVisitee" classes.
-    return new StringVisiteeWithNullAndUndefined<S>(value);
+    // NOTE: The runtime type of StringVisitee created does not necessarily match the compile-time
+    //       type. This results in unusual StringVisitee.with() implementations.
+    if (value === null) {
+        return new StringVisiteeWithNull<S>();
+    } else if (value === undefined) {
+        return new StringVisiteeWithUndefined<S>();
+    } else {
+        return new StringVisitee<S>(value);
+    }
 }
