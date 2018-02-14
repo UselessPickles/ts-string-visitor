@@ -29,9 +29,8 @@ export class StringVisitee<S extends string> {
      * @returns The return value of the visitor method that is called.
      */
     public with<R>(visitor: StringVisitor<S, R>): R {
-        const handler = (visitor as StringVisitorCore<S, R>)[this.value];
-
-        if (handler) {
+        if (visitor.hasOwnProperty(this.value)) {
+            const handler = (visitor as StringVisitorCore<S, R>)[this.value];
             return handler(this.value);
         } else if (visitor.handleUnexpected) {
             return visitor.handleUnexpected(this.value);

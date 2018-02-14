@@ -29,9 +29,9 @@ export class StringMappee<S extends string> {
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapper<S, R>): R {
-        if (this.value in mapper) {
+        if (mapper.hasOwnProperty(this.value)) {
             return (mapper as StringMapperCore<S, R>)[this.value];
-        } else if ("handleUnexpected" in mapper) {
+        } else if (mapper.hasOwnProperty("handleUnexpected")) {
             return mapper.handleUnexpected!;
         } else {
             throw new Error(`Unexpected value: ${this.value}`);
@@ -64,9 +64,9 @@ export class StringMappeeWithNull<S extends string> {
     public with<R>(mapper: StringMapperWithNull<S, R>): R {
         // This class is used at run time for mapping null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
-        if ("handleNull" in mapper) {
+        if (mapper.hasOwnProperty("handleNull")) {
             return mapper.handleNull;
-        } else if ("handleUnexpected" in mapper) {
+        } else if (mapper.hasOwnProperty("handleUnexpected")) {
             return mapper.handleUnexpected!;
         } else {
             throw new Error(`Unexpected value: null`);
@@ -99,9 +99,9 @@ export class StringMappeeWithUndefined<S extends string> {
     public with<R>(mapper: StringMapperWithUndefined<S, R>): R {
         // This class is used at run time for mapping undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
-        if ("handleUndefined" in mapper) {
+        if (mapper.hasOwnProperty("handleUndefined")) {
             return mapper.handleUndefined;
-        } else if ("handleUnexpected" in mapper) {
+        } else if (mapper.hasOwnProperty("handleUnexpected")) {
             return mapper.handleUnexpected!;
         } else {
             throw new Error(`Unexpected value: undefined`);

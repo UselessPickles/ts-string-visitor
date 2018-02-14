@@ -90,6 +90,13 @@ describe("Visit String Literal", () => {
                 value: "unexpected!" as any as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (toString)"
             }
         ];
 
@@ -197,6 +204,13 @@ describe("Visit String Literal", () => {
                 value: "unexpected!" as any as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (toString)"
             }
         ];
 
@@ -306,6 +320,13 @@ describe("Visit String Literal", () => {
                 value: "unexpected!" as any as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (toString)"
             }
         ];
 
@@ -414,6 +435,13 @@ describe("Visit String Literal", () => {
                 value: "unexpected!" as any as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                handlerMock: handlerMockUnexpected,
+                result: "Unexpected! (toString)"
             }
         ];
 

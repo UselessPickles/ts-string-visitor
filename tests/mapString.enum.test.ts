@@ -47,6 +47,12 @@ describe("Map String Enum", () => {
                 isUnexpected: true,
                 value: "unexpected!" as any as RGB,
                 result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
@@ -115,6 +121,12 @@ describe("Map String Enum", () => {
             {
                 isUnexpected: true,
                 value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
                 result: "Unexpected!"
             }
         ];
@@ -187,6 +199,12 @@ describe("Map String Enum", () => {
                 isUnexpected: true,
                 value: "unexpected!" as any as RGB,
                 result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
+                result: "Unexpected!"
             }
         ];
 
@@ -256,6 +274,12 @@ describe("Map String Enum", () => {
             {
                 isUnexpected: true,
                 value: "unexpected!" as any as RGB,
+                result: "Unexpected!"
+            },
+            {
+                isUnexpected: true,
+                // matches a standard property name on Object.prototype
+                value: "toString" as any as RGB,
                 result: "Unexpected!"
             }
         ];
