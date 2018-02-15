@@ -1,8 +1,5 @@
 {
     "extends": "tslint:recommended",
-    "rulesDirectory": [
-        "node_modules/tslint-strict-null-checks/rules"
-    ],
     "rules": {
         "max-line-length": {
             "options": [120],
@@ -47,7 +44,6 @@
         "object-literal-key-quotes": false,
         "max-classes-per-file": [false],
         "triple-equals": [true, "allow-null-check"],
-        "no-uninitialized": [true, "variables", "properties"],
         "no-empty-interface": false,
         "no-string-literal": false,
         "jsdoc-format": true,
