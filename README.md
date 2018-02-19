@@ -10,6 +10,7 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 <!-- TOC depthFrom:2 -->
 
 - [What is it?](#what-is-it)
+- [Other TypeScript Enum Projects](#other-typescript-enum-projects)
 - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Usage Example](#usage-example)
@@ -42,6 +43,9 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 `ts-string-visitor` implements a visitor pattern for TypeScript string enum types, and TypeScript string literal union types. This helps you avoid bugs caused by forgetting to handle a possible value, and helps you quickly find code that needs to be updated after refactoring a string enum or string literal union type. If your code uses `ts-string-visitor` and does not handle all possible values, the code will fail to compile. The compiler error messages will point you in the right direction to fix your code.
 
 In addition to the very flexible visitor pattern, a much simpler "mapper" is also available for when you just need to directly map string literal or string enum values to some other value without any logic. All the same compiler checks apply to guarantee that you handle all possibilities.
+
+## Other TypeScript Enum Projects
+- `ts-enum-util` [[github](https://github.com/UselessPickles/ts-enum-util), [npm](https://www.npmjs.com/package/ts-enum-util)] - Strictly typed utilities for working with TypeScript enums.
 
 ## Quick Start
 ### Installation
