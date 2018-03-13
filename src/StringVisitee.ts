@@ -17,7 +17,7 @@ export class StringVisitee<S extends string> {
      * Do not use this constructor directly. Use the {@link visitString} function to get an instance of this class.
      * @param value - The value to be wrapped by this "visitee".
      */
-    public constructor(private readonly value: S) { }
+    public constructor(private readonly value: S) {}
 
     /**
      * Visits the wrapped value using the supplied visitor.
@@ -68,7 +68,7 @@ export class StringVisiteeWithNull<S extends string> {
         if (visitor.handleNull) {
             return visitor.handleNull(null);
         } else if (visitor.handleUnexpected) {
-            return visitor.handleUnexpected(null as any as S);
+            return visitor.handleUnexpected((null as any) as S);
         } else {
             throw new Error(`Unexpected value: null`);
         }
@@ -103,7 +103,7 @@ export class StringVisiteeWithUndefined<S extends string> {
         if (visitor.handleUndefined) {
             return visitor.handleUndefined(undefined);
         } else if (visitor.handleUnexpected) {
-            return visitor.handleUnexpected(undefined as any as S);
+            return visitor.handleUnexpected((undefined as any) as S);
         } else {
             throw new Error(`Unexpected value: undefined`);
         }

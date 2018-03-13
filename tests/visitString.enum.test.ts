@@ -33,9 +33,11 @@ describe("Visit String Enum", () => {
         return "Undefined!";
     });
 
-    const handlerMockUnexpected = jest.fn((value: string | null | undefined) => {
-        return `Unexpected! (${value})`;
-    });
+    const handlerMockUnexpected = jest.fn(
+        (value: string | null | undefined) => {
+            return `Unexpected! (${value})`;
+        }
+    );
 
     const ALL_HANDLER_MOCKS = [
         handlerMockR,
@@ -79,26 +81,26 @@ describe("Visit String Enum", () => {
             },
             {
                 isUnexpected: true,
-                value: null as any as RGB,
+                value: (null as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (null)"
             },
             {
                 isUnexpected: true,
-                value: undefined as any as RGB,
+                value: (undefined as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (undefined)"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (toString)"
             }
@@ -121,7 +123,9 @@ describe("Visit String Enum", () => {
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
                 if (visitor.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                    test(`Correct visitor method is called (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
 
                         for (const handlerMock of ALL_HANDLER_MOCKS) {
@@ -133,7 +137,9 @@ describe("Visit String Enum", () => {
                         }
                     });
 
-                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                    test(`Value is passed to handler (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
                         expect(testEntry.handlerMock.mock.calls.length).toBe(1);
                         const args = testEntry.handlerMock.mock.calls[0];
@@ -141,18 +147,26 @@ describe("Visit String Enum", () => {
                         expect(args[0]).toBe(testEntry.value);
                     });
 
-                    test(`Handler result is returned (${testEntry.value})`, () => {
-                        const result = visitString(testEntry.value).with(visitor);
+                    test(`Handler result is returned (${
+                        testEntry.value
+                    })`, () => {
+                        const result = visitString(testEntry.value).with(
+                            visitor
+                        );
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             visitString(testEntry.value).with(visitor);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
                     });
 
-                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                    test(`No visitor method is called for unhandled unexpected value(${
+                        testEntry.value
+                    })`, () => {
                         try {
                             visitString(testEntry.value).with(visitor);
                         } catch (error) {
@@ -199,20 +213,20 @@ describe("Visit String Enum", () => {
             },
             {
                 isUnexpected: true,
-                value: undefined as any as RGB,
+                value: (undefined as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (undefined)"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (toString)"
             }
@@ -237,7 +251,9 @@ describe("Visit String Enum", () => {
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
                 if (visitor.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                    test(`Correct visitor method is called (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
 
                         for (const handlerMock of ALL_HANDLER_MOCKS) {
@@ -249,7 +265,9 @@ describe("Visit String Enum", () => {
                         }
                     });
 
-                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                    test(`Value is passed to handler (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
                         expect(testEntry.handlerMock.mock.calls.length).toBe(1);
                         const args = testEntry.handlerMock.mock.calls[0];
@@ -257,18 +275,26 @@ describe("Visit String Enum", () => {
                         expect(args[0]).toBe(testEntry.value);
                     });
 
-                    test(`Handler result is returned (${testEntry.value})`, () => {
-                        const result = visitString(testEntry.value).with(visitor);
+                    test(`Handler result is returned (${
+                        testEntry.value
+                    })`, () => {
+                        const result = visitString(testEntry.value).with(
+                            visitor
+                        );
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             visitString(testEntry.value).with(visitor);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
                     });
 
-                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                    test(`No visitor method is called for unhandled unexpected value(${
+                        testEntry.value
+                    })`, () => {
                         try {
                             visitString(testEntry.value).with(visitor);
                         } catch (error) {
@@ -315,20 +341,20 @@ describe("Visit String Enum", () => {
             },
             {
                 isUnexpected: true,
-                value: null as any as RGB,
+                value: (null as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (null)"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (toString)"
             }
@@ -353,7 +379,9 @@ describe("Visit String Enum", () => {
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
                 if (visitor.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                    test(`Correct visitor method is called (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
 
                         for (const handlerMock of ALL_HANDLER_MOCKS) {
@@ -365,7 +393,9 @@ describe("Visit String Enum", () => {
                         }
                     });
 
-                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                    test(`Value is passed to handler (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
                         expect(testEntry.handlerMock.mock.calls.length).toBe(1);
                         const args = testEntry.handlerMock.mock.calls[0];
@@ -373,18 +403,26 @@ describe("Visit String Enum", () => {
                         expect(args[0]).toBe(testEntry.value);
                     });
 
-                    test(`Handler result is returned (${testEntry.value})`, () => {
-                        const result = visitString(testEntry.value).with(visitor);
+                    test(`Handler result is returned (${
+                        testEntry.value
+                    })`, () => {
+                        const result = visitString(testEntry.value).with(
+                            visitor
+                        );
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             visitString(testEntry.value).with(visitor);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
                     });
 
-                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                    test(`No visitor method is called for unhandled unexpected value(${
+                        testEntry.value
+                    })`, () => {
                         try {
                             visitString(testEntry.value).with(visitor);
                         } catch (error) {
@@ -436,14 +474,14 @@ describe("Visit String Enum", () => {
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (unexpected!)"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 handlerMock: handlerMockUnexpected,
                 result: "Unexpected! (toString)"
             }
@@ -470,7 +508,9 @@ describe("Visit String Enum", () => {
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
                 if (visitor.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct visitor method is called (${testEntry.value})`, () => {
+                    test(`Correct visitor method is called (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
 
                         for (const handlerMock of ALL_HANDLER_MOCKS) {
@@ -482,7 +522,9 @@ describe("Visit String Enum", () => {
                         }
                     });
 
-                    test(`Value is passed to handler (${testEntry.value})`, () => {
+                    test(`Value is passed to handler (${
+                        testEntry.value
+                    })`, () => {
                         visitString(testEntry.value).with(visitor);
                         expect(testEntry.handlerMock.mock.calls.length).toBe(1);
                         const args = testEntry.handlerMock.mock.calls[0];
@@ -490,18 +532,26 @@ describe("Visit String Enum", () => {
                         expect(args[0]).toBe(testEntry.value);
                     });
 
-                    test(`Handler result is returned (${testEntry.value})`, () => {
-                        const result = visitString(testEntry.value).with(visitor);
+                    test(`Handler result is returned (${
+                        testEntry.value
+                    })`, () => {
+                        const result = visitString(testEntry.value).with(
+                            visitor
+                        );
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             visitString(testEntry.value).with(visitor);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
                     });
 
-                    test(`No visitor method is called for unhandled unexpected value(${testEntry.value})`, () => {
+                    test(`No visitor method is called for unhandled unexpected value(${
+                        testEntry.value
+                    })`, () => {
                         try {
                             visitString(testEntry.value).with(visitor);
                         } catch (error) {

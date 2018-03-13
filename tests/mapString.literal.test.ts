@@ -31,23 +31,23 @@ describe("Map String Literal", () => {
             },
             {
                 isUnexpected: true,
-                value: null as any as RGB,
+                value: (null as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
-                value: undefined as any as RGB,
+                value: (undefined as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 result: "Unexpected!"
             }
         ];
@@ -69,13 +69,17 @@ describe("Map String Literal", () => {
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
                 if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${testEntry.value})`, () => {
+                    test(`Correct value is returned (${
+                        testEntry.value
+                    })`, () => {
                         const result = mapString(testEntry.value).with(mapper);
 
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             mapString(testEntry.value).with(mapper);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
@@ -111,18 +115,18 @@ describe("Map String Literal", () => {
             },
             {
                 isUnexpected: true,
-                value: undefined as any as RGB,
+                value: (undefined as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 result: "Unexpected!"
             }
         ];
@@ -146,13 +150,17 @@ describe("Map String Literal", () => {
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
                 if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${testEntry.value})`, () => {
+                    test(`Correct value is returned (${
+                        testEntry.value
+                    })`, () => {
                         const result = mapString(testEntry.value).with(mapper);
 
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             mapString(testEntry.value).with(mapper);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
@@ -188,18 +196,18 @@ describe("Map String Literal", () => {
             },
             {
                 isUnexpected: true,
-                value: null as any as RGB,
+                value: (null as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 result: "Unexpected!"
             }
         ];
@@ -223,13 +231,17 @@ describe("Map String Literal", () => {
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
                 if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${testEntry.value})`, () => {
+                    test(`Correct value is returned (${
+                        testEntry.value
+                    })`, () => {
                         const result = mapString(testEntry.value).with(mapper);
 
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             mapString(testEntry.value).with(mapper);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);
@@ -269,13 +281,13 @@ describe("Map String Literal", () => {
             },
             {
                 isUnexpected: true,
-                value: "unexpected!" as any as RGB,
+                value: ("unexpected!" as any) as RGB,
                 result: "Unexpected!"
             },
             {
                 isUnexpected: true,
                 // matches a standard property name on Object.prototype
-                value: "toString" as any as RGB,
+                value: ("toString" as any) as RGB,
                 result: "Unexpected!"
             }
         ];
@@ -301,13 +313,17 @@ describe("Map String Literal", () => {
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
                 if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${testEntry.value})`, () => {
+                    test(`Correct value is returned (${
+                        testEntry.value
+                    })`, () => {
                         const result = mapString(testEntry.value).with(mapper);
 
                         expect(result).toBe(testEntry.result);
                     });
                 } else {
-                    test(`Unhandled unexpected value throws error (${testEntry.value})`, () => {
+                    test(`Unhandled unexpected value throws error (${
+                        testEntry.value
+                    })`, () => {
                         expect(() => {
                             mapString(testEntry.value).with(mapper);
                         }).toThrowError(`Unexpected value: ${testEntry.value}`);

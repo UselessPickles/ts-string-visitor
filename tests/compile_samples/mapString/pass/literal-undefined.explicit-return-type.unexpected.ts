@@ -3,9 +3,9 @@ import { mapString } from "../../../../src";
 type RGB = "r" | "g" | "b";
 
 const result = mapString("r" as RGB | undefined).with<number>({
-    "r": 1,
-    "g": 2,
-    "b": 3,
+    r: 1,
+    g: 2,
+    b: 3,
     handleUndefined: 0,
     handleUnexpected: -1
 });

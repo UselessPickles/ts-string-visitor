@@ -7,15 +7,15 @@ enum RGB {
 }
 
 visitString("r" as RGB).with({
-    "r": (value) => {
+    r: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: RGB.R = value;
     },
-    "g": (value) => {
+    g: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: RGB.G = value;
     },
-    "b": (value) => {
+    b: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: RGB.B = value;
     }

@@ -7,7 +7,7 @@ enum RGB {
 }
 
 mapString("r" as RGB).with({
-    "r": 1,
-    "g": 2,
-    "b": 3
+    r: 1,
+    g: 2,
+    b: 3
 });
