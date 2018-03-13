@@ -50,7 +50,7 @@ export function testCompilation(
     }/`;
     const fileNameRegExp = new RegExp(`^${visitorType}(\\..+)?\\.ts$`);
 
-    const fileNames = fs.readdirSync(dir).filter(fileName => {
+    const fileNames = fs.readdirSync(dir).filter((fileName) => {
         return fileNameRegExp.test(fileName);
     });
 
@@ -72,7 +72,7 @@ export function testCompilation(
                 // basic info from the diagnostics to help investigation of the problem.
                 if (shouldCompile && !compiled) {
                     console.warn(
-                        diagnostics.map(diagnostic => diagnostic.messageText)
+                        diagnostics.map((diagnostic) => diagnostic.messageText)
                     );
                 }
 
