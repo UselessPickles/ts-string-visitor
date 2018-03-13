@@ -17,7 +17,7 @@ export class StringMappee<S extends string> {
      * Do not use this constructor directly. Use the {@link mapString} function to get an instance of this class.
      * @param value - The value to be wrapped by this "mappee".
      */
-    public constructor(private readonly value: S) { }
+    public constructor(private readonly value: S) {}
 
     /**
      * Maps the wrapped value using the supplied mapper.

@@ -6,9 +6,7 @@ import * as fs from "fs";
  */
 const COMPILER_OPTIONS: ts.CompilerOptions = {
     module: ts.ModuleKind.CommonJS,
-    lib: [
-        "lib.es5.d.ts"
-    ],
+    lib: ["lib.es5.d.ts"],
     strict: true,
     alwaysStrict: true,
     noImplicitAny: true,
@@ -47,10 +45,12 @@ export function testCompilation(
     visitorType: testCompilation.VisitorType,
     shouldCompile: boolean
 ): void {
-    const dir = `tests/compile_samples/${visitorMethod}/${shouldCompile ? "pass" : "fail"}/`;
+    const dir = `tests/compile_samples/${visitorMethod}/${
+        shouldCompile ? "pass" : "fail"
+    }/`;
     const fileNameRegExp = new RegExp(`^${visitorType}(\\..+)?\\.ts$`);
 
-    const fileNames = fs.readdirSync(dir).filter((fileName) => {
+    const fileNames = fs.readdirSync(dir).filter(fileName => {
         return fileNameRegExp.test(fileName);
     });
 
@@ -60,20 +60,20 @@ export function testCompilation(
         for (const fileName of fileNames) {
             test(fileName, () => {
                 const program = ts.createProgram(
-                    [
-                        `${dir}${fileName}`
-                    ],
+                    [`${dir}${fileName}`],
                     COMPILER_OPTIONS,
                     host
                 );
 
                 const diagnostics = ts.getPreEmitDiagnostics(program);
-                const compiled = (diagnostics.length === 0);
+                const compiled = diagnostics.length === 0;
 
                 // If it should compile, but there were diagnostics reported, then log some
                 // basic info from the diagnostics to help investigation of the problem.
                 if (shouldCompile && !compiled) {
-                    console.warn(diagnostics.map((diagnostic) => diagnostic.messageText));
+                    console.warn(
+                        diagnostics.map(diagnostic => diagnostic.messageText)
+                    );
                 }
 
                 expect(compiled).toBe(shouldCompile);

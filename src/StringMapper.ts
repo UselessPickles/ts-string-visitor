@@ -5,9 +5,7 @@
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapperCore<S extends string, T> = {
-    [P in S]: T;
-};
+export type StringMapperCore<S extends string, T> = { [P in S]: T };
 
 /**
  * Interface for an object that optionally maps an unexpected value to a value of type T.
@@ -45,9 +43,8 @@ export interface UndefinedStringMapper<T> {
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapper<S extends string, T> =
-    & StringMapperCore<S, T>
-    & UnexpectedStringMapper<T>;
+export type StringMapper<S extends string, T> = StringMapperCore<S, T> &
+    UnexpectedStringMapper<T>;
 
 /**
  * Combines {@link StringMapper} with {@link NullStringMapper} for mapping a string literal/enum
@@ -56,10 +53,9 @@ export type StringMapper<S extends string, T> =
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapperWithNull<S extends string, T> =
-    & StringMapper<S, T>
-    & NullStringMapper<T>
-    & UnexpectedStringMapper<T>;
+export type StringMapperWithNull<S extends string, T> = StringMapper<S, T> &
+    NullStringMapper<T> &
+    UnexpectedStringMapper<T>;
 
 /**
  * Combines {@link StringMapper} with {@link UndefinedStringMapper} for mapping a string literal/enum
@@ -68,10 +64,12 @@ export type StringMapperWithNull<S extends string, T> =
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapperWithUndefined<S extends string, T> =
-    & StringMapper<S, T>
-    & UndefinedStringMapper<T>
-    & UnexpectedStringMapper<T>;
+export type StringMapperWithUndefined<S extends string, T> = StringMapper<
+    S,
+    T
+> &
+    UndefinedStringMapper<T> &
+    UnexpectedStringMapper<T>;
 
 /**
  * Combines {@link StringMapper} with {@link NullStringMapper} and {@link UndefinedStringMapper}
@@ -80,8 +78,10 @@ export type StringMapperWithUndefined<S extends string, T> =
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapperWithNullAndUndefined<S extends string, T> =
-    & StringMapper<S, T>
-    & NullStringMapper<T>
-    & UndefinedStringMapper<T>
-    & UnexpectedStringMapper<T>;
+export type StringMapperWithNullAndUndefined<
+    S extends string,
+    T
+> = StringMapper<S, T> &
+    NullStringMapper<T> &
+    UndefinedStringMapper<T> &
+    UnexpectedStringMapper<T>;

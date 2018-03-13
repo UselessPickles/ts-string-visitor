@@ -7,13 +7,13 @@ enum RGB {
 }
 
 visitString("r" as RGB).with({
-    "r": () => {
+    r: () => {
         return 1;
     },
-    "g": () => {
+    g: () => {
         return 2;
     },
-    "b": () => {
+    b: () => {
         return 3;
     }
 });

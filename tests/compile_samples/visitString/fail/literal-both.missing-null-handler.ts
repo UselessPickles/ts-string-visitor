@@ -3,13 +3,13 @@ import { visitString } from "../../../../src";
 type RGB = "r" | "g" | "b";
 
 visitString("r" as RGB | null | undefined).with({
-    "r": () => {
+    r: () => {
         return 1;
     },
-    "g": () => {
+    g: () => {
         return 2;
     },
-    "b": () => {
+    b: () => {
         return 3;
     },
     handleUndefined: () => {

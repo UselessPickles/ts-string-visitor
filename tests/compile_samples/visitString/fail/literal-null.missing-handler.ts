@@ -3,10 +3,10 @@ import { visitString } from "../../../../src";
 type RGB = "r" | "g" | "b";
 
 visitString("r" as RGB | null).with({
-    "r": () => {
+    r: () => {
         return 1;
     },
-    "g": () => {
+    g: () => {
         return 2;
     },
     // Missing "b" handler
