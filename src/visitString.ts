@@ -4,6 +4,7 @@ import {
     StringVisiteeWithUndefined,
     StringVisiteeWithNullAndUndefined
 } from "./StringVisitee";
+import { StringVisitorFunctionFactory } from "./StringVisitorFunctionFactory";
 
 /**
  * Union of all "StringVisitee" types.
@@ -46,7 +47,9 @@ export function visitString<S extends string>(value: S): StringVisitee<S>;
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
  *         visitor implementation.
  */
-export function visitString<S extends string>(value: S | null): StringVisiteeWithNull<S>;
+export function visitString<S extends string>(
+    value: S | null
+): StringVisiteeWithNull<S>;
 
 /**
  * The first step to using the visitor pattern on the value of a string literal type or string enum.
@@ -63,7 +66,9 @@ export function visitString<S extends string>(value: S | null): StringVisiteeWit
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
  *         visitor implementation.
  */
-export function visitString<S extends string>(value: S | undefined): StringVisiteeWithUndefined<S>;
+export function visitString<S extends string>(
+    value: S | undefined
+): StringVisiteeWithUndefined<S>;
 
 /**
  * The first step to using the visitor pattern on the value of a string literal type or string enum.
@@ -79,9 +84,13 @@ export function visitString<S extends string>(value: S | undefined): StringVisit
  * @return A "visitee" wrapper around the provided value, whose "with()" method must be called with a
  *         visitor implementation.
  */
-export function visitString<S extends string>(value: S | null | undefined): StringVisiteeWithNullAndUndefined<S>;
+export function visitString<S extends string>(
+    value: S | null | undefined
+): StringVisiteeWithNullAndUndefined<S>;
 
-export function visitString<S extends string>(value: S | null | undefined): AnyStringVisitee<S> {
+export function visitString<S extends string>(
+    value: S | null | undefined
+): AnyStringVisitee<S> {
     // NOTE: The run time type of StringVisitee created does not necessarily match the compile-time
     //       type. This results in unusual StringVisitee.with() implementations.
     if (value === null) {
@@ -90,5 +99,13 @@ export function visitString<S extends string>(value: S | null | undefined): AnyS
         return new StringVisiteeWithUndefined<S>();
     } else {
         return new StringVisitee<S>(value);
+    }
+}
+
+export namespace visitString {
+    export function makeFunctionFor<
+        S extends string
+    >(): StringVisitorFunctionFactory<S> {
+        return new StringVisitorFunctionFactory<S>();
     }
 }

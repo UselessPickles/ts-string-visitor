@@ -4,6 +4,7 @@ import {
     StringMappeeWithUndefined,
     StringMappeeWithNullAndUndefined
 } from "./StringMappee";
+import { StringMapperFunctionFactory } from "./StringMapperFunctionFactory";
 
 /**
  * Union of all "StringMappee" types.
@@ -46,7 +47,9 @@ export function mapString<S extends string>(value: S): StringMappee<S>;
  * @return A "mappee" wrapper around the provided value, whose "with()" method must be called with a
  *         mapper implementation.
  */
-export function mapString<S extends string>(value: S | null): StringMappeeWithNull<S>;
+export function mapString<S extends string>(
+    value: S | null
+): StringMappeeWithNull<S>;
 
 /**
  * The first step to mapping the value of a string literal type or string enum.
@@ -63,7 +66,9 @@ export function mapString<S extends string>(value: S | null): StringMappeeWithNu
  * @return A "mappee" wrapper around the provided value, whose "with()" method must be called with a
  *         mapper implementation.
  */
-export function mapString<S extends string>(value: S | undefined): StringMappeeWithUndefined<S>;
+export function mapString<S extends string>(
+    value: S | undefined
+): StringMappeeWithUndefined<S>;
 
 /**
  * The first step to mapping the value of a string literal type or string enum.
@@ -79,9 +84,13 @@ export function mapString<S extends string>(value: S | undefined): StringMappeeW
  * @return A "mappee" wrapper around the provided value, whose "with()" method must be called with a
  *         mapper implementation.
  */
-export function mapString<S extends string>(value: S | null | undefined): StringMappeeWithNullAndUndefined<S>;
+export function mapString<S extends string>(
+    value: S | null | undefined
+): StringMappeeWithNullAndUndefined<S>;
 
-export function mapString<S extends string>(value: S | null | undefined): AnyStringMappee<S> {
+export function mapString<S extends string>(
+    value: S | null | undefined
+): AnyStringMappee<S> {
     // NOTE: The run time type of StringMappee created does not necessarily match the compile-time
     //       type. This results in unusual StringMappee.with() implementations.
     if (value === null) {
@@ -90,5 +99,13 @@ export function mapString<S extends string>(value: S | null | undefined): AnyStr
         return new StringMappeeWithUndefined<S>();
     } else {
         return new StringMappee<S>(value);
+    }
+}
+
+export namespace mapString {
+    export function makeFunctionFor<
+        S extends string
+    >(): StringMapperFunctionFactory<S> {
+        return new StringMapperFunctionFactory<S>();
     }
 }
