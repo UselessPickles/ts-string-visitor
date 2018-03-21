@@ -21,6 +21,7 @@
   },
   "exclude": [
     "node_modules",
+    "type_tests",
     "tests/compile_samples/visitString/fail",
     "tests/compile_samples/mapString/fail"
   ]
