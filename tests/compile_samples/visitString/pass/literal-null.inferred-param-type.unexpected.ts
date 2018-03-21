@@ -3,23 +3,23 @@ import { visitString } from "../../../../src";
 type RGB = "r" | "g" | "b";
 
 visitString("r" as RGB | null).with({
-    r: (value) => {
+    r: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: "r" = value;
     },
-    g: (value) => {
+    g: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: "g" = value;
     },
-    b: (value) => {
+    b: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: "b" = value;
     },
-    handleNull: (value) => {
+    handleNull: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: null = value;
     },
-    handleUnexpected: (value) => {
+    handleUnexpected: value => {
         // tslint:disable-next-line:no-unused-variable
         const test: string | undefined = value;
     }
