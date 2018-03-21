@@ -2,7 +2,7 @@ import { visitString } from "../../src";
 
 type RGB = "r" | "g" | "b";
 
-declare const rgb: RGB;
+declare const rgb: RGB | null;
 
 // Test param types
 visitString(rgb).with({
@@ -18,8 +18,12 @@ visitString(rgb).with({
         // $ExpectType "b"
         value;
     },
+    handleNull: (value) => {
+        // $ExpectType null
+        value;
+    },
     handleUnexpected: (value) => {
-        // $ExpectType string | null | undefined
+        // $ExpectType string | undefined
         value;
     }
 });
@@ -28,7 +32,8 @@ visitString(rgb).with({
 visitString(rgb).with({
     r: (value) => {},
     g: (value) => {},
-    b: (value) => {}
+    b: (value) => {},
+    handleNull: (value) => {}
 });
 
 // Return type is inferred
@@ -36,19 +41,30 @@ visitString(rgb).with({
 visitString(rgb).with({
     r: (value) => 10,
     g: (value) => 20,
-    b: (value) => 30
+    b: (value) => 30,
+    handleNull: (value) => -1
 });
 // $ExpectType string
 visitString(rgb).with({
     r: (value) => "10",
     g: (value) => "20",
-    b: (value) => "30"
+    b: (value) => "30",
+    handleNull: (value) => "-1"
 });
 
 // Missing value handler causes error
 // $ExpectError
 visitString(rgb).with({
     r: (value) => {},
+    b: (value) => {},
+    handleNull: (value) => {}
+});
+
+// Missing null handler causes error
+// $ExpectError
+visitString(rgb).with({
+    r: (value) => {},
+    g: (value) => {},
     b: (value) => {}
 });
 
@@ -58,15 +74,7 @@ visitString(rgb).with({
     // $ExpectError
     oops: (value) => {},
     g: (value) => {},
-    b: (value) => {}
-});
-
-// Unnecessary null handler causes error
-visitString(rgb).with({
-    r: (value) => {},
-    g: (value) => {},
     b: (value) => {},
-    // $ExpectError
     handleNull: (value) => {}
 });
 
@@ -75,6 +83,7 @@ visitString(rgb).with({
     r: (value) => {},
     g: (value) => {},
     b: (value) => {},
+    handleNull: (value) => {},
     // $ExpectError
     handleUndefined: (value) => {}
 });
