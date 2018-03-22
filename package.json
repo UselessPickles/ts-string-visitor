@@ -24,8 +24,9 @@
             "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
         "lint": "tslint --config tslint.json --project tsconfig.json",
         "lint:fix": "npm run lint -- --fix",
-        "prettier:test": "prettier --list-different \"{src,tests}/**/*.ts\"",
-        "prettier:fix": "prettier --write \"{src,tests}/**/*.ts\"",
+        "prettier:test":
+            "prettier --list-different \"{src,tests,type_tests}/**/*.ts\"",
+        "prettier:fix": "prettier --write \"{src,tests,type_tests}/**/*.ts\"",
         "build:commonjs":
             "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
         "build:move-types-from-commonjs":
