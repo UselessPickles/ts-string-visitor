@@ -1,8 +1,7 @@
 {
     "name": "ts-string-visitor",
     "version": "2.1.3",
-    "description":
-        "Generic TypeScript Visitor and Mapper for String Enums and String Literal Union Types",
+    "description": "Generic TypeScript Visitor and Mapper for String Enums and String Literal Union Types",
     "repository": {
         "type": "git",
         "url": "https://github.com/UselessPickles/ts-string-visitor.git"
@@ -11,7 +10,10 @@
     "bugs": {
         "url": "https://github.com/UselessPickles/ts-string-visitor/issues"
     },
-    "files": ["dist", "src"],
+    "files": [
+        "dist",
+        "src"
+    ],
     "main": "dist/commonjs/index.js",
     "jsnext:main": "dist/es/index.js",
     "module": "dist/es/index.js",
@@ -20,32 +22,25 @@
         "clean:dist": "rimraf dist",
         "clean:coverage": "rimraf coverage",
         "clean:pack": "rimraf ts-string-visitor-*.tgz",
-        "compile":
-            "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
+        "compile": "tsc --project tsconfig.json --noEmit --pretty --noErrorTruncation",
         "lint": "tslint --config tslint.json --project tsconfig.json",
         "lint:fix": "npm run lint -- --fix",
-        "prettier:test":
-            "prettier --list-different \"{src,tests,type_tests}/**/*.ts\"",
+        "prettier:test": "prettier --list-different \"{src,tests,type_tests}/**/*.ts\"",
         "prettier:fix": "prettier --write \"{src,tests,type_tests}/**/*.ts\"",
-        "build:commonjs":
-            "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
-        "build:move-types-from-commonjs":
-            "copyfiles --up 2 dist/commonjs/*.d.ts dist/types && rimraf dist/commonjs/*.d.ts",
-        "build:es":
-            "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
-        "build":
-            "npm run clean:dist && run-p build:es build:commonjs && npm run build:move-types-from-commonjs",
+        "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
+        "build:move-types-from-commonjs": "copyfiles --up 2 dist/commonjs/*.d.ts dist/types && rimraf dist/commonjs/*.d.ts",
+        "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
+        "build": "npm run clean:dist && run-p build:es build:commonjs && npm run build:move-types-from-commonjs",
         "pack": "run-p clean:pack build && npm pack",
         "jest": "jest",
         "jest:coverage": "npm run clean:coverage && jest --coverage",
         "dtslint:v2_4_plus": "dtslint type_tests/v2_4_plus",
         "dtslint:v2_6_plus": "dtslint type_tests/v2_6_plus",
-        "dtslint": "run-s dtslint:v2_4_plus dtslint:v2_6_plus",
+        "dtslint:v2_7_plus": "dtslint type_tests/v2_7_plus",
+        "dtslint": "run-s dtslint:v2_4_plus dtslint:v2_6_plus dtslint:v2_7_plus",
         "test": "run-s compile lint prettier:test dtslint jest",
-        "test:coverage":
-            "run-s compile lint prettier:test dtslint jest:coverage",
-        "build:travis":
-            "run-p test:coverage build && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+        "test:coverage": "run-s compile lint prettier:test dtslint jest:coverage",
+        "build:travis": "run-p test:coverage build && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "author": {
         "name": "Jeff Lau",
@@ -84,8 +79,14 @@
         "transform": {
             "^.+\\.ts$": "ts-jest"
         },
-        "collectCoverageFrom": ["src/**/*.{js,ts}", "!**/node_modules/**"],
+        "collectCoverageFrom": [
+            "src/**/*.{js,ts}",
+            "!**/node_modules/**"
+        ],
         "testRegex": "((\\.|/)(test|spec))\\.(ts|js)$",
-        "moduleFileExtensions": ["ts", "js"]
+        "moduleFileExtensions": [
+            "ts",
+            "js"
+        ]
     }
 }

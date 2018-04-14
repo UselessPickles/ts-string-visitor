@@ -1,27 +1,21 @@
-import { mapString } from "../../src";
+import { mapString } from "../../../src";
 
-enum RGB {
-    R = "r",
-    G = "g",
-    B = "b"
-}
+type RGB = "r" | "g" | "b";
 
-declare const rgb: RGB | null;
+declare const rgb: RGB;
 
 // Return type is inferred
 // $ExpectType number
 mapString(rgb).with({
     r: 10,
     g: 20,
-    b: 30,
-    handleNull: -1
+    b: 30
 });
 // $ExpectType string
 mapString(rgb).with({
     r: "10",
     g: "20",
-    b: "30",
-    handleNull: "-1"
+    b: "30"
 });
 
 // handleUnexpected is allowed
@@ -29,7 +23,6 @@ mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
-    handleNull: -1,
     handleUnexpected: -1
 });
 
@@ -37,8 +30,7 @@ mapString(rgb).with({
 // $ExpectError
 mapString(rgb).with({
     r: 10,
-    b: 30,
-    handleNull: -1
+    b: 30
 });
 
 // Unexpected value handler causes error
@@ -47,16 +39,16 @@ mapString(rgb).with({
     // $ExpectError
     oops: 42,
     g: 20,
-    b: 30,
-    handleNull: -1
+    b: 30
 });
 
-// missing null handler causes error
-// $ExpectError
+// Unnecessary null handler causes error
 mapString(rgb).with({
     r: 10,
     g: 20,
-    b: 30
+    b: 30,
+    // $ExpectError
+    handleNull: -1
 });
 
 // Unnecessary undefined handler causes error
@@ -64,7 +56,6 @@ mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
-    handleNull: -1,
     // $ExpectError
     handleUndefined: -1
 });

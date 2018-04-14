@@ -1,21 +1,25 @@
-import { visitString } from "../../src";
+import { visitString } from "../../../src";
 
-type RGB = "r" | "g" | "b";
+enum RGB {
+    R = "r",
+    G = "g",
+    B = "b"
+}
 
 declare const rgb: RGB;
 
 // Test param types
 visitString(rgb).with({
     r: (value) => {
-        // $ExpectType "r"
+        // $ExpectType RGB.R
         value;
     },
     g: (value) => {
-        // $ExpectType "g"
+        // $ExpectType RGB.G
         value;
     },
     b: (value) => {
-        // $ExpectType "b"
+        // $ExpectType RGB.B
         value;
     },
     handleUnexpected: (value) => {

@@ -6,22 +6,18 @@ import {
     StringVisitorWithNullAndUndefined
 } from "../src";
 
-describe("Visit String Enum", () => {
-    enum RGB {
-        R = "r",
-        G = "g",
-        B = "b"
-    }
+describe("visitString", () => {
+    type RGB = "r" | "g" | "b";
 
-    const handlerMockR = jest.fn((value: RGB.R) => {
+    const handlerMockR = jest.fn((value: "r") => {
         return "Red!";
     });
 
-    const handlerMockG = jest.fn((value: RGB.G) => {
+    const handlerMockG = jest.fn((value: "g") => {
         return "Green!";
     });
 
-    const handlerMockB = jest.fn((value: RGB.B) => {
+    const handlerMockB = jest.fn((value: "b") => {
         return "Blue!";
     });
 
@@ -65,17 +61,17 @@ describe("Visit String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 handlerMock: handlerMockR,
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 handlerMock: handlerMockG,
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 handlerMock: handlerMockB,
                 result: "Blue!"
             },
@@ -108,14 +104,14 @@ describe("Visit String Enum", () => {
 
         const visitors: StringVisitor<RGB, string>[] = [
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB
             },
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleUnexpected: handlerMockUnexpected
             }
         ];
@@ -192,17 +188,17 @@ describe("Visit String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 handlerMock: handlerMockR,
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 handlerMock: handlerMockG,
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 handlerMock: handlerMockB,
                 result: "Blue!"
             },
@@ -234,15 +230,15 @@ describe("Visit String Enum", () => {
 
         const visitors: StringVisitorWithNull<RGB, string>[] = [
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleNull: handlerMockNull
             },
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleNull: handlerMockNull,
                 handleUnexpected: handlerMockUnexpected
             }
@@ -320,17 +316,17 @@ describe("Visit String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 handlerMock: handlerMockR,
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 handlerMock: handlerMockG,
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 handlerMock: handlerMockB,
                 result: "Blue!"
             },
@@ -362,15 +358,15 @@ describe("Visit String Enum", () => {
 
         const visitors: StringVisitorWithUndefined<RGB, string>[] = [
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleUndefined: handlerMockUndefined
             },
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleUndefined: handlerMockUndefined,
                 handleUnexpected: handlerMockUnexpected
             }
@@ -448,17 +444,17 @@ describe("Visit String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 handlerMock: handlerMockR,
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 handlerMock: handlerMockG,
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 handlerMock: handlerMockB,
                 result: "Blue!"
             },
@@ -489,16 +485,16 @@ describe("Visit String Enum", () => {
 
         const visitors: StringVisitorWithNullAndUndefined<RGB, string>[] = [
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleNull: handlerMockNull,
                 handleUndefined: handlerMockUndefined
             },
             {
-                [RGB.R]: handlerMockR,
-                [RGB.G]: handlerMockG,
-                [RGB.B]: handlerMockB,
+                ["r"]: handlerMockR,
+                ["g"]: handlerMockG,
+                ["b"]: handlerMockB,
                 handleNull: handlerMockNull,
                 handleUndefined: handlerMockUndefined,
                 handleUnexpected: handlerMockUnexpected

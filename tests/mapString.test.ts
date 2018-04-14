@@ -6,12 +6,8 @@ import {
     StringMapperWithNullAndUndefined
 } from "../src";
 
-describe("Map String Enum", () => {
-    enum RGB {
-        R = "r",
-        G = "g",
-        B = "b"
-    }
+describe("mapString", () => {
+    type RGB = "r" | "g" | "b";
 
     describe("Without null/undefined", () => {
         interface TestEntry {
@@ -22,15 +18,15 @@ describe("Map String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 result: "Blue!"
             },
             {
@@ -58,14 +54,14 @@ describe("Map String Enum", () => {
 
         const mappers: StringMapper<RGB, string>[] = [
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!"
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!"
             },
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleUnexpected: "Unexpected!"
             }
         ];
@@ -102,15 +98,15 @@ describe("Map String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 result: "Blue!"
             },
             {
@@ -137,15 +133,15 @@ describe("Map String Enum", () => {
 
         const mappers: StringMapperWithNull<RGB, string>[] = [
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleNull: "Null!"
             },
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleNull: "Null!",
                 handleUnexpected: "Unexpected!"
             }
@@ -183,15 +179,15 @@ describe("Map String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 result: "Blue!"
             },
             {
@@ -218,15 +214,15 @@ describe("Map String Enum", () => {
 
         const mappers: StringMapperWithUndefined<RGB, string>[] = [
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleUndefined: "Undefined!"
             },
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleUndefined: "Undefined!",
                 handleUnexpected: "Unexpected!"
             }
@@ -264,15 +260,15 @@ describe("Map String Enum", () => {
 
         const TEST_ENTRIES: TestEntry[] = [
             {
-                value: RGB.R,
+                value: "r",
                 result: "Red!"
             },
             {
-                value: RGB.G,
+                value: "g",
                 result: "Green!"
             },
             {
-                value: RGB.B,
+                value: "b",
                 result: "Blue!"
             },
             {
@@ -298,16 +294,16 @@ describe("Map String Enum", () => {
 
         const mappers: StringMapperWithNullAndUndefined<RGB, string>[] = [
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleNull: "Null!",
                 handleUndefined: "Undefined!"
             },
             {
-                [RGB.R]: "Red!",
-                [RGB.G]: "Green!",
-                [RGB.B]: "Blue!",
+                ["r"]: "Red!",
+                ["g"]: "Green!",
+                ["b"]: "Blue!",
                 handleNull: "Null!",
                 handleUndefined: "Undefined!",
                 handleUnexpected: "Unexpected!"
