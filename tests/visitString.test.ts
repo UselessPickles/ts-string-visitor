@@ -6,7 +6,7 @@ import {
     StringVisitorWithNullAndUndefined
 } from "../src";
 
-describe("Visit String Literal", () => {
+describe("visitString", () => {
     type RGB = "r" | "g" | "b";
 
     const handlerMockR = jest.fn((value: "r") => {

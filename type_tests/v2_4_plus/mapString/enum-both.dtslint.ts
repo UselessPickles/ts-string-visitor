@@ -1,6 +1,10 @@
-import { mapString } from "../../src";
+import { mapString } from "../../../src";
 
-type RGB = "r" | "g" | "b";
+enum RGB {
+    R = "r",
+    G = "g",
+    B = "b"
+}
 
 declare const rgb: RGB | null | undefined;
 

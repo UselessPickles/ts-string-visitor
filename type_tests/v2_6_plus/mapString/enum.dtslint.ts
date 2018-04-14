@@ -1,4 +1,4 @@
-import { mapString } from "../../src";
+import { mapString } from "../../../src";
 
 enum RGB {
     R = "r",

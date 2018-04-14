@@ -1,8 +1,8 @@
-import { visitString } from "../../src";
+import { visitString } from "../../../src";
 
 type RGB = "r" | "g" | "b";
 
-declare const rgb: RGB | null;
+declare const rgb: RGB;
 
 // Test param types
 visitString(rgb).with({
@@ -18,12 +18,8 @@ visitString(rgb).with({
         // $ExpectType "b"
         value;
     },
-    handleNull: (value) => {
-        // $ExpectType null
-        value;
-    },
     handleUnexpected: (value) => {
-        // $ExpectType string | undefined
+        // $ExpectType string | null | undefined
         value;
     }
 });
@@ -32,8 +28,7 @@ visitString(rgb).with({
 visitString(rgb).with({
     r: (value) => {},
     g: (value) => {},
-    b: (value) => {},
-    handleNull: (value) => {}
+    b: (value) => {}
 });
 
 // Return type is inferred
@@ -41,30 +36,19 @@ visitString(rgb).with({
 visitString(rgb).with({
     r: (value) => 10,
     g: (value) => 20,
-    b: (value) => 30,
-    handleNull: (value) => -1
+    b: (value) => 30
 });
 // $ExpectType string
 visitString(rgb).with({
     r: (value) => "10",
     g: (value) => "20",
-    b: (value) => "30",
-    handleNull: (value) => "-1"
+    b: (value) => "30"
 });
 
 // Missing value handler causes error
 // $ExpectError
 visitString(rgb).with({
     r: (value) => {},
-    b: (value) => {},
-    handleNull: (value) => {}
-});
-
-// Missing null handler causes error
-// $ExpectError
-visitString(rgb).with({
-    r: (value) => {},
-    g: (value) => {},
     b: (value) => {}
 });
 
@@ -74,7 +58,15 @@ visitString(rgb).with({
     // $ExpectError
     oops: (value) => {},
     g: (value) => {},
+    b: (value) => {}
+});
+
+// Unnecessary null handler causes error
+visitString(rgb).with({
+    r: (value) => {},
+    g: (value) => {},
     b: (value) => {},
+    // $ExpectError
     handleNull: (value) => {}
 });
 
@@ -83,7 +75,6 @@ visitString(rgb).with({
     r: (value) => {},
     g: (value) => {},
     b: (value) => {},
-    handleNull: (value) => {},
     // $ExpectError
     handleUndefined: (value) => {}
 });
