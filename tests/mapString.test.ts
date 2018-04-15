@@ -1,3 +1,6 @@
+/**
+ * Unit tests for {@link mapString}.
+ */
 import {
     mapString,
     StringMapper,
@@ -7,322 +10,269 @@ import {
 } from "../src";
 
 describe("mapString", () => {
-    type RGB = "r" | "g" | "b";
+    /**
+     * A single "entry" for running a test of a specific input value.
+     */
+    interface TestEntry {
+        /**
+         * The input value to test with the string mapper.
+         * NOTE: Using plain "string" as the type for simplicity (rather than a string literal union or string enum)
+         *       because these unit tests are for run-time behavior, and the exact type of the string-like value
+         *       is irrelevant at run-time.
+         */
+        value: string | null | undefined;
+        /**
+         * True if {@link #value} is an "unexpected" value for the mapper.
+         */
+        isUnexpected?: boolean;
+        /**
+         * The value expected to be returned by the mapper when processing {@link #value}.
+         */
+        result: string;
+    }
 
-    describe("Without null/undefined", () => {
-        interface TestEntry {
-            isUnexpected?: boolean;
-            value: RGB;
-            result: string;
-        }
-
-        const TEST_ENTRIES: TestEntry[] = [
+    /**
+     * Runs all unt tests for a particular "mapper" implementation.
+     * @param mapperWithoutUnexpectedHandler - A "mapper" implementation, WITHOUT a "handleUnexpected"
+     *        property. This method will take core of also testing the same mapper, but with "handleUnexpected"
+     *        added to it.
+     * @param testEntries - All test "entries" to execute with the provided mapper.
+     */
+    function runTests(
+        mapperWithoutUnexpectedHandler:
+            | StringMapper<string, string>
+            | StringMapperWithNull<string, string>
+            | StringMapperWithUndefined<string, string>
+            | StringMapperWithNullAndUndefined<string, string>,
+        testEntries: TestEntry[]
+    ): void {
+        const mappers = [
+            mapperWithoutUnexpectedHandler,
             {
-                value: "r",
-                result: "Red!"
-            },
-            {
-                value: "g",
-                result: "Green!"
-            },
-            {
-                value: "b",
-                result: "Blue!"
-            },
-            {
-                isUnexpected: true,
-                value: (null as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                value: (undefined as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                value: ("unexpected!" as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                // matches a standard property name on Object.prototype
-                value: ("toString" as any) as RGB,
-                result: "Unexpected!"
+                ...mapperWithoutUnexpectedHandler,
+                handleUnexpected: "Unexpected!"
             }
         ];
 
-        const mappers: StringMapper<RGB, string>[] = [
+        describe("mapString().with()", () => {
+            for (const mapper of mappers) {
+                describe(`${
+                    mapper.handleUnexpected ? "With" : "Without"
+                } handleUnexpected`, () => {
+                    for (const testEntry of testEntries) {
+                        describe(`value == ${testEntry.value}`, () => {
+                            if (
+                                mapper.handleUnexpected ||
+                                !testEntry.isUnexpected
+                            ) {
+                                test(`Correct result is returned`, () => {
+                                    const result = mapString(
+                                        testEntry.value
+                                    ).with(
+                                        mapper as StringMapperWithNullAndUndefined<
+                                            string,
+                                            string
+                                        >
+                                    );
+                                    expect(result).toBe(testEntry.result);
+                                });
+                            } else {
+                                test(`Unhandled unexpected value throws error`, () => {
+                                    expect(() => {
+                                        mapString(testEntry.value).with(
+                                            mapper as StringMapperWithNullAndUndefined<
+                                                string,
+                                                string
+                                            >
+                                        );
+                                    }).toThrowError(
+                                        `Unexpected value: ${testEntry.value}`
+                                    );
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        describe("mapString.makeFunctionFor().with()", () => {
+            for (const mapper of mappers) {
+                const mapperFunction = mapString
+                    .makeFunctionFor<string>()
+                    .with(mapper as StringMapperWithNullAndUndefined<
+                        string,
+                        string
+                    >);
+
+                describe(`${
+                    mapper.handleUnexpected ? "With" : "Without"
+                } handleUnexpected`, () => {
+                    for (const testEntry of testEntries) {
+                        describe(`value == ${testEntry.value}`, () => {
+                            if (
+                                mapper.handleUnexpected ||
+                                !testEntry.isUnexpected
+                            ) {
+                                test(`Correct result is returned`, () => {
+                                    const result = mapperFunction(
+                                        testEntry.value
+                                    );
+                                    expect(result).toBe(testEntry.result);
+                                });
+                            } else {
+                                test(`Unhandled unexpected value throws error`, () => {
+                                    expect(() => {
+                                        mapperFunction(testEntry.value);
+                                    }).toThrowError(
+                                        `Unexpected value: ${testEntry.value}`
+                                    );
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    describe("Without null/undefined", () => {
+        runTests(
             {
                 ["r"]: "Red!",
                 ["g"]: "Green!",
                 ["b"]: "Blue!"
             },
-            {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
-                handleUnexpected: "Unexpected!"
-            }
-        ];
-
-        for (const mapper of mappers) {
-            const mapperFunction = mapString
-                .makeFunctionFor<RGB>()
-                .with(mapper);
-
-            for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${
-                        testEntry.value
-                    })`, () => {
-                        const result = mapString(testEntry.value).with(mapper);
-                        const wrapperResult = mapperFunction(testEntry.value);
-
-                        expect(result).toBe(testEntry.result);
-                        expect(wrapperResult).toBe(testEntry.result);
-                    });
-                } else {
-                    test(`Unhandled unexpected value throws error (${
-                        testEntry.value
-                    })`, () => {
-                        expect(() => {
-                            mapString(testEntry.value).with(mapper);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-
-                        expect(() => {
-                            mapperFunction(testEntry.value);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-                    });
+            [
+                {
+                    value: "r",
+                    result: "Red!"
+                },
+                {
+                    value: "g",
+                    result: "Green!"
+                },
+                {
+                    value: "b",
+                    result: "Blue!"
+                },
+                {
+                    isUnexpected: true,
+                    value: null,
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    value: undefined,
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    value: "unexpected!",
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    // matches a standard property name on Object.prototype
+                    value: "toString",
+                    result: "Unexpected!"
                 }
-            }
-        }
+            ]
+        );
     });
 
     describe("With null", () => {
-        interface TestEntry {
-            isUnexpected?: boolean;
-            value: RGB | null;
-            result: string;
-        }
-
-        const TEST_ENTRIES: TestEntry[] = [
-            {
-                value: "r",
-                result: "Red!"
-            },
-            {
-                value: "g",
-                result: "Green!"
-            },
-            {
-                value: "b",
-                result: "Blue!"
-            },
-            {
-                value: null,
-                result: "Null!"
-            },
-            {
-                isUnexpected: true,
-                value: (undefined as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                value: ("unexpected!" as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                // matches a standard property name on Object.prototype
-                value: ("toString" as any) as RGB,
-                result: "Unexpected!"
-            }
-        ];
-
-        const mappers: StringMapperWithNull<RGB, string>[] = [
+        runTests(
             {
                 ["r"]: "Red!",
                 ["g"]: "Green!",
                 ["b"]: "Blue!",
                 handleNull: "Null!"
             },
-            {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
-                handleNull: "Null!",
-                handleUnexpected: "Unexpected!"
-            }
-        ];
-
-        for (const mapper of mappers) {
-            const mapperFunction = mapString
-                .makeFunctionFor<RGB>()
-                .with(mapper);
-
-            for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${
-                        testEntry.value
-                    })`, () => {
-                        const result = mapString(testEntry.value).with(mapper);
-                        const wrapperResult = mapperFunction(testEntry.value);
-
-                        expect(result).toBe(testEntry.result);
-                        expect(wrapperResult).toBe(testEntry.result);
-                    });
-                } else {
-                    test(`Unhandled unexpected value throws error (${
-                        testEntry.value
-                    })`, () => {
-                        expect(() => {
-                            mapString(testEntry.value).with(mapper);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-
-                        expect(() => {
-                            mapperFunction(testEntry.value);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-                    });
+            [
+                {
+                    value: "r",
+                    result: "Red!"
+                },
+                {
+                    value: "g",
+                    result: "Green!"
+                },
+                {
+                    value: "b",
+                    result: "Blue!"
+                },
+                {
+                    value: null,
+                    result: "Null!"
+                },
+                {
+                    isUnexpected: true,
+                    value: undefined,
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    value: "unexpected!",
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    // matches a standard property name on Object.prototype
+                    value: "toString",
+                    result: "Unexpected!"
                 }
-            }
-        }
+            ]
+        );
     });
 
     describe("With undefined", () => {
-        interface TestEntry {
-            isUnexpected?: boolean;
-            value: RGB | undefined;
-            result: string;
-        }
-
-        const TEST_ENTRIES: TestEntry[] = [
-            {
-                value: "r",
-                result: "Red!"
-            },
-            {
-                value: "g",
-                result: "Green!"
-            },
-            {
-                value: "b",
-                result: "Blue!"
-            },
-            {
-                value: undefined,
-                result: "Undefined!"
-            },
-            {
-                isUnexpected: true,
-                value: (null as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                value: ("unexpected!" as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                // matches a standard property name on Object.prototype
-                value: ("toString" as any) as RGB,
-                result: "Unexpected!"
-            }
-        ];
-
-        const mappers: StringMapperWithUndefined<RGB, string>[] = [
+        runTests(
             {
                 ["r"]: "Red!",
                 ["g"]: "Green!",
                 ["b"]: "Blue!",
                 handleUndefined: "Undefined!"
             },
-            {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
-                handleUndefined: "Undefined!",
-                handleUnexpected: "Unexpected!"
-            }
-        ];
-
-        for (const mapper of mappers) {
-            const mapperFunction = mapString
-                .makeFunctionFor<RGB>()
-                .with(mapper);
-
-            for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${
-                        testEntry.value
-                    })`, () => {
-                        const result = mapString(testEntry.value).with(mapper);
-                        const wrapperResult = mapperFunction(testEntry.value);
-
-                        expect(result).toBe(testEntry.result);
-                        expect(wrapperResult).toBe(testEntry.result);
-                    });
-                } else {
-                    test(`Unhandled unexpected value throws error (${
-                        testEntry.value
-                    })`, () => {
-                        expect(() => {
-                            mapString(testEntry.value).with(mapper);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-
-                        expect(() => {
-                            mapperFunction(testEntry.value);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-                    });
+            [
+                {
+                    value: "r",
+                    result: "Red!"
+                },
+                {
+                    value: "g",
+                    result: "Green!"
+                },
+                {
+                    value: "b",
+                    result: "Blue!"
+                },
+                {
+                    value: undefined,
+                    result: "Undefined!"
+                },
+                {
+                    isUnexpected: true,
+                    value: null,
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    value: "unexpected!",
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    // matches a standard property name on Object.prototype
+                    value: "toString",
+                    result: "Unexpected!"
                 }
-            }
-        }
+            ]
+        );
     });
 
     describe("With null and undefined", () => {
-        interface TestEntry {
-            isUnexpected?: boolean;
-            value: RGB | null | undefined;
-            result: string;
-        }
-
-        const TEST_ENTRIES: TestEntry[] = [
-            {
-                value: "r",
-                result: "Red!"
-            },
-            {
-                value: "g",
-                result: "Green!"
-            },
-            {
-                value: "b",
-                result: "Blue!"
-            },
-            {
-                value: null,
-                result: "Null!"
-            },
-            {
-                value: undefined,
-                result: "Undefined!"
-            },
-            {
-                isUnexpected: true,
-                value: ("unexpected!" as any) as RGB,
-                result: "Unexpected!"
-            },
-            {
-                isUnexpected: true,
-                // matches a standard property name on Object.prototype
-                value: ("toString" as any) as RGB,
-                result: "Unexpected!"
-            }
-        ];
-
-        const mappers: StringMapperWithNullAndUndefined<RGB, string>[] = [
+        runTests(
             {
                 ["r"]: "Red!",
                 ["g"]: "Green!",
@@ -330,46 +280,39 @@ describe("mapString", () => {
                 handleNull: "Null!",
                 handleUndefined: "Undefined!"
             },
-            {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
-                handleNull: "Null!",
-                handleUndefined: "Undefined!",
-                handleUnexpected: "Unexpected!"
-            }
-        ];
-
-        for (const mapper of mappers) {
-            const mapperFunction = mapString
-                .makeFunctionFor<RGB>()
-                .with(mapper);
-
-            for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
-                    test(`Correct value is returned (${
-                        testEntry.value
-                    })`, () => {
-                        const result = mapString(testEntry.value).with(mapper);
-                        const wrapperResult = mapperFunction(testEntry.value);
-
-                        expect(result).toBe(testEntry.result);
-                        expect(wrapperResult).toBe(testEntry.result);
-                    });
-                } else {
-                    test(`Unhandled unexpected value throws error (${
-                        testEntry.value
-                    })`, () => {
-                        expect(() => {
-                            mapString(testEntry.value).with(mapper);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-
-                        expect(() => {
-                            mapperFunction(testEntry.value);
-                        }).toThrowError(`Unexpected value: ${testEntry.value}`);
-                    });
+            [
+                {
+                    value: "r",
+                    result: "Red!"
+                },
+                {
+                    value: "g",
+                    result: "Green!"
+                },
+                {
+                    value: "b",
+                    result: "Blue!"
+                },
+                {
+                    value: null,
+                    result: "Null!"
+                },
+                {
+                    value: undefined,
+                    result: "Undefined!"
+                },
+                {
+                    isUnexpected: true,
+                    value: "unexpected!",
+                    result: "Unexpected!"
+                },
+                {
+                    isUnexpected: true,
+                    // matches a standard property name on Object.prototype
+                    value: "toString",
+                    result: "Unexpected!"
                 }
-            }
-        }
+            ]
+        );
     });
 });
