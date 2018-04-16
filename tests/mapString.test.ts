@@ -139,9 +139,9 @@ describe("mapString", () => {
     describe("Without null/undefined", () => {
         runTests(
             {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!"
+                r: "Red!",
+                g: "Green!",
+                b: "Blue!"
             },
             [
                 {
@@ -184,9 +184,9 @@ describe("mapString", () => {
     describe("With null", () => {
         runTests(
             {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
+                r: "Red!",
+                g: "Green!",
+                b: "Blue!",
                 handleNull: "Null!"
             },
             [
@@ -229,9 +229,9 @@ describe("mapString", () => {
     describe("With undefined", () => {
         runTests(
             {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
+                r: "Red!",
+                g: "Green!",
+                b: "Blue!",
                 handleUndefined: "Undefined!"
             },
             [
@@ -274,9 +274,9 @@ describe("mapString", () => {
     describe("With null and undefined", () => {
         runTests(
             {
-                ["r"]: "Red!",
-                ["g"]: "Green!",
-                ["b"]: "Blue!",
+                r: "Red!",
+                g: "Green!",
+                b: "Blue!",
                 handleNull: "Null!",
                 handleUndefined: "Undefined!"
             },
