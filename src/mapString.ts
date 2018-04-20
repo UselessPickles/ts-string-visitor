@@ -94,9 +94,9 @@ export function mapString<S extends string>(
     // NOTE: The run time type of StringMappee created does not necessarily match the compile-time
     //       type. This results in unusual StringMappee.with() implementations.
     if (value === null) {
-        return new StringMappeeWithNull<S>();
+        return StringMappeeWithNull.instance;
     } else if (value === undefined) {
-        return new StringMappeeWithUndefined<S>();
+        return StringMappeeWithUndefined.instance;
     } else {
         return new StringMappee<S>(value);
     }
@@ -106,6 +106,6 @@ export namespace mapString {
     export function makeFunctionFor<
         S extends string
     >(): StringMapperFunctionFactory<S> {
-        return new StringMapperFunctionFactory<S>();
+        return StringMapperFunctionFactory.instance;
     }
 }

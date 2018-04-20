@@ -30,55 +30,55 @@ visitString(rgb).with({
 
 // handleUnexpected is optional
 visitString(rgb).with({
-    r: (value) => {},
-    g: (value) => {},
-    b: (value) => {}
+    r: () => {},
+    g: () => {},
+    b: () => {}
 });
 
 // Return type is inferred
 // $ExpectType number
 visitString(rgb).with({
-    r: (value) => 10,
-    g: (value) => 20,
-    b: (value) => 30
+    r: () => 10,
+    g: () => 20,
+    b: () => 30
 });
 // $ExpectType string
 visitString(rgb).with({
-    r: (value) => "10",
-    g: (value) => "20",
-    b: (value) => "30"
+    r: () => "10",
+    g: () => "20",
+    b: () => "30"
 });
 
 // Missing value handler causes error
 // $ExpectError
 visitString(rgb).with({
-    r: (value) => {},
-    b: (value) => {}
+    r: () => {},
+    b: () => {}
 });
 
 // Unexpected value handler causes error
 visitString(rgb).with({
-    r: (value) => {},
+    r: () => {},
     // $ExpectError
-    oops: (value) => {},
-    g: (value) => {},
-    b: (value) => {}
+    oops: () => {},
+    g: () => {},
+    b: () => {}
 });
 
 // Unnecessary null handler causes error
 visitString(rgb).with({
-    r: (value) => {},
-    g: (value) => {},
-    b: (value) => {},
+    r: () => {},
+    g: () => {},
+    b: () => {},
     // $ExpectError
-    handleNull: (value) => {}
+    handleNull: () => {}
 });
 
 // Unnecessary undefined handler causes error
 visitString(rgb).with({
-    r: (value) => {},
-    g: (value) => {},
-    b: (value) => {},
+    r: () => {},
+    g: () => {},
+    b: () => {},
     // $ExpectError
-    handleUndefined: (value) => {}
+    handleUndefined: () => {}
 });

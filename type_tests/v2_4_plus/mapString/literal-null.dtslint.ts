@@ -64,3 +64,16 @@ mapString(rgb).with({
     // $ExpectError
     handleUndefined: -1
 });
+
+// Unnecessary undefined handler causes error
+mapString
+    .makeFunctionFor<RGB>()
+    .orNull()
+    .with({
+        r: 10,
+        g: 20,
+        b: 30,
+        handleNull: -1,
+        // $ExpectError
+        handleUndefined: -1
+    });

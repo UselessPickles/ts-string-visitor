@@ -51,6 +51,8 @@ export class StringMappee<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringMappeeWithNull<S extends string> {
+    public static readonly instance = new StringMappeeWithNull<string>();
+
     /**
      * Maps the wrapped value using the supplied mapper.
      * If the wrapped value is null, returns the mapper's {@link StringNullmapper#handleNull} value.
@@ -86,6 +88,8 @@ export class StringMappeeWithNull<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringMappeeWithUndefined<S extends string> {
+    public static readonly instance = new StringMappeeWithUndefined<string>();
+
     /**
      * Maps the wrapped value using the supplied mapper.
      * If the wrapped value is undefined, returns the mapper's {@link StringNullmapper#handleUndefined} value.

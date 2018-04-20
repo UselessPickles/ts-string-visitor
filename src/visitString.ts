@@ -94,9 +94,9 @@ export function visitString<S extends string>(
     // NOTE: The run time type of StringVisitee created does not necessarily match the compile-time
     //       type. This results in unusual StringVisitee.with() implementations.
     if (value === null) {
-        return new StringVisiteeWithNull<S>();
+        return StringVisiteeWithNull.instance;
     } else if (value === undefined) {
-        return new StringVisiteeWithUndefined<S>();
+        return StringVisiteeWithUndefined.instance;
     } else {
         return new StringVisitee<S>(value);
     }
@@ -106,6 +106,6 @@ export namespace visitString {
     export function makeFunctionFor<
         S extends string
     >(): StringVisitorFunctionFactory<S> {
-        return new StringVisitorFunctionFactory<S>();
+        return StringVisitorFunctionFactory.instance;
     }
 }

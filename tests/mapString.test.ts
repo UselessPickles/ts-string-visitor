@@ -11,16 +11,18 @@ import {
 
 describe("mapString", () => {
     /**
+     * String literal union type for testing purposes.
+     */
+    type RGB = "r" | "g" | "b";
+
+    /**
      * A single "entry" for running a test of a specific input value.
      */
     interface TestEntry {
         /**
          * The input value to test with the string mapper.
-         * NOTE: Using plain "string" as the type for simplicity (rather than a string literal union or string enum)
-         *       because these unit tests are for run-time behavior, and the exact type of the string-like value
-         *       is irrelevant at run-time.
          */
-        value: string | null | undefined;
+        value: RGB | null | undefined;
         /**
          * True if {@link #value} is an "unexpected" value for the mapper.
          */
@@ -40,10 +42,10 @@ describe("mapString", () => {
      */
     function runTests(
         mapperWithoutUnexpectedHandler:
-            | StringMapper<string, string>
-            | StringMapperWithNull<string, string>
-            | StringMapperWithUndefined<string, string>
-            | StringMapperWithNullAndUndefined<string, string>,
+            | StringMapper<RGB, string>
+            | StringMapperWithNull<RGB, string>
+            | StringMapperWithUndefined<RGB, string>
+            | StringMapperWithNullAndUndefined<RGB, string>,
         testEntries: TestEntry[]
     ): void {
         const mappers = [
@@ -70,7 +72,7 @@ describe("mapString", () => {
                                         testEntry.value
                                     ).with(
                                         mapper as StringMapperWithNullAndUndefined<
-                                            string,
+                                            RGB,
                                             string
                                         >
                                     );
@@ -81,7 +83,7 @@ describe("mapString", () => {
                                     expect(() => {
                                         mapString(testEntry.value).with(
                                             mapper as StringMapperWithNullAndUndefined<
-                                                string,
+                                                RGB,
                                                 string
                                             >
                                         );
@@ -98,12 +100,22 @@ describe("mapString", () => {
 
         describe("mapString.makeFunctionFor().with()", () => {
             for (const mapper of mappers) {
-                const mapperFunction = mapString
-                    .makeFunctionFor<string>()
-                    .with(mapper as StringMapperWithNullAndUndefined<
-                        string,
-                        string
-                    >);
+                let mapperFunctionFactory: any = mapString.makeFunctionFor<
+                    RGB
+                >();
+
+                const hasNullHandler = "handleNull" in mapper;
+                const hasUndefinedHandler = "handleUndefined" in mapper;
+
+                if (hasNullHandler && hasUndefinedHandler) {
+                    mapperFunctionFactory = mapperFunctionFactory.orNullorUndefined();
+                } else if (hasNullHandler) {
+                    mapperFunctionFactory = mapperFunctionFactory.orNull();
+                } else if (hasUndefinedHandler) {
+                    mapperFunctionFactory = mapperFunctionFactory.orUndefined();
+                }
+
+                const mapperFunction = mapperFunctionFactory.with(mapper);
 
                 describe(`${
                     mapper.handleUnexpected ? "With" : "Without"
@@ -168,13 +180,13 @@ describe("mapString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     result: "Unexpected!"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     result: "Unexpected!"
                 }
             ]
@@ -213,13 +225,13 @@ describe("mapString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     result: "Unexpected!"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     result: "Unexpected!"
                 }
             ]
@@ -258,13 +270,13 @@ describe("mapString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     result: "Unexpected!"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     result: "Unexpected!"
                 }
             ]
@@ -303,13 +315,13 @@ describe("mapString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     result: "Unexpected!"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     result: "Unexpected!"
                 }
             ]

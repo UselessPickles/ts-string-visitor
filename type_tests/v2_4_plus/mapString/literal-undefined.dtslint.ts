@@ -64,3 +64,16 @@ mapString(rgb).with({
     handleNull: -1,
     handleUndefined: -1
 });
+
+// Unnecessary null handler causes error
+mapString
+    .makeFunctionFor<RGB>()
+    .orUndefined()
+    .with({
+        r: 10,
+        g: 20,
+        b: 30,
+        handleUndefined: -1,
+        // $ExpectError
+        handleNull: -1
+    });

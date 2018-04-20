@@ -7,78 +7,97 @@ import {
 } from "./StringMapper";
 
 export class StringMapperFunctionFactory<S extends string> {
-    public with<R>(
-        mapper: StringMapperWithNullAndUndefined<S, R>
-    ): (value: S | null | undefined) => R;
-    public with<R>(mapper: StringMapperWithNull<S, R>): (value: S | null) => R;
+    public static readonly instance = new StringMapperFunctionFactory<string>();
+
+    public orNull(): StringMapperFunctionFactoryWithNull<S> {
+        return StringMapperFunctionFactoryWithNull.instance;
+    }
+
+    public orUndefined(): StringMapperFunctionFactoryWithUndefined<S> {
+        return StringMapperFunctionFactoryWithUndefined.instance;
+    }
+
+    public orNullorUndefined(): StringMapperFunctionFactoryWithNullAndUndefined<
+        S
+    > {
+        return StringMapperFunctionFactoryWithNullAndUndefined.instance;
+    }
+
+    public with<R>(mapper: StringMapper<S, R>): (value: S) => R {
+        return (value: S) => {
+            if (mapper.hasOwnProperty(value)) {
+                return (mapper as StringMapperCore<S, R>)[value];
+            } else if (mapper.hasOwnProperty("handleUnexpected")) {
+                return mapper.handleUnexpected!;
+            } else {
+                throw new Error(`Unexpected value: ${value}`);
+            }
+        };
+    }
+}
+
+export class StringMapperFunctionFactoryWithNull<S extends string> {
+    public static readonly instance = new StringMapperFunctionFactoryWithNull<
+        string
+    >();
+
+    public with<R>(mapper: StringMapperWithNull<S, R>): (value: S | null) => R {
+        return (value: S | null) => {
+            if (value === null) {
+                return mapper.handleNull;
+            } else if (mapper.hasOwnProperty(value)) {
+                return (mapper as StringMapperCore<S, R>)[value];
+            } else if (mapper.hasOwnProperty("handleUnexpected")) {
+                return mapper.handleUnexpected!;
+            } else {
+                throw new Error(`Unexpected value: ${value}`);
+            }
+        };
+    }
+}
+
+export class StringMapperFunctionFactoryWithUndefined<S extends string> {
+    public static readonly instance = new StringMapperFunctionFactoryWithUndefined<
+        string
+    >();
+
     public with<R>(
         mapper: StringMapperWithUndefined<S, R>
-    ): (value: S | undefined) => R;
-    public with<R>(mapper: StringMapper<S, R>): (value: S) => R;
+    ): (value: S | undefined) => R {
+        return (value: S | undefined) => {
+            if (value === undefined) {
+                return mapper.handleUndefined;
+            } else if (mapper.hasOwnProperty(value)) {
+                return (mapper as StringMapperCore<S, R>)[value];
+            } else if (mapper.hasOwnProperty("handleUnexpected")) {
+                return mapper.handleUnexpected!;
+            } else {
+                throw new Error(`Unexpected value: ${value}`);
+            }
+        };
+    }
+}
+
+export class StringMapperFunctionFactoryWithNullAndUndefined<S extends string> {
+    public static readonly instance = new StringMapperFunctionFactoryWithNullAndUndefined<
+        string
+    >();
+
     public with<R>(
-        mapper:
-            | StringMapperWithNullAndUndefined<S, R>
-            | StringMapperWithNull<S, R>
-            | StringMapperWithUndefined<S, R>
-            | StringMapper<S, R>
-    ): (value: S) => R {
-        const withNull = mapper.hasOwnProperty("handleNull");
-        const withUndefined = mapper.hasOwnProperty("handleUndefined");
-
-        if (withNull && withUndefined) {
-            const castMapper = mapper as StringMapperWithNullAndUndefined<S, R>;
-
-            return (value: S | null | undefined) => {
-                if (value === undefined) {
-                    return castMapper.handleUndefined;
-                } else if (value === null) {
-                    return castMapper.handleNull;
-                } else if (mapper.hasOwnProperty(value)) {
-                    return (mapper as StringMapperCore<S, R>)[value];
-                } else if (mapper.hasOwnProperty("handleUnexpected")) {
-                    return mapper.handleUnexpected!;
-                } else {
-                    throw new Error(`Unexpected value: ${value}`);
-                }
-            };
-        } else if (withNull) {
-            const castMapper = mapper as StringMapperWithNull<S, R>;
-
-            return (value: S | null) => {
-                if (value === null) {
-                    return castMapper.handleNull;
-                } else if (mapper.hasOwnProperty(value)) {
-                    return (mapper as StringMapperCore<S, R>)[value];
-                } else if (mapper.hasOwnProperty("handleUnexpected")) {
-                    return mapper.handleUnexpected!;
-                } else {
-                    throw new Error(`Unexpected value: ${value}`);
-                }
-            };
-        } else if (withUndefined) {
-            const castMapper = mapper as StringMapperWithUndefined<S, R>;
-
-            return (value: S | undefined) => {
-                if (value === undefined) {
-                    return castMapper.handleUndefined;
-                } else if (mapper.hasOwnProperty(value)) {
-                    return (mapper as StringMapperCore<S, R>)[value];
-                } else if (mapper.hasOwnProperty("handleUnexpected")) {
-                    return mapper.handleUnexpected!;
-                } else {
-                    throw new Error(`Unexpected value: ${value}`);
-                }
-            };
-        } else {
-            return (value: S) => {
-                if (mapper.hasOwnProperty(value)) {
-                    return (mapper as StringMapperCore<S, R>)[value];
-                } else if (mapper.hasOwnProperty("handleUnexpected")) {
-                    return mapper.handleUnexpected!;
-                } else {
-                    throw new Error(`Unexpected value: ${value}`);
-                }
-            };
-        }
+        mapper: StringMapperWithNullAndUndefined<S, R>
+    ): (value: S | null | undefined) => R {
+        return (value: S | null | undefined) => {
+            if (value === undefined) {
+                return mapper.handleUndefined;
+            } else if (value === null) {
+                return mapper.handleNull;
+            } else if (mapper.hasOwnProperty(value)) {
+                return (mapper as StringMapperCore<S, R>)[value];
+            } else if (mapper.hasOwnProperty("handleUnexpected")) {
+                return mapper.handleUnexpected!;
+            } else {
+                throw new Error(`Unexpected value: ${value}`);
+            }
+        };
     }
 }

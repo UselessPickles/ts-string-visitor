@@ -11,16 +11,18 @@ import {
 
 describe("visitString", () => {
     /**
+     * String literal union type for testing purposes.
+     */
+    type RGB = "r" | "g" | "b";
+
+    /**
      * A single "entry" for running a test of a specific input value.
      */
     interface TestEntry {
         /**
          * The input value to test with the string visitor.
-         * NOTE: Using plain "string" as the type for simplicity (rather than a string literal union or string enum)
-         *       because these unit tests are for run-time behavior, and the exact type of the string-like value
-         *       is irrelevant at run-time.
          */
-        value: string | null | undefined;
+        value: RGB | null | undefined;
         /**
          * True if {@link #value} is an "unexpected" value for the visitor.
          */
@@ -87,10 +89,10 @@ describe("visitString", () => {
      */
     function runTests(
         visitorWithoutUnexpectedHandler:
-            | StringVisitor<string, string>
-            | StringVisitorWithNull<string, string>
-            | StringVisitorWithUndefined<string, string>
-            | StringVisitorWithNullAndUndefined<string, string>,
+            | StringVisitor<RGB, string>
+            | StringVisitorWithNull<RGB, string>
+            | StringVisitorWithUndefined<RGB, string>
+            | StringVisitorWithNullAndUndefined<RGB, string>,
         testEntries: TestEntry[]
     ): void {
         const visitors = [
@@ -115,7 +117,7 @@ describe("visitString", () => {
                                 test(`Correct visitor method is called`, () => {
                                     visitString(testEntry.value).with(
                                         visitor as StringVisitorWithNullAndUndefined<
-                                            string,
+                                            RGB,
                                             string
                                         >
                                     );
@@ -139,7 +141,7 @@ describe("visitString", () => {
                                 test(`Value is passed to handler`, () => {
                                     visitString(testEntry.value).with(
                                         visitor as StringVisitorWithNullAndUndefined<
-                                            string,
+                                            RGB,
                                             string
                                         >
                                     );
@@ -157,7 +159,7 @@ describe("visitString", () => {
                                         testEntry.value
                                     ).with(
                                         visitor as StringVisitorWithNullAndUndefined<
-                                            string,
+                                            RGB,
                                             string
                                         >
                                     );
@@ -168,7 +170,7 @@ describe("visitString", () => {
                                     expect(() => {
                                         visitString(testEntry.value).with(
                                             visitor as StringVisitorWithNullAndUndefined<
-                                                string,
+                                                RGB,
                                                 string
                                             >
                                         );
@@ -181,7 +183,7 @@ describe("visitString", () => {
                                     try {
                                         visitString(testEntry.value).with(
                                             visitor as StringVisitorWithNullAndUndefined<
-                                                string,
+                                                RGB,
                                                 string
                                             >
                                         );
@@ -207,12 +209,24 @@ describe("visitString", () => {
                 describe(`${
                     visitor.handleUnexpected ? "With" : "Without"
                 } handleUnexpected`, () => {
-                    const visitorFunction = visitString
-                        .makeFunctionFor<string>()
-                        .with(visitor as StringVisitorWithNullAndUndefined<
-                            string,
-                            string
-                        >);
+                    let visitorFunctionFactory: any = visitString.makeFunctionFor<
+                        RGB
+                    >();
+
+                    const hasNullHandler = "handleNull" in visitor;
+                    const hasUndefinedHandler = "handleUndefined" in visitor;
+
+                    if (hasNullHandler && hasUndefinedHandler) {
+                        visitorFunctionFactory = visitorFunctionFactory.orNullorUndefined();
+                    } else if (hasNullHandler) {
+                        visitorFunctionFactory = visitorFunctionFactory.orNull();
+                    } else if (hasUndefinedHandler) {
+                        visitorFunctionFactory = visitorFunctionFactory.orUndefined();
+                    }
+
+                    const visitorFunction = visitorFunctionFactory.with(
+                        visitor
+                    );
 
                     for (const testEntry of testEntries) {
                         describe(`value == ${testEntry.value}`, () => {
@@ -323,14 +337,14 @@ describe("visitString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (unexpected!)"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (toString)"
                 }
@@ -375,14 +389,14 @@ describe("visitString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (unexpected!)"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (toString)"
                 }
@@ -427,14 +441,14 @@ describe("visitString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (unexpected!)"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (toString)"
                 }
@@ -479,14 +493,14 @@ describe("visitString", () => {
                 },
                 {
                     isUnexpected: true,
-                    value: "unexpected!",
+                    value: "unexpected!" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (unexpected!)"
                 },
                 {
                     isUnexpected: true,
                     // matches a standard property name on Object.prototype
-                    value: "toString",
+                    value: "toString" as RGB,
                     handlerMock: handlerMockUnexpected,
                     result: "Unexpected! (toString)"
                 }

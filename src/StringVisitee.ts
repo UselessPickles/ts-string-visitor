@@ -52,6 +52,8 @@ export class StringVisitee<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringVisiteeWithNull<S extends string> {
+    public static readonly instance = new StringVisiteeWithNull<string>();
+
     /**
      * Visits the wrapped value using the supplied visitor.
      * If the wrapped value is null, calls the visitor's {@link StringNullVisitor#handleNull} method.
@@ -87,6 +89,8 @@ export class StringVisiteeWithNull<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringVisiteeWithUndefined<S extends string> {
+    public static readonly instance = new StringVisiteeWithUndefined<string>();
+
     /**
      * Visits the wrapped value using the supplied visitor.
      * If the wrapped value is undefined, calls the visitor's {@link StringNullVisitor#handleUndefined} method.
