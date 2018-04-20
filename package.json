@@ -27,10 +27,10 @@
         "lint:fix": "npm run lint -- --fix",
         "prettier:test": "prettier --list-different \"{src,tests,type_tests}/**/*.ts\"",
         "prettier:fix": "prettier --write \"{src,tests,type_tests}/**/*.ts\"",
-        "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation",
-        "build:move-types-from-commonjs": "copyfiles --up 2 dist/commonjs/*.d.ts dist/types && rimraf dist/commonjs/*.d.ts",
-        "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation -m es6 --outDir dist/es --declaration false",
-        "build": "npm run clean:dist && run-p build:es build:commonjs && npm run build:move-types-from-commonjs",
+        "build:types": "tsc --project src/tsconfig.json --pretty --noErrorTruncation --emitDeclarationOnly true --outDir dist/types",
+        "build:commonjs": "tsc --project src/tsconfig.json --pretty --noErrorTruncation --declaration false --outDir dist/commonjs",
+        "build:es": "tsc --project src/tsconfig.json --pretty --noErrorTruncation --declaration false -m es6 --outDir dist/es",
+        "build": "npm run clean:dist && run-p build:types build:es build:commonjs",
         "pack": "run-p clean:pack build && npm pack",
         "jest": "jest",
         "jest:coverage": "npm run clean:coverage && jest --coverage",
@@ -51,7 +51,6 @@
     "devDependencies": {
         "@types/jest": "22.2.2",
         "@types/node": "9.6.0",
-        "copyfiles": "1.2.0",
         "coveralls": "3.0.0",
         "dtslint": "0.2.0",
         "jest": "22.4.3",
@@ -61,7 +60,7 @@
         "ts-jest": "22.4.2",
         "tslint": "5.9.1",
         "tslint-config-prettier": "1.10.0",
-        "typescript": "^2.7.2"
+        "typescript": "^2.8.3"
     },
     "peerDependencies": {
         "typescript": ">= 2.4.1"
