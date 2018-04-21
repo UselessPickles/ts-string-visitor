@@ -103,6 +103,13 @@ export function mapString<S extends string>(
 }
 
 export namespace mapString {
+    /**
+     * Returns a string mapper function factory - an object that can be used to create a function
+     * that can be reused to map many string values. This is a less convenient approach compared to
+     * {@link mapString}, but is more optimized for multiple uses (inside loops, etc.).
+     * @template S - The string literal union type or string enum type to be mapped.
+     * @return A string mapper function factory.
+     */
     export function makeFunctionFor<
         S extends string
     >(): StringMapperFunctionFactory<S> {

@@ -51,6 +51,10 @@ export class StringMappee<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringMappeeWithNull<S extends string> {
+    /**
+     * An instance that is reused as an optimization.
+     * This class has no state, so there is no reason to create multiple instances.
+     */
     public static readonly instance = new StringMappeeWithNull<string>();
 
     /**
@@ -88,6 +92,10 @@ export class StringMappeeWithNull<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringMappeeWithUndefined<S extends string> {
+    /**
+     * An instance that is reused as an optimization.
+     * This class has no state, so there is no reason to create multiple instances.
+     */
     public static readonly instance = new StringMappeeWithUndefined<string>();
 
     /**

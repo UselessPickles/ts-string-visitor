@@ -52,6 +52,10 @@ export class StringVisitee<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringVisiteeWithNull<S extends string> {
+    /**
+     * An instance that is reused as an optimization.
+     * This class has no state, so there is no reason to create multiple instances.
+     */
     public static readonly instance = new StringVisiteeWithNull<string>();
 
     /**
@@ -89,6 +93,10 @@ export class StringVisiteeWithNull<S extends string> {
  * @template S - A string literal type or string enum type.
  */
 export class StringVisiteeWithUndefined<S extends string> {
+    /**
+     * An instance that is reused as an optimization.
+     * This class has no state, so there is no reason to create multiple instances.
+     */
     public static readonly instance = new StringVisiteeWithUndefined<string>();
 
     /**
