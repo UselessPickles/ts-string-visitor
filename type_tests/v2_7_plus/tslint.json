@@ -1,6 +1,7 @@
 {
     "extends": "dtslint/dtslint.json",
     "rules": {
-        "newline-per-chained-call": false
+        "newline-per-chained-call": false,
+        "no-useless-files": false
     }
 }
