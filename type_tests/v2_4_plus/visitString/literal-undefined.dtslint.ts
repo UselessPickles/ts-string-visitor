@@ -1,4 +1,4 @@
-import { visitString } from "../../../src";
+import { visitString } from "../../../dist/types";
 
 type RGB = "r" | "g" | "b";
 
