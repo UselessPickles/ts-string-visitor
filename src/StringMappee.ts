@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
     StringMapperCore,
     StringMapper,
@@ -30,9 +31,12 @@ export class StringMappee<S extends string> {
      */
     public with<R>(mapper: StringMapper<S, R>): R {
         if (mapper.hasOwnProperty(this.value)) {
-            return (mapper as StringMapperCore<S, R>)[this.value];
+            return processEntry<R>(
+                (mapper as StringMapperCore<S, R>)[this.value],
+                this.value
+            );
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return mapper.handleUnexpected!;
+            return processEntry<R>(mapper.handleUnexpected!, this.value);
         } else {
             throw new Error(`Unexpected value: ${this.value}`);
         }
@@ -65,9 +69,9 @@ export class StringMappeeWithNull<S extends string> {
         // This class is used at run time for mapping null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
         if (mapper.hasOwnProperty("handleNull")) {
-            return mapper.handleNull;
+            return processEntry<R>(mapper.handleNull, null);
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return mapper.handleUnexpected!;
+            return processEntry<R>(mapper.handleUnexpected!, null);
         } else {
             throw new Error(`Unexpected value: null`);
         }
@@ -100,9 +104,9 @@ export class StringMappeeWithUndefined<S extends string> {
         // This class is used at run time for mapping undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
         if (mapper.hasOwnProperty("handleUndefined")) {
-            return mapper.handleUndefined;
+            return processEntry<R>(mapper.handleUndefined, undefined);
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return mapper.handleUnexpected!;
+            return processEntry<R>(mapper.handleUnexpected!, undefined);
         } else {
             throw new Error(`Unexpected value: undefined`);
         }
@@ -134,4 +138,22 @@ export declare class StringMappeeWithNullAndUndefined<S extends string> {
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithNullAndUndefined<S, R>): R;
+}
+
+/**
+ * Common implementation for processing an entry of a string mapper.
+ * @param entry - Either the mapped value entry, or an UnhandledEntry.
+ * @param value - The value being mapped.
+ * @return The provided entry, if it is not an UnhandledEntry.
+ * @throws {Error} If the provided entry is an UnhandledEntry.
+ */
+function processEntry<R>(
+    entry: R | UnhandledEntry,
+    value: string | null | undefined
+): R {
+    if (UnhandledEntry.isUnhandledEntry(entry)) {
+        throw entry.createError(value);
+    } else {
+        return entry;
+    }
 }

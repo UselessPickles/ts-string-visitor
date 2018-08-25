@@ -26,7 +26,18 @@ mapString(rgb).with({
     handleUndefined: "-1"
 });
 
+// Return type is inferred when "unhandled" entries exist
+// $ExpectType number
+mapString(rgb).with({
+    r: 10,
+    g: mapString.unhandled(),
+    b: 30,
+    handleNull: -1,
+    handleUndefined: -1
+});
+
 // handleUnexpected is allowed
+// $ExpectType number
 mapString(rgb).with({
     r: 10,
     g: 20,
@@ -34,6 +45,17 @@ mapString(rgb).with({
     handleNull: -1,
     handleUndefined: -1,
     handleUnexpected: -1
+});
+
+// special handlers can be unhandled
+// $ExpectType number
+mapString(rgb).with({
+    r: 10,
+    g: 20,
+    b: 30,
+    handleNull: mapString.unhandled(),
+    handleUndefined: mapString.unhandled(),
+    handleUnexpected: mapString.unhandled()
 });
 
 // Missing value handler causes error

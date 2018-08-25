@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
     StringMappee,
     StringMappeeWithNull,
@@ -98,5 +99,17 @@ export function mapString<S extends string>(
         return new StringMappeeWithUndefined<S>();
     } else {
         return new StringMappee<S>(value);
+    }
+}
+
+export namespace mapString {
+    /**
+     * Convenience method for creating a {@link UnhandledEntry}.
+     * @param message - An optional message to include in the error message when the unhandled
+     *        value is encountered.
+     * @return an UnhandledEntry instance.
+     */
+    export function unhandled(message?: string): UnhandledEntry {
+        return new UnhandledEntry(message);
     }
 }

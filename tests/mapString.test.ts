@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "../src/UnhandledEntry";
 import {
     mapString,
     StringMapper,
@@ -63,12 +64,26 @@ describe("mapString", () => {
                 ["g"]: "Green!",
                 ["b"]: "Blue!",
                 handleUnexpected: "Unexpected!"
+            },
+            {
+                ["r"]: mapString.unhandled(),
+                ["g"]: mapString.unhandled(),
+                ["b"]: mapString.unhandled(),
+                handleUnexpected: mapString.unhandled()
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (mapper.handleUnexpected || !testEntry.isUnexpected) {
                     test(`Correct value is returned (${
                         testEntry.value
                     })`, () => {
@@ -144,12 +159,27 @@ describe("mapString", () => {
                 ["b"]: "Blue!",
                 handleNull: "Null!",
                 handleUnexpected: "Unexpected!"
+            },
+            {
+                ["r"]: mapString.unhandled(),
+                ["g"]: mapString.unhandled(),
+                ["b"]: mapString.unhandled(),
+                handleNull: mapString.unhandled(),
+                handleUnexpected: mapString.unhandled()
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (mapper.handleUnexpected || !testEntry.isUnexpected) {
                     test(`Correct value is returned (${
                         testEntry.value
                     })`, () => {
@@ -225,12 +255,27 @@ describe("mapString", () => {
                 ["b"]: "Blue!",
                 handleUndefined: "Undefined!",
                 handleUnexpected: "Unexpected!"
+            },
+            {
+                ["r"]: mapString.unhandled(),
+                ["g"]: mapString.unhandled(),
+                ["b"]: mapString.unhandled(),
+                handleUndefined: mapString.unhandled(),
+                handleUnexpected: mapString.unhandled()
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (mapper.handleUnexpected || !testEntry.isUnexpected) {
                     test(`Correct value is returned (${
                         testEntry.value
                     })`, () => {
@@ -307,12 +352,28 @@ describe("mapString", () => {
                 handleNull: "Null!",
                 handleUndefined: "Undefined!",
                 handleUnexpected: "Unexpected!"
+            },
+            {
+                ["r"]: mapString.unhandled(),
+                ["g"]: mapString.unhandled(),
+                ["b"]: mapString.unhandled(),
+                handleNull: mapString.unhandled(),
+                handleUndefined: mapString.unhandled(),
+                handleUnexpected: mapString.unhandled()
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (mapper.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            mapString(testEntry.value).with(mapper);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (mapper.handleUnexpected || !testEntry.isUnexpected) {
                     test(`Correct value is returned (${
                         testEntry.value
                     })`, () => {
@@ -331,5 +392,30 @@ describe("mapString", () => {
                 }
             }
         }
+    });
+
+    describe("unhandled()", () => {
+        test("without message", () => {
+            const result = mapString.unhandled();
+            const expectedErrorMessage = new UnhandledEntry().createError("foo")
+                .message;
+
+            expect(result).toBeInstanceOf(UnhandledEntry);
+            expect(result.createError("foo").message).toBe(
+                expectedErrorMessage
+            );
+        });
+
+        test("with message", () => {
+            const result = mapString.unhandled("Test message");
+            const expectedErrorMessage = new UnhandledEntry(
+                "Test message"
+            ).createError("foo").message;
+
+            expect(result).toBeInstanceOf(UnhandledEntry);
+            expect(result.createError("foo").message).toBe(
+                expectedErrorMessage
+            );
+        });
     });
 });

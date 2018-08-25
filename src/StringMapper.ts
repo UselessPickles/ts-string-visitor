@@ -1,3 +1,5 @@
+import { UnhandledEntry } from "./UnhandledEntry";
+
 /**
  * Core definition of all string mapper interfaces.
  * Defines properties for each possible value of type `S`.
@@ -5,7 +7,9 @@
  * @template S - A string literal type or string enum type.
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
-export type StringMapperCore<S extends string, T> = { [P in S]: T };
+export type StringMapperCore<S extends string, T> = {
+    [P in S]: T | UnhandledEntry
+};
 
 /**
  * Interface for an object that optionally maps an unexpected value to a value of type T.
@@ -14,7 +18,7 @@ export type StringMapperCore<S extends string, T> = { [P in S]: T };
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface UnexpectedStringMapper<T> {
-    handleUnexpected?: T;
+    handleUnexpected?: T | UnhandledEntry;
 }
 
 /**
@@ -24,7 +28,7 @@ export interface UnexpectedStringMapper<T> {
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface NullStringMapper<T> {
-    handleNull: T;
+    handleNull: T | UnhandledEntry;
 }
 
 /**
@@ -34,7 +38,7 @@ export interface NullStringMapper<T> {
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface UndefinedStringMapper<T> {
-    handleUndefined: T;
+    handleUndefined: T | UnhandledEntry;
 }
 
 /**
