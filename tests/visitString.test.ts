@@ -3,7 +3,8 @@ import {
     StringVisitor,
     StringVisitorWithNull,
     StringVisitorWithUndefined,
-    StringVisitorWithNullAndUndefined
+    StringVisitorWithNullAndUndefined,
+    UnhandledEntry
 } from "../src";
 
 describe("visitString", () => {
@@ -113,12 +114,29 @@ describe("visitString", () => {
                 ["g"]: handlerMockG,
                 ["b"]: handlerMockB,
                 handleUnexpected: handlerMockUnexpected
+            },
+            {
+                ["r"]: visitString.unhandled(),
+                ["g"]: visitString.unhandled(),
+                ["b"]: visitString.unhandled(),
+                handleUnexpected: visitString.unhandled()
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (
+                    visitor.handleUnexpected ||
+                    !testEntry.isUnexpected
+                ) {
                     test(`Correct visitor method is called (${
                         testEntry.value
                     })`, () => {
@@ -241,12 +259,30 @@ describe("visitString", () => {
                 ["b"]: handlerMockB,
                 handleNull: handlerMockNull,
                 handleUnexpected: handlerMockUnexpected
+            },
+            {
+                ["r"]: visitString.unhandled(),
+                ["g"]: visitString.unhandled(),
+                ["b"]: visitString.unhandled(),
+                handleNull: visitString.unhandled(),
+                handleUnexpected: visitString.unhandled()
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (
+                    visitor.handleUnexpected ||
+                    !testEntry.isUnexpected
+                ) {
                     test(`Correct visitor method is called (${
                         testEntry.value
                     })`, () => {
@@ -369,12 +405,30 @@ describe("visitString", () => {
                 ["b"]: handlerMockB,
                 handleUndefined: handlerMockUndefined,
                 handleUnexpected: handlerMockUnexpected
+            },
+            {
+                ["r"]: visitString.unhandled(),
+                ["g"]: visitString.unhandled(),
+                ["b"]: visitString.unhandled(),
+                handleUndefined: visitString.unhandled(),
+                handleUnexpected: visitString.unhandled()
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (
+                    visitor.handleUnexpected ||
+                    !testEntry.isUnexpected
+                ) {
                     test(`Correct visitor method is called (${
                         testEntry.value
                     })`, () => {
@@ -498,12 +552,31 @@ describe("visitString", () => {
                 handleNull: handlerMockNull,
                 handleUndefined: handlerMockUndefined,
                 handleUnexpected: handlerMockUnexpected
+            },
+            {
+                ["r"]: visitString.unhandled(),
+                ["g"]: visitString.unhandled(),
+                ["b"]: visitString.unhandled(),
+                handleNull: visitString.unhandled(),
+                handleUndefined: visitString.unhandled(),
+                handleUnexpected: visitString.unhandled()
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (visitor.handleUnexpected || !testEntry.isUnexpected) {
+                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                    test(`Unhandled entry throws error (${
+                        testEntry.value
+                    }`, () => {
+                        expect(() => {
+                            visitString(testEntry.value).with(visitor);
+                        }).toThrowError(`Unhandled value: ${testEntry.value}`);
+                    });
+                } else if (
+                    visitor.handleUnexpected ||
+                    !testEntry.isUnexpected
+                ) {
                     test(`Correct visitor method is called (${
                         testEntry.value
                     })`, () => {
@@ -561,5 +634,30 @@ describe("visitString", () => {
                 }
             }
         }
+    });
+
+    describe("unhandled()", () => {
+        test("without message", () => {
+            const result = visitString.unhandled();
+            const expectedErrorMessage = new UnhandledEntry().createError("foo")
+                .message;
+
+            expect(result).toBeInstanceOf(UnhandledEntry);
+            expect(result.createError("foo").message).toBe(
+                expectedErrorMessage
+            );
+        });
+
+        test("with message", () => {
+            const result = visitString.unhandled("Test message");
+            const expectedErrorMessage = new UnhandledEntry(
+                "Test message"
+            ).createError("foo").message;
+
+            expect(result).toBeInstanceOf(UnhandledEntry);
+            expect(result.createError("foo").message).toBe(
+                expectedErrorMessage
+            );
+        });
     });
 });

@@ -1,3 +1,5 @@
+import { UnhandledEntry } from "./UnhandledEntry";
+
 /**
  * Generic method signature for a string visitor handler method.
  * @template S - The type of the parameter to the handler. Must be a string literal, null, or undefined.
@@ -18,7 +20,7 @@ export type StringVisitorHandler<
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitorCore<S extends string, R> = {
-    [P in S]: StringVisitorHandler<P, R>
+    [P in S]: StringVisitorHandler<P, R> | UnhandledEntry
 };
 
 /**
@@ -28,7 +30,7 @@ export type StringVisitorCore<S extends string, R> = {
  * @template R - The return type of the visitor method.
  */
 export interface NullStringVisitor<R> {
-    handleNull: StringVisitorHandler<null, R>;
+    handleNull: StringVisitorHandler<null, R> | UnhandledEntry;
 }
 
 /**
@@ -38,7 +40,7 @@ export interface NullStringVisitor<R> {
  * @template R - The return type of the visitor method.
  */
 export interface UndefinedStringVisitor<R> {
-    handleUndefined: StringVisitorHandler<undefined, R>;
+    handleUndefined: StringVisitorHandler<undefined, R> | UnhandledEntry;
 }
 
 /**
@@ -48,7 +50,9 @@ export interface UndefinedStringVisitor<R> {
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitor<S extends string, R> = StringVisitorCore<S, R> & {
-    handleUnexpected?: StringVisitorHandler<string | null | undefined, R>;
+    handleUnexpected?:
+        | StringVisitorHandler<string | null | undefined, R>
+        | UnhandledEntry;
 };
 
 /**
@@ -63,7 +67,9 @@ export type StringVisitorWithNull<S extends string, R> = StringVisitorCore<
     R
 > &
     NullStringVisitor<R> & {
-        handleUnexpected?: StringVisitorHandler<string | undefined, R>;
+        handleUnexpected?:
+            | StringVisitorHandler<string | undefined, R>
+            | UnhandledEntry;
     };
 
 /**
@@ -78,7 +84,9 @@ export type StringVisitorWithUndefined<S extends string, R> = StringVisitorCore<
     R
 > &
     UndefinedStringVisitor<R> & {
-        handleUnexpected?: StringVisitorHandler<string | null, R>;
+        handleUnexpected?:
+            | StringVisitorHandler<string | null, R>
+            | UnhandledEntry;
     };
 
 /**
@@ -94,5 +102,5 @@ export type StringVisitorWithNullAndUndefined<
 > = StringVisitorCore<S, R> &
     NullStringVisitor<R> &
     UndefinedStringVisitor<R> & {
-        handleUnexpected?: StringVisitorHandler<string, R>;
+        handleUnexpected?: StringVisitorHandler<string, R> | UnhandledEntry;
     };

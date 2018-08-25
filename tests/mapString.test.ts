@@ -1,10 +1,10 @@
-import { UnhandledEntry } from "../src/UnhandledEntry";
 import {
     mapString,
     StringMapper,
     StringMapperWithNull,
     StringMapperWithUndefined,
-    StringMapperWithNullAndUndefined
+    StringMapperWithNullAndUndefined,
+    UnhandledEntry
 } from "../src";
 
 describe("mapString", () => {

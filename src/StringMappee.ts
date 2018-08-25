@@ -26,7 +26,7 @@ export class StringMappee<S extends string> {
      *
      * @template T - The data type that the string literal or enum value will be mapped to.
      *
-     * @param mapper - A mapper implementation for type S that returns type T.
+     * @param mapper - A mapper implementation for type S that returns type R.
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapper<S, R>): R {
@@ -36,7 +36,7 @@ export class StringMappee<S extends string> {
                 this.value
             );
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return processEntry<R>(mapper.handleUnexpected!, this.value);
+            return processEntry(mapper.handleUnexpected!, this.value);
         } else {
             throw new Error(`Unexpected value: ${this.value}`);
         }
@@ -62,16 +62,16 @@ export class StringMappeeWithNull<S extends string> {
      *
      * @template T - The data type that the string literal or enum value will be mapped to.
      *
-     * @param mapper - A mapper implementation for type S that returns type T.
+     * @param mapper - A mapper implementation for type S that returns type R.
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithNull<S, R>): R {
         // This class is used at run time for mapping null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
         if (mapper.hasOwnProperty("handleNull")) {
-            return processEntry<R>(mapper.handleNull, null);
+            return processEntry(mapper.handleNull, null);
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return processEntry<R>(mapper.handleUnexpected!, null);
+            return processEntry(mapper.handleUnexpected!, null);
         } else {
             throw new Error(`Unexpected value: null`);
         }
@@ -97,16 +97,16 @@ export class StringMappeeWithUndefined<S extends string> {
      *
      * @template T - The data type that the string literal or enum value will be mapped to.
      *
-     * @param mapper - A mapper implementation for type S that returns type T.
+     * @param mapper - A mapper implementation for type S that returns type R.
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithUndefined<S, R>): R {
         // This class is used at run time for mapping undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
         if (mapper.hasOwnProperty("handleUndefined")) {
-            return processEntry<R>(mapper.handleUndefined, undefined);
+            return processEntry(mapper.handleUndefined, undefined);
         } else if (mapper.hasOwnProperty("handleUnexpected")) {
-            return processEntry<R>(mapper.handleUnexpected!, undefined);
+            return processEntry(mapper.handleUnexpected!, undefined);
         } else {
             throw new Error(`Unexpected value: undefined`);
         }
@@ -134,7 +134,7 @@ export declare class StringMappeeWithNullAndUndefined<S extends string> {
      *
      * @template T - The data type that the string literal or enum value will be mapped to.
      *
-     * @param mapper - A mapper implementation for type S that returns type T.
+     * @param mapper - A mapper implementation for type S that returns type R.
      * @returns The mapped value from the mapper.
      */
     public with<R>(mapper: StringMapperWithNullAndUndefined<S, R>): R;

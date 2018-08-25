@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
     StringVisitee,
     StringVisiteeWithNull,
@@ -98,5 +99,17 @@ export function visitString<S extends string>(
         return new StringVisiteeWithUndefined<S>();
     } else {
         return new StringVisitee<S>(value);
+    }
+}
+
+export namespace visitString {
+    /**
+     * Convenience method for creating a {@link UnhandledEntry}.
+     * @param message - An optional message to include in the error message when the unhandled
+     *        value is encountered.
+     * @return an UnhandledEntry instance.
+     */
+    export function unhandled(message?: string): UnhandledEntry {
+        return new UnhandledEntry(message);
     }
 }
