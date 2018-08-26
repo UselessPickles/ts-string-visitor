@@ -1,32 +1,33 @@
 import { mapString } from "../../../dist/types";
 
-type RGB = "r" | "g" | "b";
+enum RGB {
+    R = "r",
+    G = "g",
+    B = "b"
+}
 
-declare const rgb: RGB | undefined;
+declare const rgb: RGB;
 
 // Return type is inferred
 // $ExpectType number
 mapString(rgb).with({
     r: 10,
     g: 20,
-    b: 30,
-    handleUndefined: -1
+    b: 30
 });
 // $ExpectType string
 mapString(rgb).with({
     r: "10",
     g: "20",
-    b: "30",
-    handleUndefined: "-1"
+    b: "30"
 });
 
 // Return type is inferred when "unhandled" entries exist
 // $ExpectType number
 mapString(rgb).with({
     r: 10,
-    g: mapString.unhandled(),
-    b: 30,
-    handleUndefined: -1
+    g: mapString.unhandled,
+    b: 30
 });
 
 // handleUnexpected is allowed
@@ -35,7 +36,6 @@ mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
-    handleUndefined: -1,
     handleUnexpected: -1
 });
 
@@ -45,16 +45,14 @@ mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
-    handleUndefined: mapString.unhandled(),
-    handleUnexpected: mapString.unhandled()
+    handleUnexpected: mapString.unhandled
 });
 
 // Missing value handler causes error
 // $ExpectError
 mapString(rgb).with({
     r: 10,
-    b: 30,
-    handleUndefined: -1
+    b: 30
 });
 
 // Unexpected value handler causes error
@@ -62,15 +60,6 @@ mapString(rgb).with({
     r: 10,
     // $ExpectError
     oops: 42,
-    g: 20,
-    b: 30,
-    handleUndefined: -1
-});
-
-// missing undefined handler causes error
-// $ExpectError
-mapString(rgb).with({
-    r: 10,
     g: 20,
     b: 30
 });
@@ -81,6 +70,22 @@ mapString(rgb).with({
     g: 20,
     b: 30,
     // $ExpectError
-    handleNull: -1,
+    handleNull: -1
+});
+
+// Unnecessary undefined handler causes error
+mapString(rgb).with({
+    r: 10,
+    g: 20,
+    b: 30,
+    // $ExpectError
     handleUndefined: -1
+});
+
+// Test enum value computed property names (no compiler error).
+// (only supported as of TS 2.6.1)
+mapString(rgb).with({
+    [RGB.R]: 10,
+    [RGB.G]: 20,
+    [RGB.B]: 30
 });

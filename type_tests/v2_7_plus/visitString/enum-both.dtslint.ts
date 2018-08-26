@@ -67,7 +67,7 @@ visitString(rgb).with({
 // $ExpectType number
 visitString(rgb).with({
     r: (value) => 10,
-    g: visitString.unhandled(),
+    g: visitString.unhandled,
     b: (value) => 30,
     handleNull: (value) => -1,
     handleUndefined: (value) => -1
@@ -79,9 +79,9 @@ visitString(rgb).with({
     r: (value) => 10,
     g: (value) => 20,
     b: (value) => 30,
-    handleNull: visitString.unhandled(),
-    handleUndefined: visitString.unhandled(),
-    handleUnexpected: visitString.unhandled()
+    handleNull: visitString.unhandled,
+    handleUndefined: visitString.unhandled,
+    handleUnexpected: visitString.unhandled
 });
 
 // Missing value handler causes error

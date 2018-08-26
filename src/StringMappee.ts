@@ -148,11 +148,11 @@ export declare class StringMappeeWithNullAndUndefined<S extends string> {
  * @throws {Error} If the provided entry is an UnhandledEntry.
  */
 function processEntry<R>(
-    entry: R | UnhandledEntry,
+    entry: R | UnhandledEntry.Token,
     value: string | null | undefined
 ): R {
-    if (UnhandledEntry.isUnhandledEntry(entry)) {
-        throw entry.createError(value);
+    if (entry === UnhandledEntry.token) {
+        throw UnhandledEntry.createError(value);
     } else {
         return entry;
     }

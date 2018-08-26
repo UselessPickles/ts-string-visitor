@@ -116,16 +116,16 @@ describe("visitString", () => {
                 handleUnexpected: handlerMockUnexpected
             },
             {
-                ["r"]: visitString.unhandled(),
-                ["g"]: visitString.unhandled(),
-                ["b"]: visitString.unhandled(),
-                handleUnexpected: visitString.unhandled()
+                ["r"]: visitString.unhandled,
+                ["g"]: visitString.unhandled,
+                ["b"]: visitString.unhandled,
+                handleUnexpected: visitString.unhandled
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                if (visitor["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -261,17 +261,17 @@ describe("visitString", () => {
                 handleUnexpected: handlerMockUnexpected
             },
             {
-                ["r"]: visitString.unhandled(),
-                ["g"]: visitString.unhandled(),
-                ["b"]: visitString.unhandled(),
-                handleNull: visitString.unhandled(),
-                handleUnexpected: visitString.unhandled()
+                ["r"]: visitString.unhandled,
+                ["g"]: visitString.unhandled,
+                ["b"]: visitString.unhandled,
+                handleNull: visitString.unhandled,
+                handleUnexpected: visitString.unhandled
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                if (visitor["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -407,17 +407,17 @@ describe("visitString", () => {
                 handleUnexpected: handlerMockUnexpected
             },
             {
-                ["r"]: visitString.unhandled(),
-                ["g"]: visitString.unhandled(),
-                ["b"]: visitString.unhandled(),
-                handleUndefined: visitString.unhandled(),
-                handleUnexpected: visitString.unhandled()
+                ["r"]: visitString.unhandled,
+                ["g"]: visitString.unhandled,
+                ["b"]: visitString.unhandled,
+                handleUndefined: visitString.unhandled,
+                handleUnexpected: visitString.unhandled
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                if (visitor["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -554,18 +554,18 @@ describe("visitString", () => {
                 handleUnexpected: handlerMockUnexpected
             },
             {
-                ["r"]: visitString.unhandled(),
-                ["g"]: visitString.unhandled(),
-                ["b"]: visitString.unhandled(),
-                handleNull: visitString.unhandled(),
-                handleUndefined: visitString.unhandled(),
-                handleUnexpected: visitString.unhandled()
+                ["r"]: visitString.unhandled,
+                ["g"]: visitString.unhandled,
+                ["b"]: visitString.unhandled,
+                handleNull: visitString.unhandled,
+                handleUndefined: visitString.unhandled,
+                handleUnexpected: visitString.unhandled
             }
         ];
 
         for (const visitor of visitors) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(visitor["r"])) {
+                if (visitor["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -636,7 +636,7 @@ describe("visitString", () => {
         }
     });
 
-    test("unhandled() is an alias of UnhandledEntry.getInstance()", () => {
-        expect(visitString.unhandled).toBe(UnhandledEntry.getInstance);
+    test("unhandled is an alias of UnhandledEntry.token", () => {
+        expect(visitString.unhandled).toBe(UnhandledEntry.token);
     });
 });

@@ -150,11 +150,11 @@ export declare class StringVisiteeWithNullAndUndefined<S extends string> {
  * @throws {Error} If the provided entry is an UnhandledEntry.
  */
 function processEntry<S extends string | null | undefined, R>(
-    entry: StringVisitorHandler<S, R> | UnhandledEntry,
+    entry: StringVisitorHandler<S, R> | UnhandledEntry.Token,
     value: S
 ): R {
-    if (UnhandledEntry.isUnhandledEntry(entry)) {
-        throw entry.createError(value);
+    if (entry === UnhandledEntry.token) {
+        throw UnhandledEntry.createError(value);
     } else {
         return entry(value);
     }

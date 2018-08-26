@@ -20,7 +20,7 @@ export type StringVisitorHandler<
  * @template R - The return type of the visitor methods.
  */
 export type StringVisitorCore<S extends string, R> = {
-    [P in S]: StringVisitorHandler<P, R> | UnhandledEntry
+    [P in S]: StringVisitorHandler<P, R> | UnhandledEntry.Token
 };
 
 /**
@@ -30,7 +30,7 @@ export type StringVisitorCore<S extends string, R> = {
  * @template R - The return type of the visitor method.
  */
 export interface NullStringVisitor<R> {
-    handleNull: StringVisitorHandler<null, R> | UnhandledEntry;
+    handleNull: StringVisitorHandler<null, R> | UnhandledEntry.Token;
 }
 
 /**
@@ -40,7 +40,7 @@ export interface NullStringVisitor<R> {
  * @template R - The return type of the visitor method.
  */
 export interface UndefinedStringVisitor<R> {
-    handleUndefined: StringVisitorHandler<undefined, R> | UnhandledEntry;
+    handleUndefined: StringVisitorHandler<undefined, R> | UnhandledEntry.Token;
 }
 
 /**
@@ -52,7 +52,7 @@ export interface UndefinedStringVisitor<R> {
 export type StringVisitor<S extends string, R> = StringVisitorCore<S, R> & {
     handleUnexpected?:
         | StringVisitorHandler<string | null | undefined, R>
-        | UnhandledEntry;
+        | UnhandledEntry.Token;
 };
 
 /**
@@ -69,7 +69,7 @@ export type StringVisitorWithNull<S extends string, R> = StringVisitorCore<
     NullStringVisitor<R> & {
         handleUnexpected?:
             | StringVisitorHandler<string | undefined, R>
-            | UnhandledEntry;
+            | UnhandledEntry.Token;
     };
 
 /**
@@ -86,7 +86,7 @@ export type StringVisitorWithUndefined<S extends string, R> = StringVisitorCore<
     UndefinedStringVisitor<R> & {
         handleUnexpected?:
             | StringVisitorHandler<string | null, R>
-            | UnhandledEntry;
+            | UnhandledEntry.Token;
     };
 
 /**
@@ -102,5 +102,7 @@ export type StringVisitorWithNullAndUndefined<
 > = StringVisitorCore<S, R> &
     NullStringVisitor<R> &
     UndefinedStringVisitor<R> & {
-        handleUnexpected?: StringVisitorHandler<string, R> | UnhandledEntry;
+        handleUnexpected?:
+            | StringVisitorHandler<string, R>
+            | UnhandledEntry.Token;
     };

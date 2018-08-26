@@ -66,16 +66,16 @@ describe("mapString", () => {
                 handleUnexpected: "Unexpected!"
             },
             {
-                ["r"]: mapString.unhandled(),
-                ["g"]: mapString.unhandled(),
-                ["b"]: mapString.unhandled(),
-                handleUnexpected: mapString.unhandled()
+                ["r"]: mapString.unhandled,
+                ["g"]: mapString.unhandled,
+                ["b"]: mapString.unhandled,
+                handleUnexpected: mapString.unhandled
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                if (mapper["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -161,17 +161,17 @@ describe("mapString", () => {
                 handleUnexpected: "Unexpected!"
             },
             {
-                ["r"]: mapString.unhandled(),
-                ["g"]: mapString.unhandled(),
-                ["b"]: mapString.unhandled(),
-                handleNull: mapString.unhandled(),
-                handleUnexpected: mapString.unhandled()
+                ["r"]: mapString.unhandled,
+                ["g"]: mapString.unhandled,
+                ["b"]: mapString.unhandled,
+                handleNull: mapString.unhandled,
+                handleUnexpected: mapString.unhandled
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                if (mapper["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -257,17 +257,17 @@ describe("mapString", () => {
                 handleUnexpected: "Unexpected!"
             },
             {
-                ["r"]: mapString.unhandled(),
-                ["g"]: mapString.unhandled(),
-                ["b"]: mapString.unhandled(),
-                handleUndefined: mapString.unhandled(),
-                handleUnexpected: mapString.unhandled()
+                ["r"]: mapString.unhandled,
+                ["g"]: mapString.unhandled,
+                ["b"]: mapString.unhandled,
+                handleUndefined: mapString.unhandled,
+                handleUnexpected: mapString.unhandled
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                if (mapper["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -354,18 +354,18 @@ describe("mapString", () => {
                 handleUnexpected: "Unexpected!"
             },
             {
-                ["r"]: mapString.unhandled(),
-                ["g"]: mapString.unhandled(),
-                ["b"]: mapString.unhandled(),
-                handleNull: mapString.unhandled(),
-                handleUndefined: mapString.unhandled(),
-                handleUnexpected: mapString.unhandled()
+                ["r"]: mapString.unhandled,
+                ["g"]: mapString.unhandled,
+                ["b"]: mapString.unhandled,
+                handleNull: mapString.unhandled,
+                handleUndefined: mapString.unhandled,
+                handleUnexpected: mapString.unhandled
             }
         ];
 
         for (const mapper of mappers) {
             for (const testEntry of TEST_ENTRIES) {
-                if (UnhandledEntry.isUnhandledEntry(mapper["r"])) {
+                if (mapper["r"] === UnhandledEntry.token) {
                     test(`Unhandled entry throws error (${
                         testEntry.value
                     }`, () => {
@@ -394,7 +394,7 @@ describe("mapString", () => {
         }
     });
 
-    test("unhandled() is an alias of UnhandledEntry.getInstance()", () => {
-        expect(mapString.unhandled).toBe(UnhandledEntry.getInstance);
+    test("unhandled is an alias of UnhandledEntry.token", () => {
+        expect(mapString.unhandled).toBe(UnhandledEntry.token);
     });
 });

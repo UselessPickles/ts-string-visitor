@@ -104,7 +104,7 @@ export function visitString<S extends string>(
 
 export namespace visitString {
     /**
-     * Convenient alias of {@link UnhandledEntry.getInstance}.
+     * Convenient alias of {@link UnhandledEntry.token}.
      */
-    export const unhandled = UnhandledEntry.getInstance;
+    export const unhandled: UnhandledEntry.Token = UnhandledEntry.token;
 }

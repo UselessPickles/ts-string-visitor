@@ -8,7 +8,7 @@ import { UnhandledEntry } from "./UnhandledEntry";
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export type StringMapperCore<S extends string, T> = {
-    [P in S]: T | UnhandledEntry
+    [P in S]: T | UnhandledEntry.Token
 };
 
 /**
@@ -18,7 +18,7 @@ export type StringMapperCore<S extends string, T> = {
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface UnexpectedStringMapper<T> {
-    handleUnexpected?: T | UnhandledEntry;
+    handleUnexpected?: T | UnhandledEntry.Token;
 }
 
 /**
@@ -28,7 +28,7 @@ export interface UnexpectedStringMapper<T> {
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface NullStringMapper<T> {
-    handleNull: T | UnhandledEntry;
+    handleNull: T | UnhandledEntry.Token;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface NullStringMapper<T> {
  * @template T - The type of the value that the string literal or string enum is mapped to.
  */
 export interface UndefinedStringMapper<T> {
-    handleUndefined: T | UnhandledEntry;
+    handleUndefined: T | UnhandledEntry.Token;
 }
 
 /**

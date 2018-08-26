@@ -1,10 +1,6 @@
 import { mapString } from "../../../dist/types";
 
-enum RGB {
-    R = "r",
-    G = "g",
-    B = "b"
-}
+type RGB = "r" | "g" | "b";
 
 declare const rgb: RGB | null | undefined;
 
@@ -30,7 +26,7 @@ mapString(rgb).with({
 // $ExpectType number
 mapString(rgb).with({
     r: 10,
-    g: mapString.unhandled(),
+    g: mapString.unhandled,
     b: 30,
     handleNull: -1,
     handleUndefined: -1
@@ -53,9 +49,9 @@ mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
-    handleNull: mapString.unhandled(),
-    handleUndefined: mapString.unhandled(),
-    handleUnexpected: mapString.unhandled()
+    handleNull: mapString.unhandled,
+    handleUndefined: mapString.unhandled,
+    handleUnexpected: mapString.unhandled
 });
 
 // Missing value handler causes error
