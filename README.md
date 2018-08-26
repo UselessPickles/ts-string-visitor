@@ -11,34 +11,31 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 
 <!-- TOC depthFrom:2 -->
 
--   [What is it?](#what-is-it)
--   [Other TypeScript Enum Projects](#other-typescript-enum-projects)
--   [Quick Start](#quick-start)
-    -   [Installation](#installation)
-    -   [Usage Example](#usage-example)
-        -   [Visitor](#visitor)
-        -   [Mapper](#mapper)
--   [Requirements](#requirements)
--   [General Usage and Terminology](#general-usage-and-terminology)
-    -   [Visitor](#visitor-1)
-    -   [Mapper](#mapper-1)
--   [Handling Null/Undefined](#handling-nullundefined)
--   [Handling Unexpected Values at Run Time](#handling-unexpected-values-at-run-time)
--   [Visitor Method Return Values](#visitor-method-return-values)
--   [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type)
--   [Visitor Method Parameters](#visitor-method-parameters)
--   [Sharing Visitor Methods Across Multiple Values](#sharing-visitor-methods-across-multiple-values)
-    -   [Without Using Visitor Method Parameters](#without-using-visitor-method-parameters)
-    -   [Using Visitor Method Parameters](#using-visitor-method-parameters)
--   [Visiting/Mapping String Enums](#visitingmapping-string-enums)
-    -   [Visits/Maps Enum _Values_ - Not Names](#visitsmaps-enum-_values_---not-names)
-    -   [Enum Visitor Method Parameter Types](#enum-visitor-method-parameter-types)
-    -   [Only Literal String "Union Enums" Are Supported](#only-literal-string-union-enums-are-supported)
--   [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
--   [Known Issues](#known-issues)
-    -   [TypeScript < 2.4.1](#typescript--241)
-    -   [TypeScript < 2.6.1](#typescript--261)
-    -   [TypeScript < 2.7.1](#typescript--271)
+- [What is it?](#what-is-it)
+- [Other TypeScript Enum Projects](#other-typescript-enum-projects)
+- [Quick Start](#quick-start)
+    - [Installation](#installation)
+    - [Usage Example](#usage-example)
+        - [Visitor](#visitor)
+        - [Mapper](#mapper)
+- [Requirements](#requirements)
+- [General Usage and Terminology](#general-usage-and-terminology)
+    - [Visitor](#visitor-1)
+    - [Mapper](#mapper-1)
+- [Handling Null/Undefined](#handling-nullundefined)
+- [Handling Unexpected Values at Run Time](#handling-unexpected-values-at-run-time)
+- [Choosing to Not Handle Certain Values](#choosing-to-not-handle-certain-values)
+- [Visitor Method Return Values](#visitor-method-return-values)
+- [Being Explicit About Visitor/Mapper Result Type](#being-explicit-about-visitormapper-result-type)
+- [Visitor Method Parameters](#visitor-method-parameters)
+- [Sharing Visitor Methods Across Multiple Values](#sharing-visitor-methods-across-multiple-values)
+    - [Without Using Visitor Method Parameters](#without-using-visitor-method-parameters)
+    - [Using Visitor Method Parameters](#using-visitor-method-parameters)
+- [Visiting/Mapping String Enums](#visitingmapping-string-enums)
+    - [Visits/Maps Enum _Values_ - Not Names](#visitsmaps-enum-_values_---not-names)
+    - [Enum Visitor Method Parameter Types](#enum-visitor-method-parameter-types)
+    - [Only Literal String "Union Enums" Are Supported](#only-literal-string-union-enums-are-supported)
+- [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
 
 <!-- /TOC -->
 
@@ -133,7 +130,7 @@ const result = getRgbLabel("g"); // result === "Green"
 
 ## Requirements
 
--   **TypeScript 2.4.1+**: The entire purpose of `ts-string-visitor` is the compile-time checks. It won't do you any good in a JavaScript project. TypeScript 2.4.1 is the bare minimum supported version, but with some issues. See [Known Issues](#known-issues) for limitations of different versions of TypeScript.
+-   **TypeScript 2.7.1+**: The entire purpose of `ts-string-visitor` is the compile-time checks. It won't do you any good in a JavaScript project. TypeScript 2.7.1 is the minimum supported version, due to a dependency on `unique symbol` types. If you are stuck with an older version of TypeScript, then look at major version 2 of `ts-enum-util`, which supports TypeScript versions 2.4.1+
 -   **TypeScript's "strictNullChecks" option**: `ts-string-visitor` helps ensure that you handle `null` and `undefined` values where applicable. To support this, you must compile your project with "strictNullChecks" so that the compiler will treat `null` and `undefined` as distinct types. This is not optional: code using `ts-string-visitor` will fail to compile at all if "strictNullChecks" are not enabled.
 
 ## General Usage and Terminology
@@ -282,6 +279,48 @@ function getRgbLabel(rgb: RGB): string {
 
 // Type casting to force an unexpected value at run time
 const result = getRgbLabel(("blah" as any) as RGB); // result === "Unexpected!"
+```
+
+## Choosing to Not Handle Certain Values
+
+Sometimes you need to write code that is intentionally designed to only expect/handle a subset of possibilites, and you really just want to throw an error if one of the unsupported values is encountered. Simply provide `visitString.unhandled` or `mapString.unhandled` as the entry for an unhandled value in a visitor/mapper implementation, and an error will be thrown if that value is encountered at runtime.
+
+Example (Visitor):
+
+```ts
+type RGB = "r" | "g" | "b";
+
+function getRgbLabel(rgb: RGB): string {
+    return visitString(rgb).with({
+        r: () => {
+            return "Red";
+        },
+        g: visitString.unhandled,
+        b: () => {
+            return "Blue";
+        }
+    });
+}
+
+// Throws error: "Unhandled value: g"
+const result = getRgbLabel("g");
+```
+
+Example (Mapper):
+
+```ts
+type RGB = "r" | "g" | "b";
+
+function getRgbLabel(rgb: RGB): string {
+    return mapString(rgb).with({
+        r: "Red",
+        g: mapString.unhandled,
+        b: "Blue"
+    });
+}
+
+// Throws error: "Unhandled value: g"
+const result = getRgbLabel("g");
 ```
 
 ## Visitor Method Return Values
@@ -513,76 +552,3 @@ You might wonder why I didn't implement `ts-string-visitor` as a single overload
 -   Allow the return type to be explicitly provided, while allowing the compiler to infer the type of the visited value.
 
 Read more details about other approaches I tried and their flaws in [this github issue comment](https://github.com/Microsoft/TypeScript/issues/20643#issuecomment-352328395).
-
-## Known Issues
-
-### TypeScript < 2.4.1
-
-Not supported.
-
-### TypeScript < 2.6.1
-
-Cannot use string enum values as computed property names of the visitor/mapper implementation. You must use the literal value of the enum as the property name.
-
-Example:
-
-```ts
-enum RGB {
-    R = "r",
-    G = "g",
-    B = "b"
-}
-
-function getRgbLabel(rgb: RGB): string {
-    return visitString(rgb).with<string>({
-        // Does not work before TypeScript 2.6.1!
-        [RGB.R]: () => {
-            return "Red";
-        },
-        // Must use the literal enum value
-        g: () => {
-            return "Green";
-        },
-        b: () => {
-            return "Blue";
-        }
-    });
-}
-```
-
-### TypeScript < 2.7.1
-
-Cannot infer the type of the visitor method parameter if you use the enum value as the property name.
-
-There are two work-arounds to this:
-
-1.  Explicity declare the type of the parameter.
-1.  Use a string literal for the property name.
-
-Example:
-
-```ts
-enum RGB {
-    R = "r",
-    G = "g",
-    B = "b"
-}
-
-function rgbIdentity(rgb: RGB): RGB {
-    return visitString(rgb).with<RGB>({
-        // ERROR: type of `value` not inferred properly!
-        // Type is implicitly 'any'
-        [RGB.R]: (value) => {
-            return value;
-        },
-        // Work-around option #1
-        [RGB.G]: (value: RGB.G) => {
-            return value;
-        },
-        // Work-around option #2
-        b: (value) => {
-            return value;
-        }
-    });
-}
-```
