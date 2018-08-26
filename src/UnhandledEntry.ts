@@ -1,6 +1,17 @@
+/**
+ * Utilities related to identifying/processing explicitly unhandled entries
+ * in string visitors/mappers.
+ */
 export namespace UnhandledEntry {
+    /**
+     * A unique token that identifies an entry in a string visitor/mapper
+     * as "unhandled".
+     */
     export const token = Symbol("UnhandledEntry");
 
+    /**
+     * The unique token type of {@link UnhandledEntry.token}.
+     */
     export type Token = typeof token;
 
     /**
