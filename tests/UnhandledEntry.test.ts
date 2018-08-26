@@ -1,25 +1,27 @@
 import { UnhandledEntry } from "../src/UnhandledEntry";
 
 describe("UnhandledEntry", () => {
-    describe("constructor", () => {
+    describe("getInstance()", () => {
         test("Without a message produces a singleton", () => {
-            const unhandledEntry = new UnhandledEntry();
+            const unhandledEntry = UnhandledEntry.getInstance();
 
             expect(unhandledEntry).toBeInstanceOf(UnhandledEntry);
-            expect(new UnhandledEntry()).toBe(unhandledEntry);
+            expect(UnhandledEntry.getInstance()).toBe(unhandledEntry);
         });
 
         test("With a message produces a new instance", () => {
-            const unhandledEntry = new UnhandledEntry("Test message");
+            const unhandledEntry = UnhandledEntry.getInstance("Test message");
 
             expect(unhandledEntry).toBeInstanceOf(UnhandledEntry);
-            expect(new UnhandledEntry("Test message")).not.toBe(unhandledEntry);
+            expect(UnhandledEntry.getInstance("Test message")).not.toBe(
+                unhandledEntry
+            );
         });
     });
 
     describe("createError()", () => {
         test("returns a new Error", () => {
-            const unhandledEntry = new UnhandledEntry();
+            const unhandledEntry = UnhandledEntry.getInstance();
             const error = unhandledEntry.createError("foo");
 
             expect(error).toBeInstanceOf(Error);
@@ -28,14 +30,16 @@ describe("UnhandledEntry", () => {
 
         describe("Error.message", () => {
             test("without message", () => {
-                const unhandledEntry = new UnhandledEntry();
+                const unhandledEntry = UnhandledEntry.getInstance();
                 const error = unhandledEntry.createError("foo");
 
                 expect(error.message).toBe("Unhandled value: foo");
             });
 
             test("with message", () => {
-                const unhandledEntry = new UnhandledEntry("Test message");
+                const unhandledEntry = UnhandledEntry.getInstance(
+                    "Test message"
+                );
                 const error = unhandledEntry.createError("foo");
 
                 expect(error.message).toBe(
@@ -46,11 +50,13 @@ describe("UnhandledEntry", () => {
     });
 
     test("isUnhandledEntry()", () => {
-        expect(UnhandledEntry.isUnhandledEntry(new UnhandledEntry())).toBe(
-            true
-        );
         expect(
-            UnhandledEntry.isUnhandledEntry(new UnhandledEntry("Test message"))
+            UnhandledEntry.isUnhandledEntry(UnhandledEntry.getInstance())
+        ).toBe(true);
+        expect(
+            UnhandledEntry.isUnhandledEntry(
+                UnhandledEntry.getInstance("Test message")
+            )
         ).toBe(true);
 
         // object with message property is "like" a UnhandledEntry, but fails the test

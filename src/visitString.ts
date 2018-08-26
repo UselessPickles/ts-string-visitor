@@ -104,12 +104,7 @@ export function visitString<S extends string>(
 
 export namespace visitString {
     /**
-     * Convenience method for creating a {@link UnhandledEntry}.
-     * @param message - An optional message to include in the error message when the unhandled
-     *        value is encountered.
-     * @return an UnhandledEntry instance.
+     * Convenient alias of {@link UnhandledEntry.getInstance}.
      */
-    export function unhandled(message?: string): UnhandledEntry {
-        return new UnhandledEntry(message);
-    }
+    export const unhandled = UnhandledEntry.getInstance;
 }

@@ -636,28 +636,7 @@ describe("visitString", () => {
         }
     });
 
-    describe("unhandled()", () => {
-        test("without message", () => {
-            const result = visitString.unhandled();
-            const expectedErrorMessage = new UnhandledEntry().createError("foo")
-                .message;
-
-            expect(result).toBeInstanceOf(UnhandledEntry);
-            expect(result.createError("foo").message).toBe(
-                expectedErrorMessage
-            );
-        });
-
-        test("with message", () => {
-            const result = visitString.unhandled("Test message");
-            const expectedErrorMessage = new UnhandledEntry(
-                "Test message"
-            ).createError("foo").message;
-
-            expect(result).toBeInstanceOf(UnhandledEntry);
-            expect(result.createError("foo").message).toBe(
-                expectedErrorMessage
-            );
-        });
+    test("unhandled() is an alias of UnhandledEntry.getInstance()", () => {
+        expect(visitString.unhandled).toBe(UnhandledEntry.getInstance);
     });
 });

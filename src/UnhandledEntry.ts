@@ -19,14 +19,11 @@ export class UnhandledEntry {
     private static singletonInstance = new UnhandledEntry();
 
     /**
+     * NOTE: Use {@link UnhandledEntry.getInstance}
      * @param message An optional message that will be included in the error
      *        message of ther Error created by {@link #createError}.
      */
-    public constructor(private readonly message?: string) {
-        if (!message) {
-            return UnhandledEntry.singletonInstance;
-        }
-    }
+    private constructor(private readonly message?: string) {}
 
     /**
      * Creates an Error with a message explaining that an unhandled
@@ -43,6 +40,22 @@ export class UnhandledEntry {
         }
 
         return new Error(message);
+    }
+
+    /**
+     * Gets an instance of {@link UnhandledEntry} with the specified message.
+     * Returns a singleton instance if a message is not specified.
+     * Returns a new instance if a message is specified.
+     * @param message An optional message that will be included in the error
+     *        message of ther Error created by {@link #createError}.
+     * @returns An UnhandledEntry instance with the specified message.
+     */
+    public static getInstance(message?: string): UnhandledEntry {
+        if (!message) {
+            return UnhandledEntry.singletonInstance;
+        } else {
+            return new UnhandledEntry(message);
+        }
     }
 
     /**
