@@ -132,6 +132,7 @@ const result = getRgbLabel("g"); // result === "Green"
 
 -   **TypeScript 2.7.1+**: The entire purpose of `ts-string-visitor` is the compile-time checks. It won't do you any good in a JavaScript project. TypeScript 2.7.1 is the minimum supported version, due to a dependency on `unique symbol` types. If you are stuck with an older version of TypeScript, then look at major version 2 of `ts-enum-util`, which supports TypeScript versions 2.4.1+
 -   **TypeScript's "strictNullChecks" option**: `ts-string-visitor` helps ensure that you handle `null` and `undefined` values where applicable. To support this, you must compile your project with "strictNullChecks" so that the compiler will treat `null` and `undefined` as distinct types. This is not optional: code using `ts-string-visitor` will fail to compile at all if "strictNullChecks" are not enabled.
+-   **ES6 Symbol**: Be sure to include a `Symbol` polyfill if you plan to target environments/browsers that do not natively support it.
 
 ## General Usage and Terminology
 
