@@ -1,25 +1,21 @@
 import { visitString } from "../../../dist/types";
 
-enum RGB {
-    R = "r",
-    G = "g",
-    B = "b"
-}
+type RGB = "r" | "g" | "b";
 
 declare const rgb: RGB | null;
 
 // Test param types
 visitString(rgb).with({
     r: (value) => {
-        // $ExpectType RGB.R
+        // $ExpectType "r"
         value;
     },
     g: (value) => {
-        // $ExpectType RGB.G
+        // $ExpectType "g"
         value;
     },
     b: (value) => {
-        // $ExpectType RGB.B
+        // $ExpectType "b"
         value;
     },
     handleNull: (value) => {
@@ -54,6 +50,25 @@ visitString(rgb).with({
     g: (value) => "20",
     b: (value) => "30",
     handleNull: (value) => "-1"
+});
+
+// Return type is inferred when "unhandled" entries exist
+// $ExpectType number
+visitString(rgb).with({
+    r: (value) => 10,
+    g: visitString.unhandled,
+    b: (value) => 30,
+    handleNull: (value) => -1
+});
+
+// special handlers can be unhandled
+// $ExpectType number
+visitString(rgb).with({
+    r: (value) => 10,
+    g: (value) => 20,
+    b: (value) => 30,
+    handleNull: visitString.unhandled,
+    handleUnexpected: visitString.unhandled
 });
 
 // Missing value handler causes error

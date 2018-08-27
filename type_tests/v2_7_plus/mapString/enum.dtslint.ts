@@ -1,6 +1,10 @@
 import { mapString } from "../../../dist/types";
 
-type RGB = "r" | "g" | "b";
+enum RGB {
+    R = "r",
+    G = "g",
+    B = "b"
+}
 
 declare const rgb: RGB;
 
@@ -18,12 +22,30 @@ mapString(rgb).with({
     b: "30"
 });
 
+// Return type is inferred when "unhandled" entries exist
+// $ExpectType number
+mapString(rgb).with({
+    r: 10,
+    g: mapString.unhandled,
+    b: 30
+});
+
 // handleUnexpected is allowed
+// $ExpectType number
 mapString(rgb).with({
     r: 10,
     g: 20,
     b: 30,
     handleUnexpected: -1
+});
+
+// special handlers can be unhandled
+// $ExpectType number
+mapString(rgb).with({
+    r: 10,
+    g: 20,
+    b: 30,
+    handleUnexpected: mapString.unhandled
 });
 
 // Missing value handler causes error
@@ -58,4 +80,12 @@ mapString(rgb).with({
     b: 30,
     // $ExpectError
     handleUndefined: -1
+});
+
+// Test enum value computed property names (no compiler error).
+// (only supported as of TS 2.6.1)
+mapString(rgb).with({
+    [RGB.R]: 10,
+    [RGB.G]: 20,
+    [RGB.B]: 30
 });

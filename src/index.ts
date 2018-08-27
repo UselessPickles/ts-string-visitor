@@ -1,3 +1,5 @@
+export * from "./UnhandledEntry";
+
 export * from "./StringMapper";
 export * from "./StringMappee";
 export * from "./mapString";

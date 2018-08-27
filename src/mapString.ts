@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
     StringMappee,
     StringMappeeWithNull,
@@ -99,4 +100,11 @@ export function mapString<S extends string>(
     } else {
         return new StringMappee<S>(value);
     }
+}
+
+export namespace mapString {
+    /**
+     * Convenient alias of {@link UnhandledEntry.token}.
+     */
+    export const unhandled: UnhandledEntry.Token = UnhandledEntry.token;
 }

@@ -1,3 +1,4 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
     StringVisitee,
     StringVisiteeWithNull,
@@ -99,4 +100,11 @@ export function visitString<S extends string>(
     } else {
         return new StringVisitee<S>(value);
     }
+}
+
+export namespace visitString {
+    /**
+     * Convenient alias of {@link UnhandledEntry.token}.
+     */
+    export const unhandled: UnhandledEntry.Token = UnhandledEntry.token;
 }

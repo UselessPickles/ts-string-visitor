@@ -1,4 +1,6 @@
+import { UnhandledEntry } from "./UnhandledEntry";
 import {
+    StringVisitorHandler,
     StringVisitorCore,
     StringVisitor,
     StringVisitorWithNull,
@@ -31,9 +33,9 @@ export class StringVisitee<S extends string> {
     public with<R>(visitor: StringVisitor<S, R>): R {
         if (visitor.hasOwnProperty(this.value)) {
             const handler = (visitor as StringVisitorCore<S, R>)[this.value];
-            return handler(this.value);
+            return processEntry(handler, this.value);
         } else if (visitor.handleUnexpected) {
-            return visitor.handleUnexpected(this.value);
+            return processEntry(visitor.handleUnexpected, this.value);
         } else {
             throw new Error(`Unexpected value: ${this.value}`);
         }
@@ -66,9 +68,9 @@ export class StringVisiteeWithNull<S extends string> {
         // This class is used at run time for visiting null values regardless of the compile time
         // type being visited, so we actually have to check if handleNull exists.
         if (visitor.handleNull) {
-            return visitor.handleNull(null);
+            return processEntry(visitor.handleNull, null);
         } else if (visitor.handleUnexpected) {
-            return visitor.handleUnexpected((null as any) as S);
+            return processEntry(visitor.handleUnexpected, (null as any) as S);
         } else {
             throw new Error(`Unexpected value: null`);
         }
@@ -101,9 +103,12 @@ export class StringVisiteeWithUndefined<S extends string> {
         // This class is used at run time for visiting undefined values regardless of the compile time
         // type being visited, so we actually have to check if handleUndefined exists.
         if (visitor.handleUndefined) {
-            return visitor.handleUndefined(undefined);
+            return processEntry(visitor.handleUndefined, undefined);
         } else if (visitor.handleUnexpected) {
-            return visitor.handleUnexpected((undefined as any) as S);
+            return processEntry(
+                visitor.handleUnexpected,
+                (undefined as any) as S
+            );
         } else {
             throw new Error(`Unexpected value: undefined`);
         }
@@ -135,4 +140,22 @@ export declare class StringVisiteeWithNullAndUndefined<S extends string> {
      * @returns The return value of the visitor method that is called.
      */
     public with<R>(visitor: StringVisitorWithNullAndUndefined<S, R>): R;
+}
+
+/**
+ * Common implementation for processing an entry of a string visitor.
+ * @param entry - Either the visitor handler implementation for an entry, or an UnhandledEntry.
+ * @param value - The value being mapped.
+ * @return The result of executing the provided entry, if it is not an UnhandledEntry.
+ * @throws {Error} If the provided entry is an UnhandledEntry.
+ */
+function processEntry<S extends string | null | undefined, R>(
+    entry: StringVisitorHandler<S, R> | UnhandledEntry.Token,
+    value: S
+): R {
+    if (entry === UnhandledEntry.token) {
+        throw UnhandledEntry.createError(value);
+    } else {
+        return entry(value);
+    }
 }
