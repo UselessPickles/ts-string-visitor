@@ -284,7 +284,7 @@ const result = getRgbLabel(("blah" as any) as RGB); // result === "Unexpected!"
 
 ## Choosing to Not Handle Certain Values
 
-Sometimes you need to write code that is intentionally designed to only expect/handle a subset of possibilites, and you really just want to throw an error if one of the unsupported values is encountered. Simply provide `visitString.unhandled` or `mapString.unhandled` as the entry for an unhandled value in a visitor/mapper implementation, and an error will be thrown if that value is encountered at runtime.
+Sometimes you need to write code that is intentionally designed to only expect/handle a subset of possibilities, and you really just want to throw an error if one of the unsupported values is encountered. Simply provide `visitString.unhandled` or `mapString.unhandled` as the entry for an unhandled value in a visitor/mapper implementation, and an error will be thrown if that value is encountered at runtime.
 
 Example (Visitor):
 
