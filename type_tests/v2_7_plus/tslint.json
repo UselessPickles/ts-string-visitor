@@ -4,6 +4,7 @@
         "newline-per-chained-call": false,
         "no-useless-files": false,
         "no-relative-import-in-test": false,
-        "file-name-casing": false
+        "file-name-casing": false,
+        "array-type": false
     }
 }

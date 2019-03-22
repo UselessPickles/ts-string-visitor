@@ -19,6 +19,7 @@
 
         /* Module Resolution Options */
         "moduleResolution": "node",
-        "baseUrl": "./"
+        "baseUrl": "./",
+        "types": []
     }
 }
