@@ -68,7 +68,7 @@ visitString(rgb).with({
 
 // Missing value handler causes error
 // $ExpectError
-visitString(rgb).with({
+visitString(rgb).with<void>({
     r: (value) => {},
     b: (value) => {}
 });

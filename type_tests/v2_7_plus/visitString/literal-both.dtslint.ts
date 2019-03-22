@@ -82,7 +82,7 @@ visitString(rgb).with({
 
 // Missing value handler causes error
 // $ExpectError
-visitString(rgb).with({
+visitString(rgb).with<void>({
     r: (value) => {},
     b: (value) => {},
     handleNull: (value) => {},
@@ -91,7 +91,7 @@ visitString(rgb).with({
 
 // Missing null handler causes error
 // $ExpectError
-visitString(rgb).with({
+visitString(rgb).with<void>({
     r: (value) => {},
     g: (value) => {},
     b: (value) => {},
@@ -100,7 +100,7 @@ visitString(rgb).with({
 
 // Missing undefined handler causes error
 // $ExpectError
-visitString(rgb).with({
+visitString(rgb).with<void>({
     r: (value) => {},
     g: (value) => {},
     b: (value) => {},
