@@ -7,10 +7,13 @@
 
 Generic TypeScript Visitor and Mapper for String Enums and String Literal Union Types
 
+NOTE: See [DEPRECATION NOTICE!](#deprecation-notice)
+
 # Contents
 
 <!-- TOC depthFrom:2 -->
 
+-   [DEPRECATION NOTICE!](#deprecation-notice)
 -   [What is it?](#what-is-it)
 -   [Other TypeScript Enum Projects](#other-typescript-enum-projects)
 -   [Quick Start](#quick-start)
@@ -38,6 +41,14 @@ Generic TypeScript Visitor and Mapper for String Enums and String Literal Union 
 -   [What's up with this chained `visitString().with()` syntax?](#whats-up-with-this-chained-visitstringwith-syntax)
 
 <!-- /TOC -->
+
+## DEPRECATION NOTICE!
+
+The functionality of `ts-string-visitor` has been merged into `ts-enum-util` ([npm](https://www.npmjs.com/package/ts-enum-util), [github](https://github.com/UselessPickles/ts-enum-util)), and improved to support visiting/mapping numeric literal/enum values!
+
+There will be no further development on `ts-string-visitor`. Consider switching to `ts-enum-util`,
+unless you are stuck with TypeScript version prior to 2.9 (2.9 is minimum version supported by `ts-enum-util` v4+ with Value Visitor/Mapper functionality). There is a migration guide link in the `ts-enum-util` README to
+help you with the transition.
 
 ## What is it?
 
